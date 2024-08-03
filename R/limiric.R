@@ -82,6 +82,10 @@
 #'
 #' @export
 
+install.packages("devtools")
+library(devtools)
+devtools::document()
+
 
 # Install packages ####
 
