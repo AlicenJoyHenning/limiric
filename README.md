@@ -5,7 +5,7 @@
 
 ## _Description_
 
-Single cell RNA sequencing quality control package for high precision, sample-specific damaged cell detection through low dimension mitochondrial and ribosomal cluster selection.
+Single cell RNA sequencing quality control package for sample-specific damaged cell detection through low dimension mitochondrial and ribosomal cluster selection.
 
 ## Installation 
 
