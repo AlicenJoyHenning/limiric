@@ -47,7 +47,7 @@ But ```DropletQC``` must be installed as follows
 ```R
 devtools::install_github("powellgenomicslab/DropletQC")
 ```
-<i>Please check the asociated documentation if problems occur in the installation of any of the prerequisite packages.</i>
+<i>Please check the associated documentation if problems occur in the installation of any of the prerequisite packages.</i>
 <br><br>
 ### Package installation
 After all the prerequisites are installed, you can install the latest development version of ```limiric``` 
