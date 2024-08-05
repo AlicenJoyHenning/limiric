@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/limiric.png" alt="limiric_logo" height="170" />
+  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/limiric.png" alt="limiric_logo" height="150" />
 </p>
 <hr style="border: 1px solid black; width: 50%;"/>
 
