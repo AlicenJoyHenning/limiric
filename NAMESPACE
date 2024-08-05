@@ -2,6 +2,7 @@
 
 export(limiric)
 export(limiricCore)
+import(DropletQC)
 import(Matrix)
 import(Seurat)
 import(SoupX)

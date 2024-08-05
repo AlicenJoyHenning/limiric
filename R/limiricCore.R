@@ -21,6 +21,7 @@
 #' @import cowplot
 #' @importFrom dplyr %>%
 #' @import ggplot2
+#' @import DropletQC
 #' @import Matrix
 #' @import png
 #' @import Seurat
