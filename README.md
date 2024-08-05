@@ -2,11 +2,21 @@
   <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/limiric.png" alt="limiric_logo" height="150" />
 </p>
 
-## _Description_
+## Contents
+[Description](#description)
+[Installation](#installation)
+[Quickstart](#quickstart)
+[Basic Usage](#basic-usage)
+[Output explained](#output-explained)
+[More Information](#more-information)
+
+
+
+## Description
 
 Single cell RNA sequencing quality control package for sample-specific damaged cell detection through low dimension mitochondrial and ribosomal cluster selection.
 
-## _Installation_
+## Installation
 ### Prerequisites
 The ```limiric``` package requires the following packages to be installed in your ```R``` environment  
 * ```cowplot``` Wilke, 2024. [GitHub repo](https://github.com/wilkelab/cowplot)
@@ -120,7 +130,7 @@ GSE1234567 <- limiric(sample_list = sample_list)
 > 
 <br>
 
-## _Understand the output_  
+## Output explained   
 
 Before interpretting ```limiric```'s outputs, it may be helpful to understand a bit of what is going on in the background.
 <br><br>
