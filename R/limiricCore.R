@@ -208,19 +208,25 @@ limiricCore <- function(
 
   if (DropletQC == TRUE) {
 
+    # Define parameters for file paths and gene names
+    spliced_file <- file.path(VelocytoPath, "spliced.mtx.gz")
+    barcodes_file <- file.path(VelocytoPath, "barcodes.tsv.gz")
+    features_file <- file.path(VelocytoPath, "features.tsv.gz")
+    unspliced_file <- file.path(VelocytoPath, "unspliced.mtx.gz")
+
     # Add data from spliced and unspliced counts
-    spliced <- ReadMtx(mtx      = paste0(VelocytoPath,"spliced.mtx.gz"),
-                       cells    = paste0(VelocytoPath,"barcodes.tsv.gz"),
-                       features = paste0(VelocytoPath, "features.tsv.gz"))
+    spliced <- ReadMtx(mtx      = spliced_file,
+                       cells    = barcodes_file,
+                       features = features_file)
 
     spliced <- suppressWarnings(CreateSeuratObject(
       counts    = spliced,
       project   = "spliced",
       min.cells = MinCells))
 
-    unspliced <- ReadMtx(mtx      = paste0(VelocytoPath,"unspliced.mtx.gz"),
-                         cells    = paste0(VelocytoPath,"barcodes.tsv.gz"),
-                         features = paste0(VelocytoPath, "features.tsv.gz"))
+    unspliced <- ReadMtx(mtx      = unspliced_file,
+                         cells    = barcodes_file,
+                         features = features_file)
 
     unspliced <- suppressWarnings(CreateSeuratObject(
       counts    = unspliced,
@@ -330,7 +336,7 @@ limiricCore <- function(
       )
 
     # Save output  to directory specified (or default) : here we don't want the individual plots, we want them all together
-    saveRDS(hemo_feature_QC, paste0(OutputPath, "RBCQC/", ProjectName, "_RBCQC", ".rds"))
+    saveRDS(hemo_feature_QC, file.path(OutputPath, "RBCQC", paste0(ProjectName, "_RBCQC", ".rds")))
 
     # Filtering step after visualization, keep those not marked as RBC
     Seurat <- subset(Seurat, RBC == "non-RBC")
@@ -391,7 +397,7 @@ limiricCore <- function(
       )
 
     # Save output  to directory specified (or default) : here we don't want the individual plots, we want them all together
-    saveRDS(immune_feature_QC, paste0(OutputPath, "IMCQC/", ProjectName, "_IMCQC", ".rds"))
+    saveRDS(immune_feature_QC, file.path(OutputPath, "IMCQC", paste0(ProjectName, "_IMCQC", ".rds")))
 
     # Filtering step after visualization, keep those that are immune cells
     Seurat <- subset(Seurat, IMC == "IMC")
@@ -591,7 +597,7 @@ limiricCore <- function(
 
 
   # Save the final plot
-  ggsave(paste0(OutputPath, "/CellQC/", ProjectName, ".png"), plot = final_plot, width = 12, height = 10, dpi = 300)
+  ggsave(file.path(OutputPath, "/CellQC/", paste0(ProjectName, ".png")), plot = final_plot, width = 12, height = 10, dpi = 300)
 
 
   cat("\u2714 limiric  damaged cell predictions\n")
@@ -724,7 +730,7 @@ limiricCore <- function(
       )
 
     # Save the final plot
-    ggsave(paste0(OutputPath, "/DropletQC/", ProjectName, "_clusters.png"), plot = cluster_plot, width = 5, height = 3, dpi = 300)
+    ggsave(file.path(OutputPath, "DropletQC", paste0(ProjectName, "_clusters.png")), plot = cluster_plot, width = 5, height = 3, dpi = 300)
 
 
     # View labels in scatter plot nf vs UMI_count (DropletQC metric)
@@ -754,7 +760,7 @@ limiricCore <- function(
       )
 
     # FANCY PLOT COMBINING
-    clusters <- readPNG(paste0(OutputPath, "/DropletQC/", ProjectName, "_clusters.png"))
+    clusters <- readPNG(file.path(OutputPath, "DropletQC", paste0(ProjectName, "_clusters.png")))
 
     # Create the title and subtitle
     title <- ggdraw() + draw_label(ProjectName, fontface = 'bold', x = 0.5, y = 0.1, hjust = 0.5, size = 20)
@@ -771,13 +777,13 @@ limiricCore <- function(
     )
 
     # Save the final plot
-    ggsave(paste0(OutputPath, "/DropletQC/", ProjectName, ".png"), plot = final_plot, width = 12, height = 10, dpi = 300)
+    ggsave(file.path(OutputPath, "DropletQC", paste0(ProjectName, ".png")), plot = final_plot, width = 12, height = 10, dpi = 300)
 
 
     # Finalise output
     # Save a list of barcodes with QC annnotations (cell, agreed, DropletQC, limiric)
     cleanCells <- data.frame(barcode = rownames(limiric@meta.data), QCannotation = limiric@meta.data$QC)
-    write.csv(cleanCells, file = paste0(OutputPath, "/DropletQC/", ProjectName, "_barcodes.csv"), row.names = FALSE)
+    write.csv(cleanCells, file = file.path(OutputPath, "DropletQC", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
 
     # Rename column
     Seurat$limiric.DropletQC <- Seurat$QC
@@ -794,7 +800,7 @@ limiricCore <- function(
 
     # Save a list of barcodes with limiric annotations (cell, damaged)
     cleanCells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
-    write.csv(cleanCells, file = paste0(OutputPath, "/Filtered/", ProjectName, "_barcodes.csv"), row.names = FALSE)
+    write.csv(cleanCells, file = file.path(OutputPath, "Filtered", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
 
     Seurat <- subset(Seurat, QC != "agreed")
 
@@ -808,7 +814,7 @@ limiricCore <- function(
 
 
     # Save the filtered Seurat object
-    saveRDS(Seurat, paste0(OutputPath, "Filtered/", ProjectName, "_agreement_filtered.rds"))
+    saveRDS(Seurat, file.path(OutputPath, "Filtered", paste0(ProjectName, "_agreement_filtered.rds")))
 
   }
 
@@ -817,7 +823,7 @@ limiricCore <- function(
 
     # Save a list of barcodes with limiric annotations (cell, damaged)
     cleanCells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
-    write.csv(cleanCells, file = paste0(OutputPath, "/Filtered/", ProjectName, "_barcodes.csv"), row.names = FALSE)
+    write.csv(cleanCells, file = file.path(OutputPath, "/Filtered/", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
 
     # Filter damaged cells only according to limiric estimations
     Seurat <- subset(Seurat, limiric == "cell")

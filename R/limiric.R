@@ -200,18 +200,18 @@ limiric <- function(
     # Clean output directories: convert QC rds to png plots
 
     # Red blood cell QC
-    RBCQC_path <- paste0(OutputPath, "RBCQC/", ProjectName, "_RBCQC", ".rds")
+    RBCQC_path <- file.path(OutputPath, "RBCQC", paste0(ProjectName, "_RBCQC", ".rds"))
     RBCQC      <- readRDS(RBCQC_path)
-    ggsave(paste0(OutputPath, "RBCQC/", ProjectName, "_RBCQC", ".png"), plot = RBCQC, width = 5, height = 5, dpi = 300)
+    ggsave(file.path(OutputPath, "RBCQC", paste0(ProjectName, "_RBCQC", ".png")), plot = RBCQC, width = 5, height = 5, dpi = 300)
 
     file.remove(RBCQC_path)
 
     if (IsolateCD45 == TRUE) {
 
       # And immune QC
-      IMCQC_path <- paste0(OutputPath, "IMCQC/", ProjectName, "_IMCQC", ".rds")
+      IMCQC_path <- file.path(OutputPath, "IMCQC", paste0(ProjectName, "_IMCQC", ".rds"))
       IMCQC      <- readRDS(IMCQC_path)
-      ggsave(paste0(OutputPath, "IMCQC/", ProjectName, "_IMCQC", ".png"), plot = IMCQC, width = 5, height = 5, dpi = 300)
+      ggsave(file.path(OutputPath, "IMCQC/", paste0(ProjectName, "_IMCQC", ".png")), plot = IMCQC, width = 5, height = 5, dpi = 300)
       file.remove(IMCQC_path)
 
     }
@@ -293,7 +293,7 @@ limiric <- function(
 
     # Collate output QC plots ####
     # RBC
-    rds_dir   <- paste0(OutputPath, "RBCQC/") # Define the directory containing the RDS files
+    rds_dir   <- file.path(OutputPath, "RBCQC") # Define the directory containing the RDS files
     rds_files <- list.files(rds_dir, pattern = "\\.rds$", full.names = TRUE)
     plots     <- lapply(rds_files, readRDS) # Read all RDS files into a list of ggplot objects
 
@@ -317,7 +317,7 @@ limiric <- function(
       nrow <- ceiling(num_current_plots / 5)
 
       # Save the current set of plots as a PNG
-      png_path <- paste0(OutputPath, "RBCQC/", ProjectName, "_RBCQC_", page_num, ".png")
+      png_path <- file.path(OutputPath, "RBCQC", paste0(ProjectName, "_RBCQC_", page_num, ".png"))
       save_plot_grid(current_plots, png_path, ncol = 5, nrow = nrow)
 
       page_num <- page_num + 1
@@ -332,7 +332,7 @@ limiric <- function(
 
       # Collate output IMC QC plots ####
       # IMC
-      rds_dir   <- paste0(OutputPath, "IMCQC/") # Define the directory containing the RDS files
+      rds_dir   <- file.path(OutputPath, "IMCQC") # Define the directory containing the RDS files
       rds_files <- list.files(rds_dir, pattern = "\\.rds$", full.names = TRUE)
       plots     <- lapply(rds_files, readRDS) # Read all RDS files into a list of ggplot objects
 
@@ -350,7 +350,7 @@ limiric <- function(
         nrow <- ceiling(num_current_plots / 5)
 
         # Save the current set of plots as a PNG
-        png_path <- paste0(OutputPath, "IMCQC/", ProjectName, "_IMCQC_", page_num, ".png")
+        png_path <- file.path(OutputPath, "IMCQC", paste0(ProjectName, "_IMCQC_", page_num, ".png"))
         save_plot_grid(current_plots, png_path, ncol = 5, nrow = nrow)
 
         page_num <- page_num + 1
