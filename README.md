@@ -62,9 +62,11 @@ for (pkg in packages) {
 }
 
 ```
+> Please check the associated documentation if problems occur in the installation of any of the prerequisite packages
 
-<i>Please check the associated documentation if problems occur in the installation of any of the prerequisite packages.</i>
+
 <br><br>
+
 ### Package installation
 After all the prerequisites are installed, you can install the latest development version of ```limiric``` 
 
@@ -79,8 +81,8 @@ devtools::install_github("AlicenJoyHenning/limiric")
 #### Basic Usage
 
 
-1. Detect damaged cells in a sample using the filtered alignment files (```barcodes.tsv.gz```, ```features.tsv.gz```, ```counts.mtx.gz```) as input. All you need to specify 
-is a character string related to your sample name, the directory where your alignment files are stored, and a directory where the ```limiric``` output can be created.  
+1. Detect damaged cells in a sample using the filtered alignment files (```barcodes.tsv.gz```, ```features.tsv.gz```, ```counts.mtx.gz```). All you need to input 
+is your sample name, the directory where your alignment files are stored, and a directory where the ```limiric``` output can be created.  
 ```R
 SRR1234567 <- limiric(
     ProjectName  = "SRR1234567",
@@ -94,7 +96,8 @@ SRR1234567 <- limiric(
 > * Red blood cells will automatically be removed from the sample before damaged cell detection (See parameter: ```FilterRBC```)
 > * Your output ```Seurat``` object will be filtered, containing only undamaged cells (See parameter: ```FilterOutput```)
 >
-> 
+
+[Description](#description)
 
 <br>
 <br>
@@ -112,7 +115,8 @@ SRR1234567 <- limiric(
 <br>
   
 3. If you have more than one sample, it may be easier for you to define a sample list
-instead of running each individually. You can do this through the ```sample_list``` parameter.
+instead of running each individually.
+You can do this through the ```sample_list``` parameter.
 ```R
 sample_list <- list(
 
@@ -254,6 +258,8 @@ SRR1234567 <- limiric(
 
 
 2. Isolate immune cells
+<br>
+
 If you have a sample where only the immune cells are of interest, include the following ```IsolateCD45```
 parameter. This will isolate the immune cells present in the sample, then identify damaged cells.
 
@@ -291,6 +297,8 @@ This output, like RBCQC, contains a scatter plot showing the removed cell in blu
 <br>
 
 3. Combine ```limiric``` annotations with ```DropletQC```
+<br>
+
 Detect damaged cells and compare results with those from ```DropletQC```.
 
 ```R
@@ -302,7 +310,7 @@ SRR1234567 <- limiric(
     OutputPath   = "/home/user/alignment/limiric/"
 )
 ```
-> **NB** This will change your output directory structure by adding a new ```IMCQC``` layer
+> **NB** This will change your output directory structure by adding a new ```DropletQC``` layer
 >
 > ```
 > OutputPath/
@@ -324,7 +332,8 @@ This will output a scatter plot and tSNE showing the cells annotated as _damaged
 <br>
 
 4. Combine previous conditions
-5. Perform ambient RNA correction with ```SoupX```, filter red blood cells, isolate immune cells, detect damaged cells, and compare against ```DropletQC```.
+<br>
+Perform ambient RNA correction with ```SoupX```, filter red blood cells, isolate immune cells, detect damaged cells, and compare against ```DropletQC```.
 
 ```R
 SRR1234567 <- limiric(
@@ -388,4 +397,24 @@ sample_list <- list(
 GSE1234567 <- limiric(sample_list = sample_list)
 ```
 
+## Input file format
+
+If your alignment output files are not zipped (end with a ```.gz``` extension), you will need to find a way to do this 
+before using ```limiric```. If you have a ```Linux``` or ```mac``` machine you open the terminal in the directory where your files are stored and use ```gzip```
+
+<br>
+
+```bash
+cd path/to/files
+gzip * 
+```
+> This assumes that your files are the only items inside the directory. As with the standard output of alignment, each sample output should
+> be stored in its own directory and thus each file type much be named according to the following convention :
+> 
+> path/to/files/
+> └── matrix.mtx
+> └── barcodes.tsv
+> └── features.tsv
+
+If you 
 
