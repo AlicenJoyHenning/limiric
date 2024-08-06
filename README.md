@@ -51,7 +51,7 @@ devtools::install_github("powellgenomicslab/DropletQC")
 
 <br>
 
-Be sure to load these into your environment prior to first installation 
+Be sure to load these into your environment before continuing with ```limiric``` installation 
 ```R
 packages <- c("cowplot", "dplyr", "DropletQC", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
 
