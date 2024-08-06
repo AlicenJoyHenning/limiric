@@ -33,13 +33,14 @@ If not already, you can install them together
 
 ```R
 
-required_packages <- c("cowplot", "dplyr", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
+packages <- c("cowplot", "dplyr", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
 
 for (pkg in packages) {
     if (!requireNamespace(pkg, quietly = TRUE)) {
       install.packages(pkg)
     }
   }
+
 ```
 <br>
 
@@ -47,6 +48,21 @@ But ```DropletQC``` must be installed as follows
 ```R
 devtools::install_github("powellgenomicslab/DropletQC")
 ```
+
+<br>
+
+Be sure to load these into your environment prior to first installation 
+```R
+packages <- c("cowplot", "dplyr", "DropletQC", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
+
+for (pkg in packages) {
+  if (!require(pkg, character.only = TRUE)) {
+    library(pkg)
+  }
+}
+
+```
+
 <i>Please check the associated documentation if problems occur in the installation of any of the prerequisite packages.</i>
 <br><br>
 ### Package installation
