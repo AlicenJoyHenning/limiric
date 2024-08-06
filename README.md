@@ -11,7 +11,6 @@
 [More Information](#more-information)
 
 
-
 ## Description
 
 Single cell RNA sequencing quality control package for sample-specific damaged cell detection through low dimension mitochondrial and ribosomal cluster selection.
@@ -90,14 +89,13 @@ SRR1234567 <- limiric(
     OutputPath   = "/home/user/alignment/limiric/"
 )
 ```  
-> **NB** Please keep the following in mind: 
+> **NB** Please keep the following in mind:
+> * Your files must be zipped, see [Input file format](#input-file-format) for more
 > * The above usage assumes the sample is of human origin (See parameter: ```Organism```)
 > * When compiling the data, all genes will be retained (See parameter: ```MinCells```)
 > * Red blood cells will automatically be removed from the sample before damaged cell detection (See parameter: ```FilterRBC```)
 > * Your output ```Seurat``` object will be filtered, containing only undamaged cells (See parameter: ```FilterOutput```)
 >
-
-[Description](#description)
 
 <br>
 <br>
@@ -141,12 +139,18 @@ GSE1234567 <- limiric(sample_list = sample_list)
 > ```R
 > sample_list <- list(
 >
->    list("SRR1234567","/home/user/alignment/SRR1234567/filtered/","/home/user/alignment/limiric/"),
->    list("SRR1234568","/home/user/alignment/SRR1234568/filtered/","/home/user/alignment/limiric/"),
->    list("SRR1234569", "/home/user/alignment/SRR1234569/filtered/","/home/user/alignment/limiric/")
+>    list("SRR1234567",
+>         "/home/user/alignment/SRR1234567/filtered/",
+>         "/home/user/alignment/limiric/"),
+>    list("SRR1234568",
+>         "/home/user/alignment/SRR1234568/filtered/",
+>         "/home/user/alignment/limiric/"),
+>    list("SRR1234569",
+>         "/home/user/alignment/SRR1234569/filtered/",
+>         "/home/user/alignment/limiric/")
 >  )
 >``` 
-> Please try to avoid giving ```limiric``` an existential crisis
+> Where possible please try to avoid giving ```limiric``` an existential crisis
 > 
 <br>
 
@@ -186,24 +190,23 @@ The output here comes in the form of a scatter plot where the red blood cells ar
   <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/RBCQC.png" height="500" />
 </p>
 
-> **NB** Given many scRNA-seq protocols, such as the ```10X Genomics``` protocol, advise for globin treatment to prevent this, we hope for the contamination percentage to be as low as possible.
+> **NB** Given many scRNA-seq protocols, such as the ```10X Genomics``` protocol, advise for globin treatment, we hope for the contamination percentage to be as low as possible.
 <br>
 
 ### **_CellQC_** 
 
-This directory contains core diagnostic plots for the ```limiric``` damaged cell detection algorithm. As shown below, you will see four tSNE dimensionally reduced representations of your cells.
+This directory contains core diagnostic plots for the ```limiric``` damaged cell detection algorithm. As shown below, you will see four tSNE plots.
 <br><br>
-In this example dataset, _damaged_ and _healthy_ cells divide into two distinct clusters. But which is which? From literature we know that _damaged_ cells have **high** mitochondrial expression and **low** ribosomal expression.
-This is most likely because _damaged_ cells, such as those undergoing apoptosis, are characterised by compromised cell membranes where free cytoplasmic RNA, such as ribosomal RNA, is more likely to have escaped before being captured and sequenced while the RNA enclosed within the mitochondria is retained. Ribosomal biogenesis is also said to be impaired in _damaged_ cells, leading to reduced ribosomal expression. 
+In this example dataset, you can see the cells divide into two distinct clusters; but which contain _damaged_ cells and which contain _healthy_ cells? From literature we know that damaged cells have high mitochondrial expression and low ribosomal expression. This is because damaged cells, such as those undergoing apoptosis, are characterised by compromised cell membranes. In this case, free cytoplasmic RNA- like ribosomal RNA- is more likely to have escaped before being captured and sequenced, meaning its expression will be low. While the RNA enclosed within the mitochondria, which has its own membrane, is retained, meaning its expression will be high. But many other factors likely contribute to this phenomenon, including impaired ribosomal biogenesis in damaged cells, leading to reduced ribosomal expression. 
 
 <br>
 
-From the example below, we can see the smaller cluster is more blue in the ```Mitochondrial gene expression``` tSNE, related to **high** mitochondrial expression, 
-as well as more grey in the ```Ribosomal gene expression``` tSNE, related to **low** ribosomal expression. This tells us that the smaller cluster represents the _damaged_ cells- as we would hope given they will be removed!  
+Now answering the question of which cluster is which is easy with the **_CellQC_** tSNEs where the mitochondrial and ribosomal gene expression of each cell is made visible.  In the example below, the ```Mitochondrial gene expression``` tSNE shows that cells in the smaller cluster express mitochondrial genes at a very high level, suggesting they are likely damaged. The same conclusion can be reached looking at the ```Ribosomal gene expression``` tSNE where cells in the smaller cluster expresses ribosomal genes at a very low level.  
 
+
+This can be further verified by looking at the ```Complexity score``` tSNE. This score measures the total number of mitochondrial and ribosomal genes expressed in a cell. Cells that express a large number of these genes are more likely to be metabolically active, undamaged cells while those that only express a few are likely not. In the  ```Complexity score``` plot, the cluster suspected to be damaged contains cells with very low complexities verifying by another metric that the cells are likely damaged. 
 <br>
-
-This can be verified by looking at the ```Complexity score``` tSNE where cells that show expression of a higher number of genes present in the mitochondrial and ribosomal gene set are more likely to be metabolically active, _healthy_ cells. As you can in this plot, the _healthy_ cells are a darker blue, related to high complexity, while the _damaged_ cells are a light grey, related to low complexity. Together, these metrics are used by the ```limiric``` algorithm to annotate the _damaged_ cells, as shown in the fourth and final tSNE.
+Together, these metrics are used by the ```limiric``` algorithm to annotate the _damaged_ cells, as shown in the fourth and final tSNE. So in summary, by looking at the ```limiric``` tSNE plots, we can immediately tell that we have a small cluster of cells that are likley damaged and should be removed from the sample. This makes sense as, unless something went drastically wrong during sample preparations, you expect there to be far more healthy than damaged cells in your scRNA-seq data.
 <br>
 <br>
 <br>
@@ -284,7 +287,7 @@ SRR1234567 <- limiric(
 > └── Filtered
 > ```
 
-### IMCQC
+### **_IMCQC_**
 This output, like RBCQC, contains a scatter plot showing the removed cell in blue and the retained cells in grey.
 
 <br>
@@ -320,7 +323,7 @@ SRR1234567 <- limiric(
 > └── Filtered
 > ```
 >
-### DropletQC
+### **_DropletQC_**
 This will output a scatter plot and tSNE showing the cells annotated as _damaged_ by both ```limiric``` and ```DropletQC```.
 
 <br>
@@ -408,13 +411,15 @@ before using ```limiric```. If you have a ```Linux``` or ```mac``` machine you o
 cd path/to/files
 gzip * 
 ```
-> This assumes that your files are the only items inside the directory. As with the standard output of alignment, each sample output should
-> be stored in its own directory and thus each file type much be named according to the following convention :
+> This assumes that your files are the only items inside the directory. As with the standard output of many alignment algorithms such as ```STARsolo``` and ```CellRanger```, each sample should
+> be stored in its own directory with the following file naming convention :
 > 
-> path/to/files/
+> path/
 > └── matrix.mtx
 > └── barcodes.tsv
 > └── features.tsv
 
-If you 
+<br>
+
+If you have a ```Windows``` machine, Lord be with you. No, there are many ways to get around it with the simplest probably being to install ```Windows Subsystem for Linux```  [🐧](https://learn.microsoft.com/en-us/windows/wsl/install) that creates a new terminal environment for you with ```Linux``` capabilites. From there, you can do the same as above.
 
