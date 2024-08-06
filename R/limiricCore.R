@@ -862,8 +862,6 @@ limiricCore <- function(
 
   cat("\u2714 limiric  analysis complete.\n\n")
 
-  return(list(
-    SeuratObject = Seurat
-  ))
+  return(Seurat)
 
 }
