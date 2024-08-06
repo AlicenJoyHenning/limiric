@@ -205,11 +205,12 @@ ProjectName <- readRDS("OutputPath/Filtered/ProjectName.rds")
 
 <br>
 
-It also includes a ```.csv``` containing the ```limiric``` annotation of all the cell barcdoes present in the input alignment file that can be re-added to the meta.data slot of your ```Seurat``` object
+It also includes a ```.csv``` containing the ```limiric``` annotation of all the cell barcdoes present in the input alignment file that can be re-added to the meta.data slot of your ```Seurat``` object.
+This ```.csv``` file can be found in the ```Filtered``` directory with the same name as your project (```ProjectName```).
 
 ```R
 
-limiric_annotations <- read.csv2(nf_csv,
+limiric_annotations <- read.csv2(ProjectName.csv,
                       sep = ",",
                       col.names = c("barcodes", "limiric"))
 
@@ -221,8 +222,9 @@ seurat@meta.data$limiric <- limiric_annotations$limiric[match(rownames(seurat@me
 ## More Information
 #### _Slightly-less_ Basic Usage
 
-1. Perform Ambient RNA Correction Prior to Damaged Cell Detection
-Detect damaged cells after performing ambient RNA correction with ```SoupX```
+1. Perform ambient RNA correction
+It is highly advised to correct for ambient RNA in your scRNAseq data. If you haven't already performed some kind of correction,
+the ```SoupX``` parameter allows you to do so. This will occur before anything else in the ```limiric``` workflow.
 
 ```R
 SRR1234567 <- limiric(
@@ -235,8 +237,9 @@ SRR1234567 <- limiric(
 ```
 
 
-2. Isolate Immune Cells and Identify Damaged Cells
-First, isolate the immune cells present in the sample, then identify damaged cells.
+2. Isolate immune cells
+If you have a sample where only the immune cells are of interest, include the following ```IsolateCD45```
+parameter. This will isolate the immune cells present in the sample, then identify damaged cells.
 
 ```R
 SRR1234567 <- limiric(
@@ -305,7 +308,7 @@ This will output a scatter plot and tSNE showing the cells annotated as _damaged
 <br>
 
 4. Combine previous conditions
-Perform ambient RNA correction with ```SoupX```, filter red blood cells, isolate immune cells, detect damaged cells, and compare against ```DropletQC```.
+5. Perform ambient RNA correction with ```SoupX```, filter red blood cells, isolate immune cells, detect damaged cells, and compare against ```DropletQC```.
 
 ```R
 SRR1234567 <- limiric(
