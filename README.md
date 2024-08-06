@@ -18,7 +18,7 @@ Single cell RNA sequencing quality control package for sample-specific damaged c
 
 ## Installation
 ### Prerequisites
-The ```limiric``` package requires the following packages to be installed in your ```R``` environment  
+```limiric``` requires the following packages to be installed in your ```R``` environment  
 * ```cowplot``` Wilke, 2024. [GitHub repo](https://github.com/wilkelab/cowplot)
 * ```DropletQC``` Muskovic, 2024. [GitHub repo](https://github.com/powellgenomicslab/DropletQC)
 * ```dplyr``` Wickham _et al_, 2023. [GitHub repo](https://github.com/tidyverse/dplyr)
