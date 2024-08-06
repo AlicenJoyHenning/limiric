@@ -187,7 +187,7 @@ limiric <- function(
     if (is.null(Organism)) { Organism = "Hsap"}
 
     # Run single sample (default) using the core function
-    limiricCore(
+    temp <- limiricCore(
 
       ProjectName  = ProjectName,
       FilteredPath = FilteredPath,
@@ -225,6 +225,12 @@ limiric <- function(
 
     }
 
+
+    # Dynamically assign the result to a variable named after ProjectName
+    assign(ProjectName, temp_result)
+
+    # Return the dynamically named variable
+    return(get(ProjectName))
 
   }
 
@@ -288,7 +294,7 @@ limiric <- function(
 
         )
 
-        results[[ProjectName]] <- temp_result$SeuratObject
+        results[[ProjectName]] <- temp_result
 
       },
 
