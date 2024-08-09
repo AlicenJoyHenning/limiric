@@ -3,7 +3,7 @@
 </p>
 
 ## Contents
-[Description](#description) | [Installation](#installation) | [Quickstart](#quickstart)  |  [Basic Usage](#basic-usage)  |  [Output explained](#output-explained)  |  [More Information](#more-information)
+[Description](#description) | [Installation](#installation) | [Quickstart](#quickstart)  |  [Basic Usage](#basic-usage)  |  [Output explained](#output-explained)  |  [More Information](#more-information) | [Input file format](#input-file-format) | [Downstream](#downstream)
 
 
 ## Description
@@ -217,7 +217,7 @@ Together, these metrics are used by the ```limiric``` algorithm to annotate the 
 ### **_Filtered_** 
 <br>
 
-The main output of the ```limiric``` function comes in the form of a ```barcodes.csv``` containing annotations for each cell barcode of the input data. This can easily be incorporated into an existing scRNA-seq analysis workflow for filtering (see [example](#examples)).
+The main output of the ```limiric``` function comes in the form of a ```barcodes.csv``` containing annotations for each cell barcode of the input data. This can easily be incorporated into an existing scRNA-seq analysis workflow for filtering (see [example](#downstream)).
 
 #### ProjectName_barcodes.csv  
 
@@ -415,7 +415,7 @@ gzip *
 
 If you have a ```Windows``` machine, Lord be with you. No, there are many ways to get around it with the simplest probably being to install ```Windows Subsystem for Linux```  [🐧](https://learn.microsoft.com/en-us/windows/wsl/install) that creates a new terminal environment for you with ```Linux``` capabilites. From there, you can do the same as above.
 
-### Examples 
+### Downstream
 
 #### Adding barcode annotations to pre-existing Seurat object 
 ```R
