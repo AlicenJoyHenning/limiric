@@ -3,12 +3,7 @@
 </p>
 
 ## Contents
-[Description](#description)
-[Installation](#installation)
-[Quickstart](#quickstart)
-[Basic Usage](#basic-usage)
-[Output explained](#output-explained)
-[More Information](#more-information)
+[Description](#description) | [Installation](#installation) | [Quickstart](#quickstart)  |  [Basic Usage](#basic-usage)  |  [Output explained](#output-explained)  |  [More Information](#more-information)
 
 
 ## Description
@@ -100,7 +95,7 @@ SRR1234567 <- limiric(
 <br>
 <br>
 
-2. Alternatively, you can use a ```Seurat``` object as input and your output will be identical to the previous example.
+2. Alternatively, you can use a ```Seurat``` object as input
 ```R
 SRR1234567 <- limiric(
     ProjectName  = "SRR1234567",
@@ -112,7 +107,7 @@ SRR1234567 <- limiric(
 <br>
 <br>
   
-3. If you have more than one sample, it may be easier for you to define a sample list
+3. If you have more than one sample, you may want to define a sample list
 instead of running each individually.
 You can do this through the ```sample_list``` parameter.
 ```R
@@ -150,28 +145,33 @@ GSE1234567 <- limiric(sample_list = sample_list)
 >         "/home/user/alignment/limiric/")
 >  )
 >``` 
-> Where possible please try to avoid giving ```limiric``` an existential crisis
 > 
 <br>
 
 ## Output explained   
 
-Before interpretting ```limiric```'s outputs, it may be helpful to understand a bit of what is going on in the background.
+Before interpretting ```limiric```'s outputs, it may be helpful to understand a bit of what's going on in the background.
 <br><br>
-As you know, the magic of scRNA-seq revolves around the identification of distinct cell populations. As you also know, distinct populations are identified according to the
-clusters that form when dimensionality reduction is performed on the most variable genes in a sample- for example, the typical ```Seurat``` workflow uses the top two or three thousand variable genes.  
+As you know, the magic of scRNA-seq revolves around the identification of distinct cell populations. In majority of scRNA-seq analysis workflows, distinct populations are identified according to the
+clusters that form when dimensionality reduction is performed on the most variable genes in a sample. For instance, the typical ```Seurat``` workflow uses the top two or three thousand variable genes.  
 
-In our case, instead of trying to isolate _distinct_ populations, such lymphoid and myeloid cells in immune-related datasets, we are only interested in two populations: _damagaged_ cells and _healthy_ cells.
+In our case, instead of trying to isolate distinct cell-type associated populations, we are only interested in two broad populations: _damaged_ and _healthy_ cells.
 In general, most of what we know about how these two populations differ can be summarized by looking at the expression of mitochondrial and ribosomal genes. Thus, if we perform dimensionality reduction and clustering 
 using _only_ these genes, we expect to see a division of cells into two clusters associated with the cell's status as either _damaged_ or _healthy_.  
+
 This is the basis of the ```low dimension mitochondrial & ribosomal clustering```, aka ```limiric```, algorithm. 
 
-Now lets look at the specifics of the ```limiric``` output that will be created in the directory you specified with the following core structure
+### Output directory 
+
+The ```limiric``` output will be created in the ```OutputPath```directory with the following structure  
 
 ```
 OutputPath/
-├── CellQC
+|
 ├── RBCQC
+|
+├── CellQC
+|
 └── Filtered
 ```
 
@@ -179,8 +179,7 @@ OutputPath/
 
 ### **_RBCQC_** 
 
-Before damaged cells can be identified, it makes sense to remove red blood cells or cells that are highly contaminated with haemoglobin since they will not be informative to your study, 
-unless red blood cells would be important to your study in which case you can avoid this using ```FilterRBC = FALSE```.
+Before damaged cells can be identified, ```limiric```first removes red blood cells, or cells that are highly contaminated with haemoglobin, from your data. This is done under the assumption that these cells will not be informative to your study. If this assumption should not be true, you can avoid this filtering using ```FilterRBC = FALSE```.
 <br>
 
 The output here comes in the form of a scatter plot where the red blood cells are coloured in blue. The percentage of the total cells that were removed is also given in the plot. 
@@ -218,26 +217,22 @@ Together, these metrics are used by the ```limiric``` algorithm to annotate the 
 ### **_Filtered_** 
 <br>
 
-This directory houses the filtered ```Seurat``` object that can be read into your ```R``` environment again for further use
-```R
-ProjectName <- readRDS("OutputPath/Filtered/ProjectName.rds")
-````
+The main output of the ```limiric``` function comes in the form of a ```barcodes.csv``` containing annotations for each cell barcode of the input data. This can easily be incorporated into an existing scRNA-seq analysis workflow for filtering (see [example](#examples)).
 
-<br>
+#### ProjectName_barcodes.csv  
 
-It also includes a ```.csv``` containing the ```limiric``` annotation of all the cell barcdoes present in the input alignment file that can be re-added to the meta.data slot of your ```Seurat``` object.
-This ```.csv``` file can be found in the ```Filtered``` directory with the same name as your project (```ProjectName```).
+|     Barcode      | Limiric |
+|:---------------:|:-------:|
+| AAACCTGAGATAGGAG|  cell   |
+| AAACCTGAGCTATGCT|  cell   |
+| AAACCTGAGCTGTTCA| damaged |
+| AAACCTGCACATTAGC| damaged |
+| ... | ... |
 
-```R
 
-limiric_annotations <- read.csv2(ProjectName.csv,
-                      sep = ",",
-                      col.names = c("barcodes", "limiric"))
+Additionally, ```limiric``` will output a ```Seurat``` object with ready-filtered barcodes for seamless integration at the start of a ```Seurat``` pre-processing workflow. 
 
-seurat@meta.data$limiric <- limiric_annotations$limiric[match(rownames(seurat@meta.data), limiric_annotations$barcodes)]
 
-```
-<br>
 
 ## More Information
 #### _Slightly-less_ Basic Usage
@@ -420,3 +415,21 @@ gzip *
 
 If you have a ```Windows``` machine, Lord be with you. No, there are many ways to get around it with the simplest probably being to install ```Windows Subsystem for Linux```  [🐧](https://learn.microsoft.com/en-us/windows/wsl/install) that creates a new terminal environment for you with ```Linux``` capabilites. From there, you can do the same as above.
 
+### Examples 
+
+#### Adding barcode annotations to pre-existing Seurat object 
+```R
+# Add output to pre-existing Seurat object
+limiric_annotations <- read.csv2("path/to/ProjectName_barcodes.csv",
+                      sep = ",",
+                      col.names = c("barcodes", "limiric"))
+
+seurat@meta.data$limiric <- limiric_annotations$limiric[match(rownames(seurat@meta.data), limiric_annotations$barcodes)]
+
+# Using pre-existing dimensionality reductions, visualise the limiric annotations
+limiric_visual <- DimPlot(seurat, group.by = limiric) 
+
+# Filter cells marked as damaged by limiric
+seurat_filtered <- subset(seurat, limiric == "cell")
+seurat_filtered$limiric <- NULL # once used, remove the column 
+```
