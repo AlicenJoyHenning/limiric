@@ -395,7 +395,7 @@ GSE1234567 <- limiric(sample_list = sample_list)
 ## Input file format
 
 If your alignment output files are not zipped (end with a ```.gz``` extension), you will need to find a way to do this 
-before using ```limiric```. If you have a ```Linux``` or ```mac``` machine you open the terminal in the directory where your files are stored and use ```gzip```
+before using ```limiric```. If you have a ```Linux``` or ```mac``` machine you can open the terminal in the directory where your files are stored and use ```gzip```
 
 <br>
 
@@ -405,19 +405,22 @@ gzip *
 ```
 > This assumes that your files are the only items inside the directory. As with the standard output of many alignment algorithms such as ```STARsolo``` and ```CellRanger```, each sample should
 > be stored in its own directory with the following file naming convention :
-> 
+>
 > path/
-> └── matrix.mtx
-> └── barcodes.tsv
+> |
+> ├── matrix.mtx
+> |
+> ├── barcodes.tsv
+> |
 > └── features.tsv
 
 <br>
 
 If you have a ```Windows``` machine, Lord be with you. No, there are many ways to get around it with the simplest probably being to install ```Windows Subsystem for Linux```  [🐧](https://learn.microsoft.com/en-us/windows/wsl/install) that creates a new terminal environment for you with ```Linux``` capabilites. From there, you can do the same as above.
 
-### Downstream
+## Downstream
 
-#### Adding barcode annotations to pre-existing Seurat object 
+### Adding barcode annotations to pre-existing Seurat object 
 ```R
 # Add output to pre-existing Seurat object
 limiric_annotations <- read.csv2("path/to/ProjectName_barcodes.csv",
