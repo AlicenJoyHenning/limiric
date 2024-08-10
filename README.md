@@ -493,7 +493,7 @@ gzip *
 
 <br>
 
-If you have a ```Windows``` machine, the simplest solution is to install ```Windows Subsystem for Linux```  [🐧](https://learn.microsoft.com/en-us/windows/wsl/install) that creates a new terminal environment for you with ```Linux``` capabilites. From there, you can do the same as above. Note that ```WSL``` uses a different path structure to access file systems where ```Windows``` directories are mounted under ```/mnt/``` 
+If you have a ```Windows``` machine, the simplest solution is to install ```Windows Subsystem for Linux```  [🐧](https://learn.microsoft.com/en-us/windows/wsl/install) which creates a new terminal environment for you with ```Linux``` capabilites. From there, you can do the same as above. Note that ```WSL``` uses a different path structure to access file systems where ```Windows``` directories are mounted under ```/mnt/``` 
 
 ```bash
 cd /mnt/c/Users/path/to/directory
