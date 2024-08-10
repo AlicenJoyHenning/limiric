@@ -67,12 +67,12 @@ After all the prerequisites are installed, you can install the latest developmen
 ```R
 devtools::install_github("AlicenJoyHenning/limiric")
 ```
-<br>
-<br>
 
 ### Verify installation 
 To ensure ```limiric``` has correctly installed, you can perform a test run using a small example dataset stored in the ```testrun``` directory of this repository, also found [here](https://github.com/AlicenJoyHenning/limiric/tree/master/testrun). If you need assistance setting this up, please see [Test run](#test-run) for more details. 
 
+<br>
+<br>
 
 
 ## _Quickstart_
