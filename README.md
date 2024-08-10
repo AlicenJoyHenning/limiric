@@ -70,6 +70,11 @@ devtools::install_github("AlicenJoyHenning/limiric")
 <br>
 <br>
 
+### Verify installation 
+To ensure ```limiric``` has correctly installed, you can perform a test run using a small example dataset stored in the ```testrun``` directory of this repository, also found [here](https://github.com/AlicenJoyHenning/limiric/tree/master/testrun). If you need assistance setting this up, please see [Test run](#test-run) for more details. 
+
+
+
 ## _Quickstart_
 
 #### Basic Usage
@@ -147,6 +152,29 @@ GSE1234567 <- limiric(sample_list = sample_list)
 >``` 
 > 
 <br>
+
+### Test run 
+
+Download the ```matrix.mtx```, ```barcodes.tsv```. and ```features.tsv``` files from this location ([files](https://github.com/AlicenJoyHenning/limiric/tree/master/testrun)) and store them in a local directory. For demonstration purposes, we will assume this directory is ```/home/user/scRNA-seq/testrun/```. From here, you can run the basic ```limiric``` function in your ```R``` environment where the terminal output should look as indicated below. For further verification, ensure the output Testrun_CellQC.png is identicial to that shown [here](https://github.com/AlicenJoyHenning/limiric/blob/master/testrun/CellQC.png).
+
+```R
+
+testrun <- limiric(
+    ProjectName  = "Testrun",
+    FilterRBC    = FALSE,
+    FilteredPath = "/home/user/scRNA-seq/testrun/",
+    OutputPath   = "/home/user/scRNA-seq/testrun/"
+)
+
+# Beginning limiric analysis for TestRun ...
+# ✔ Seurat object created
+# ✔ limiric damaged cell predictions
+# ✔ limiric analysis complete.
+
+```
+
+
+
 
 ## Output explained   
 
