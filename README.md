@@ -8,7 +8,13 @@
 
 ## Description
 
-Single cell RNA sequencing quality control package for sample-specific damaged cell detection through low dimension mitochondrial and ribosomal cluster selection.
+```limiric``` is a quality control package for detecting damaged cells in single cell RNA sequencing (scRNA-seq) data. While many scRNA-seq packages available perform quality control for low quality cell detection, most are directed at removing droplets that contain more than one cell (doublets) or that are empty, rather than those that are damaged. Directly addressing which droplets are damaged is most often achieved by setting thresholds for average mitochondrial gene expression or the number of UMIs and features detected per droplet. These metrics, even when calculated dynamically, are highly non-specific across tissues of origin, cell types, and treatment conditions. This results in a high probablity of false positive filtering where droplets are excluded from downstream analysis without due cause. But searching for true damaged droplets in a sample-specific manner is tedious and non-intuitive, resulting in user-determined filtering that lacks reproducibility. 
+
+```limiric``` automates the sample-specific detection of damaged cells in one fast-performing and highly-reproducible function. It operates on the basic principle that damaged and healthy cells can be differentiated in lower dimensional space by their mitochondrial and ribosomal gene expression profiles and complexities. The package was developed around the community standard ```Seurat``` suite and is designed to incoporate seemlessly into a user's pre-existing ```Seurat``` workflow. However, the main output of ```limiric``` is an annotated cell barcode ```csv``` that is ```Seurat``` independent and can be easily incorporated into any single cell analysis platform. 
+
+In addition to predicting damaged cells, ```limiric``` can perform other pre-processing tasks including removing red blood cells, performing ambient RNA correction with the ```SoupX``` package, and isolating immune cells. There is also the option for it to be used in combination with the ```DropletQC``` package which, while not a requirement as measures of spliced and unspliced RNA are not always available, refines ```limiric```'s damaged cell detection. 
+
+
 
 ## Installation
 ### Prerequisites
