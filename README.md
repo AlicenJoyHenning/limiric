@@ -67,15 +67,27 @@ for (pkg in packages) {
 After all the prerequisites are installed, you can install the latest development version of ```limiric``` 
 
 ```R
-devtools::install_github("AlicenJoyHenning/limiric")
+devtools::install_github("AlicenJoyHenning/limiric", build_vignettes = TRUE)
 ```
 
+<br>
+
+
 ### Verify installation 
-To ensure ```limiric``` has correctly installed, you can perform a test run using a small example dataset stored in the ```testrun``` directory of this repository, also found [here](https://github.com/AlicenJoyHenning/limiric/tree/master/testrun). If you need assistance setting this up, please see [Test run](#test-run) for more details. 
+To ensure ```limiric``` has correctly installed, run the following to see if you can view the package vignette and the function help page. 
+
+```R
+library(limiric)
+help(package = "limiric")
+?limiric()
+```
+<br>
+
+Additionally, you can perform a test run using a small example dataset stored in the ```testrun``` directory of this repository, also found [here](https://github.com/AlicenJoyHenning/limiric/tree/master/testrun). If you need assistance setting this up, please see [Test run](#test-run) for more details. 
 
 <br>
 <br>
-
+<br>
 
 ## _Quickstart_
 
