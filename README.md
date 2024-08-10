@@ -14,6 +14,7 @@ Single cell RNA sequencing quality control package for sample-specific damaged c
 ### Prerequisites
 ```limiric``` requires the following packages to be installed in your ```R``` environment  
 * ```cowplot``` Wilke, 2024. [GitHub repo](https://github.com/wilkelab/cowplot)
+* ```devtools``` Wickham and Hester, 2022. [GitHub repo](https://github.com/r-lib/devtools)
 * ```DropletQC``` Muskovic, 2024. [GitHub repo](https://github.com/powellgenomicslab/DropletQC)
 * ```dplyr``` Wickham _et al_, 2023. [GitHub repo](https://github.com/tidyverse/dplyr)
 * ```ggplot2``` Wickham, 2016. [GitHub repo](https://github.com/tidyverse/ggplot2)
@@ -27,7 +28,7 @@ If not already, you can install them together
 
 ```R
 
-packages <- c("cowplot", "dplyr", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
+packages <- c("cowplot", "devtools", "dplyr", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
 
 for (pkg in packages) {
     if (!requireNamespace(pkg, quietly = TRUE)) {
@@ -47,7 +48,6 @@ devtools::install_github("powellgenomicslab/DropletQC")
 
 Be sure to load these into your environment before continuing with ```limiric``` installation 
 ```R
-packages <- c("cowplot", "dplyr", "DropletQC", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
 
 for (pkg in packages) {
   if (!require(pkg, character.only = TRUE)) {
