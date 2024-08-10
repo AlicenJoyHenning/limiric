@@ -2,6 +2,9 @@
   <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/limiric.png" alt="limiric_logo" height="140" width="380">
 </p>
 
+[![R-CMD-check](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml)
+[![license](https://img.shields.io/github/license/AlicenJoyHenning/limiric)](https://github.com/AlicenJoyHenning/limiric/LICENSE.md)
+
 ## Contents
 [Description](#description) | [Installation](#installation) | [Basic usage](#quickstart)  | [Extended usage](#extended-usage) | [Output explained](#output-explained)  |  [Input file format](#input-file-format) | [Downstream](#downstream)
 
