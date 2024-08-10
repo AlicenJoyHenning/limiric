@@ -4,31 +4,31 @@
 \alias{limiricCore}
 \title{limiricCore}
 \arguments{
-\item{ProjectName}{(Character) Name of the project or sample being analysed}
+\item{ProjectName}{String with project or sample name}
 
-\item{FilteredPath}{(Character) Directory of filtered, gzipped, alignment output containing matrix.mtx.gz, features.tsv.gz, and barcodes.tsv.gz}
+\item{FilteredPath}{Directory of filtered alignment output}
 
-\item{SeuratInput}{(object) Seurat object to be used as input}
+\item{SeuratInput}{Seurat object to be used as input over raw files. Default NULL}
 
-\item{MinCells}{(numeric) In how many cells should a gene be expressed to be retained in the count matrix}
+\item{MinCells}{In how many cells should a gene be expressed to be kept}
 
-\item{SoupX}{(logical) Whether or not ambient RNA correction should be performed, if TRUE RawPath must be given}
+\item{SoupX}{Perform ambient RNA correction, if TRUE RawPath must be given. Default is FALSE}
 
-\item{RawPath}{(character) Directory of unfiltered, gzipped, alignment output containing matrix.mtx.gz, features.tsv.gz, and barcodes.tsv.gz}
+\item{RawPath}{Directory of unfiltered alignment output}
 
-\item{DropletQC}{(logical) Whether or not limiric annotations should be intersected with DropletQC damaged cell annotations, if TRUE VelocytoPath must be given}
+\item{DropletQC}{Verify output with DropletQC, if TRUE VelocytoPath must be given. Default is FALSE}
 
-\item{VelocytoPath}{(character) Directory of Veocyto filtered, gzipped, alignment output containing spliced.mtx.gz, unspliced.mtx.gz, features.tsv.gz, and barcodes.tsv.gz}
+\item{VelocytoPath}{Directory of Veocyto filtered alignment output}
 
-\item{FilterRBC}{(logical) Whether or not red blood cells should be removed}
+\item{FilterRBC}{Whether or not red blood cells should be removed, Default is TRUE}
 
-\item{IsolateCD45}{(logical) Whether or not immune cells should be isolated}
+\item{IsolateCD45}{Discard non-immune cells. Default is FALSE}
 
-\item{FilterOutput}{(logical) Whether or not output should filter out damaged cells}
+\item{FilterOutput}{Should output contain no damaged cells. Default is TRUE}
 
-\item{OutputPath}{(character) Directory where limiric output is generated}
+\item{OutputPath}{Directory where limiric output cen be generated}
 
-\item{Organism}{(character) Either "Hsap" if human sample or "Mmus" if mouse}
+\item{Organism}{"Hsap" if human sample or "Mmus" if mouse sample}
 }
 \value{
 (list) Output list storing the final Seurat object

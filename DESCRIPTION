@@ -17,9 +17,14 @@ Imports:
     dplyr,
     DropletQC,
     ggplot2,
+    magick,
     Matrix,
     png,
     Seurat,
     SoupX
 Remotes:
     powellgenomicslab/DropletQC
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

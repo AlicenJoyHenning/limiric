@@ -4,36 +4,36 @@
 \alias{limiric}
 \title{limiric}
 \arguments{
-\item{ProjectName}{\emph{character}    Name of the project or sample being analysed}
+\item{ProjectName}{String with project or sample name}
 
-\item{FilteredPath}{\emph{character}    Directory of filtered, gzipped, alignment output containing matrix.mtx.gz, features.tsv.gz, and barcodes.tsv.gz}
+\item{FilteredPath}{Directory of filtered alignment output}
 
-\item{SeuratInput}{\emph{Seurat object}    Seurat object to be used as input instead of alignment output}
+\item{SeuratInput}{Seurat object to be used as input over raw files. Default NULL}
 
-\item{MinCells}{\emph{numeric}    In how many cells should a gene be expressed to be retained in the count matrix}
+\item{MinCells}{In how many cells should a gene be expressed to be kept}
 
-\item{SoupX}{\emph{logical}    Whether or not ambient RNA correction should be performed, if TRUE RawPath must be given}
+\item{SoupX}{Perform ambient RNA correction, if TRUE RawPath must be given. Default is FALSE}
 
-\item{RawPath}{\emph{character}    Directory of unfiltered, gzipped, alignment output containing matrix.mtx.gz, features.tsv.gz, and barcodes.tsv.gz}
+\item{RawPath}{Directory of unfiltered alignment output}
 
-\item{DropletQC}{\emph{logical}    Whether or not limiric annotations should be intersected with DropletQC damaged cell annotations, if TRUE VelocytoPath must be given}
+\item{DropletQC}{Verify output with DropletQC, if TRUE VelocytoPath must be given. Default is FALSE}
 
-\item{VelocytoPath}{\emph{character}    Directory of Veocyto filtered, gzipped, alignment output containing spliced.mtx.gz, unspliced.mtx.gz, features.tsv.gz, and barcodes.tsv.gz}
+\item{VelocytoPath}{Directory of Veocyto filtered alignment output}
 
-\item{FilterRBC}{\emph{logical}    Whether or not red blood cells should be removed}
+\item{FilterRBC}{Whether or not red blood cells should be removed. Default is TRUE}
 
-\item{IsolateCD45}{\emph{logical}    Whether or not immune cells should be isolated}
+\item{IsolateCD45}{Discard non-immune cells. Default is FALSE}
 
-\item{FilterOutput}{\emph{logical}    Whether or not output should filter out damaged cells}
+\item{FilterOutput}{Should output contain no damaged cells. Default is TRUE}
 
-\item{OutputPath}{\emph{character}    Directory where limiric output is generated}
+\item{OutputPath}{Directory where limiric output should be generated}
 
-\item{Organism}{\emph{character}    Either "Hsap" if human sample or "Mmus" if mouse}
+\item{Organism}{"Hsap" if human sample or "Mmus" if mouse sample}
 
-\item{sample_list}{\emph{list}    If more than one sample is to be processed, create a list with the above parameters and enter it here. If one sample, leave NULL.}
+\item{sample_list}{Input multiple samples in list. Default is FALSE}
 }
 \value{
-(list) Output list storing the final \strong{Seurat} object
+(list) Output storing the final \strong{Seurat} object
 }
 \description{
 Function that takes as input filtered scRNA-seq alignment output (or a \strong{Seurat} object)

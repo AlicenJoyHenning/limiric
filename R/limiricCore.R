@@ -4,26 +4,27 @@
 #'
 #' @name limiricCore
 #'
-#' @param ProjectName (Character) Name of the project or sample being analysed
-#' @param FilteredPath (Character) Directory of filtered, gzipped, alignment output containing matrix.mtx.gz, features.tsv.gz, and barcodes.tsv.gz
-#' @param SeuratInput (object) Seurat object to be used as input
-#' @param MinCells (numeric) In how many cells should a gene be expressed to be retained in the count matrix
-#' @param SoupX (logical) Whether or not ambient RNA correction should be performed, if TRUE RawPath must be given
-#' @param RawPath (character) Directory of unfiltered, gzipped, alignment output containing matrix.mtx.gz, features.tsv.gz, and barcodes.tsv.gz
-#' @param DropletQC (logical) Whether or not limiric annotations should be intersected with DropletQC damaged cell annotations, if TRUE VelocytoPath must be given
-#' @param VelocytoPath (character) Directory of Veocyto filtered, gzipped, alignment output containing spliced.mtx.gz, unspliced.mtx.gz, features.tsv.gz, and barcodes.tsv.gz
-#' @param FilterRBC (logical) Whether or not red blood cells should be removed
-#' @param IsolateCD45 (logical) Whether or not immune cells should be isolated
-#' @param FilterOutput (logical) Whether or not output should filter out damaged cells
-#' @param OutputPath (character) Directory where limiric output is generated
-#' @param Organism (character) Either "Hsap" if human sample or "Mmus" if mouse
+#' @param ProjectName String with project or sample name
+#' @param FilteredPath Directory of filtered alignment output
+#' @param SeuratInput Seurat object to be used as input over raw files. Default NULL
+#' @param MinCells In how many cells should a gene be expressed to be kept
+#' @param SoupX Perform ambient RNA correction, if TRUE RawPath must be given. Default is FALSE
+#' @param RawPath Directory of unfiltered alignment output
+#' @param DropletQC Verify output with DropletQC, if TRUE VelocytoPath must be given. Default is FALSE
+#' @param VelocytoPath Directory of Veocyto filtered alignment output
+#' @param FilterRBC Whether or not red blood cells should be removed, Default is TRUE
+#' @param IsolateCD45 Discard non-immune cells. Default is FALSE
+#' @param FilterOutput Should output contain no damaged cells. Default is TRUE
+#' @param OutputPath Directory where limiric output cen be generated
+#' @param Organism "Hsap" if human sample or "Mmus" if mouse sample
 #'
 #' @return (list) Output list storing the final Seurat object
 #'
 #' @import cowplot
 #' @importFrom dplyr %>% pull group_by summarise mutate arrange slice case_when
-#' @import ggplot2
 #' @import DropletQC
+#' @import ggplot2
+#' @import magick
 #' @import Matrix
 #' @import png
 #' @import Seurat
@@ -123,6 +124,8 @@ limiricCore <- function(
     # If specified input is Seurat object, take it as such
     Seurat <- SeuratInput
 
+    storage <- Seurat # For unfiltered barcode annotations
+
     # Calculate the unfiltered cell number
     InitialCells <- length(Cells(Seurat))
     RhoEstimate <- NULL
@@ -144,6 +147,8 @@ limiricCore <- function(
       min.cells = MinCells,
       min.features = 50
     ))
+
+    storage <- Seurat
 
     # Give the unfiltered cell number
     InitialCells <- length(Cells(Seurat))
@@ -210,6 +215,8 @@ limiricCore <- function(
                                                   min.cells = MinCells, # At least one cell must express the gene for the gene to be included in the count matrix
                                                   min.features = 0,
                                                   project = ProjectName))
+
+    storage <- Seurat
 
     cat("\u2714 SoupX correction complete\n")
 
@@ -577,14 +584,11 @@ limiricCore <- function(
       plot.caption = element_text(hjust = 0.5, size = 16))
 
 
-
-
   # FANCY PLOT COMBINING HERE
 
   title <- ProjectName
   label <- paste("Estimated damaged cells: ", round(damagedPercent, 2), "%, ", InitialCells, " cells")
-  logo <- readPNG("/home/alicen/Projects/limiric/limiric_transparent.png")
-  dim <- readPNG("/home/alicen/Projects/limiric/tSNE_right.png")
+  dim <- readPNG(system.file("extdata", "tSNE.png", package = "limiric"))
 
   # Combine the plots
   limiric_plot <- plot_grid(mt_plot, complexity_plot, rb_plot, cluster_plot, ncol = 2)
@@ -598,7 +602,6 @@ limiricCore <- function(
   logo_plot <- ggdraw() + draw_image(logo, x = 0.25, y = 0.3, width = 0.4, height = 0.4)
   dim_plot <- ggdraw() + draw_image(dim, x = 0.54, y = 0.5, width = 0.8, height = 0.8)
 
-
   # Combine everything into the final plot
   final_plot <- plot_grid(
     title, subtitle, limiric_plot, dim_plot,
@@ -606,10 +609,11 @@ limiricCore <- function(
     rel_heights = c(0.1, 0.1, 1, 0.2)
   )
 
+  # Set the background to white for the entire plot
+  final_plot <- final_plot + theme(plot.background = element_rect(fill = "white", color = "white"))
 
   # Save the final plot
   ggsave(file.path(OutputPath, "/CellQC/", paste0(ProjectName, ".png")), plot = final_plot, width = 12, height = 10, dpi = 300)
-
 
   cat("\u2714 limiric  damaged cell predictions\n")
 
@@ -665,14 +669,6 @@ limiricCore <- function(
 
     # Add DropletQC output to Seurat object metadata
     Seurat$DropletQC <- dcresultsDf$df$cell_status
-
-    # # Rescue cells (dataset specific)
-    # if (Organism == "Hsap") {
-    #
-    #   Seurat$DropletQC <- ifelse(Seurat$DropletQC == "empty_droplet" & Seurat$nf >= 0.02, "cell", Seurat$DropletQC)
-    #   Seurat$DropletQC <- ifelse(Seurat$DropletQC == "empty_droplet" & Seurat$nCount_RNA >= 2000, "cell", Seurat$DropletQC)
-    # }
-
 
     # Combine limiric and DropletQC output
     # Initialise an empty metadata column
@@ -787,14 +783,24 @@ limiricCore <- function(
       rel_heights = c(0.1, 0.1, 1, 0.15)
     )
 
+    # Set the background to white for the entire plot
+    final_plot <- final_plot + theme(plot.background = element_rect(fill = "white", color = "white"))
+
     # Save the final plot
     ggsave(file.path(OutputPath, "DropletQC", paste0(ProjectName, ".png")), plot = final_plot, width = 12, height = 10, dpi = 300)
 
 
     # Finalise output
     # Save a list of barcodes with QC annnotations (cell, agreed, DropletQC, limiric)
+
+    storageCells <- data.frame(barcode = rownames(storage@meta.data))
     cleanCells <- data.frame(barcode = rownames(limiric@meta.data), QCannotation = limiric@meta.data$QC)
-    write.csv(cleanCells, file = file.path(OutputPath, "DropletQC", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
+
+    # Account for cells that may have been filtered
+    annotatedCells <- merge(storageCells, cleanCells, by = "barcode", all.x = TRUE)
+    annotatedCells$QCannotation[is.na(annotatedCells$QCannotation)] <- "removed"
+
+    write.csv(annotatedCells, file = file.path(OutputPath, "DropletQC", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
 
     # Rename column
     Seurat$limiric.DropletQC <- Seurat$QC
@@ -833,8 +839,16 @@ limiricCore <- function(
   if (FilterOutput == TRUE & DropletQC != TRUE) {
 
     # Save a list of barcodes with limiric annotations (cell, damaged)
+    storageCells <- data.frame(barcode = rownames(storage@meta.data))
     cleanCells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
     write.csv(cleanCells, file = file.path(OutputPath, "/Filtered/", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
+
+    # Account for cells that may have been filtered
+    annotatedCells <- merge(storageCells, cleanCells, by = "barcode", all.x = TRUE)
+    annotatedCells$limiric[is.na(annotatedCells$limiric)] <- "removed"
+
+    write.csv(annotatedCells, file = file.path(OutputPath, "Filtered", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
+
 
     # Filter damaged cells only according to limiric estimations
     Seurat <- subset(Seurat, limiric == "cell")
@@ -856,6 +870,17 @@ limiricCore <- function(
   if (FilterOutput == FALSE) {
 
     # Save object without removing meta data columns (user can visualise for themsleves)
+
+    # Save a list of barcodes with limiric annotations (cell, damaged)
+    storageCells <- data.frame(barcode = rownames(storage@meta.data))
+    cleanCells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
+    write.csv(cleanCells, file = file.path(OutputPath, "/Filtered/", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
+
+    # Account for cells that may have been filtered
+    annotatedCells <- merge(storageCells, cleanCells, by = "barcode", all.x = TRUE)
+    annotatedCells$limiric[is.na(annotatedCells$limiric)] <- "removed"
+
+    write.csv(annotatedCells, file = file.path(OutputPath, "Filtered", paste0(ProjectName, "_barcodes.csv")), row.names = FALSE)
     saveRDS(Seurat, file.path(OutputPath, "Filtered", paste0(ProjectName, "_unfiltered.rds")))
 
   }

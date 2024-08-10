@@ -6,26 +6,28 @@
 #'
 #' @name limiric
 #'
-#' @param ProjectName *character*    Name of the project or sample being analysed
-#' @param FilteredPath *character*    Directory of filtered, gzipped, alignment output containing matrix.mtx.gz, features.tsv.gz, and barcodes.tsv.gz
-#' @param SeuratInput *Seurat object*    Seurat object to be used as input instead of alignment output
-#' @param MinCells *numeric*    In how many cells should a gene be expressed to be retained in the count matrix
-#' @param SoupX *logical*    Whether or not ambient RNA correction should be performed, if TRUE RawPath must be given
-#' @param RawPath *character*    Directory of unfiltered, gzipped, alignment output containing matrix.mtx.gz, features.tsv.gz, and barcodes.tsv.gz
-#' @param DropletQC *logical*    Whether or not limiric annotations should be intersected with DropletQC damaged cell annotations, if TRUE VelocytoPath must be given
-#' @param VelocytoPath *character*    Directory of Veocyto filtered, gzipped, alignment output containing spliced.mtx.gz, unspliced.mtx.gz, features.tsv.gz, and barcodes.tsv.gz
-#' @param FilterRBC *logical*    Whether or not red blood cells should be removed
-#' @param IsolateCD45 *logical*    Whether or not immune cells should be isolated
-#' @param FilterOutput *logical*    Whether or not output should filter out damaged cells
-#' @param OutputPath *character*    Directory where limiric output is generated
-#' @param Organism *character*    Either "Hsap" if human sample or "Mmus" if mouse
-#' @param sample_list *list*    If more than one sample is to be processed, create a list with the above parameters and enter it here. If one sample, leave NULL.
+#' @param ProjectName String with project or sample name
+#' @param FilteredPath Directory of filtered alignment output
+#' @param SeuratInput Seurat object to be used as input over raw files. Default NULL
+#' @param MinCells In how many cells should a gene be expressed to be kept
+#' @param SoupX Perform ambient RNA correction, if TRUE RawPath must be given. Default is FALSE
+#' @param RawPath Directory of unfiltered alignment output
+#' @param DropletQC Verify output with DropletQC, if TRUE VelocytoPath must be given. Default is FALSE
+#' @param VelocytoPath Directory of Veocyto filtered alignment output
+#' @param FilterRBC Whether or not red blood cells should be removed. Default is TRUE
+#' @param IsolateCD45 Discard non-immune cells. Default is FALSE
+#' @param FilterOutput Should output contain no damaged cells. Default is TRUE
+#' @param OutputPath Directory where limiric output should be generated
+#' @param Organism "Hsap" if human sample or "Mmus" if mouse sample
+#' @param sample_list Input multiple samples in list. Default is FALSE
 #'
-#' @return (list) Output list storing the final **Seurat** object
+#' @return (list) Output storing the final **Seurat** object
 #'
 #' @import cowplot
-#' @importFrom dplyr %>%
+#' @importFrom dplyr %>% pull group_by summarise mutate arrange slice case_when
+#' @import DropletQC
 #' @import ggplot2
+#' @import magick
 #' @import Matrix
 #' @import png
 #' @import Seurat
@@ -208,12 +210,16 @@ limiric <- function(
 
     # Clean output directories: convert QC rds to png plots
 
+    if (FilterRBC) {
+
     # Red blood cell QC
     RBCQC_path <- file.path(OutputPath, "RBCQC", paste0(ProjectName, "_RBCQC", ".rds"))
     RBCQC      <- readRDS(RBCQC_path)
     ggsave(file.path(OutputPath, "RBCQC", paste0(ProjectName, "_RBCQC", ".png")), plot = RBCQC, width = 5, height = 5, dpi = 300)
 
     file.remove(RBCQC_path)
+
+    }
 
     if (IsolateCD45 == TRUE) {
 
@@ -225,7 +231,7 @@ limiric <- function(
 
     }
 
-    return(result$SeuratObject)
+    return(result)
 
   }
 
@@ -259,7 +265,7 @@ limiric <- function(
       Organism     <- sample$Organism
 
       # Account for defaults
-      if (is.null(SeuratInput)) { SeuratInput = FALSE}
+      if (is.null(SeuratInput)) { SeuratInput = NULL}
       if (is.null(MinCells)) { MinCells = 0 }
       if (is.null(SoupX)) { SoupX = FALSE}
       if (is.null(DropletQC)) { DropletQC = FALSE}
@@ -289,7 +295,7 @@ limiric <- function(
 
         )
 
-        results[[ProjectName]] <- temp_result$SeuratObject
+        results[[ProjectName]] <- temp_result
 
       },
 
@@ -300,6 +306,9 @@ limiric <- function(
       })
 
     }
+
+
+    if (FilterRBC == TRUE) {
 
     # Collate output QC plots ####
     # RBC
@@ -336,6 +345,8 @@ limiric <- function(
 
       # Delete all rds files (only want output image)
       file.remove(rds_files)
+    }
+
     }
 
     if (!is.null(IsolateCD45) & IsolateCD45 == TRUE) {
