@@ -3,7 +3,7 @@
 </p>
 
 ## Contents
-[Description](#description) | [Installation](#installation) | [Quickstart](#quickstart)  |  [Basic Usage](#basic-usage)  |  [Output explained](#output-explained)  |  [More Information](#more-information) | [Input file format](#input-file-format) | [Downstream](#downstream)
+[Description](#description) | [Installation](#installation) | [Quickstart](#quickstart)  |  [Basic usage](#basic-usage)  |   [Extended usage](#extended-usage) | [Output explained](#output-explained)  |  [Input file format](#input-file-format) | [Downstream](#downstream)
 
 
 ## Description
@@ -180,38 +180,72 @@ OutputPath/
 ### **_RBCQC_** 
 
 Before damaged cells can be identified, ```limiric```first removes red blood cells, or cells that are highly contaminated with haemoglobin, from your data. This is done under the assumption that these cells will not be informative to your study. If this assumption should not be true, you can avoid this filtering using ```FilterRBC = FALSE```.
-<br>
-
-The output here comes in the form of a scatter plot where the red blood cells are coloured in blue. The percentage of the total cells that were removed is also given in the plot. 
-
-<br><br>
-<p align="center">
-  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/RBCQC.png" height="500" />
-</p>
-
 > **NB** Given many scRNA-seq protocols, such as the ```10X Genomics``` protocol, advise for globin treatment, we hope for the contamination percentage to be as low as possible.
+
+<br>
+<table>
+  <tr>
+    <td>
+      The output here comes in the form of a scatter plot where the red blood cells are coloured in blue. The percentage of the total cells that were removed is also given in the plot. 
+    </td>
+    <td>
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/RBCQC.png" alt="Scatter plot" style="float: right; margin-left: 200px;" width="500">
+    </td>
+  </tr>
+</table>
+
+<br>
 <br>
 
 ### **_CellQC_** 
 
-This directory contains core diagnostic plots for the ```limiric``` damaged cell detection algorithm. As shown below, you will see four tSNE plots.
+This directory contains core diagnostic plots for the ```limiric``` damaged cell detection algorithm. As shown below, you will see four tSNE plots. In this example dataset, you can see the cells divide into two distinct clusters; but which contain _damaged_ cells and which contain _healthy_ cells? 
+
+<br>
+
+From literature we know that damaged cells have high mitochondrial expression and low ribosomal expression. This is largely because damaged cells, such as those undergoing apoptosis, are characterised by compromised cell membranes. In this case, free cytoplasmic RNA- like ribosomal RNA- is more likely to have escaped before being captured and sequenced, meaning its expression will be low. While the RNA enclosed within the mitochondria, which has its own membrane, is retained, meaning its expression will be high. But many other factors likely contribute to this phenomenon, including impaired ribosomal biogenesis in damaged cells. 
+
+<br>
+
+Now answering the question of which cluster is which is easy with the <code>limiric</code> tSNEs where the mitochondrial and ribosomal gene expression of each cell is made visible. 
+
 <br><br>
-In this example dataset, you can see the cells divide into two distinct clusters; but which contain _damaged_ cells and which contain _healthy_ cells? From literature we know that damaged cells have high mitochondrial expression and low ribosomal expression. This is because damaged cells, such as those undergoing apoptosis, are characterised by compromised cell membranes. In this case, free cytoplasmic RNA- like ribosomal RNA- is more likely to have escaped before being captured and sequenced, meaning its expression will be low. While the RNA enclosed within the mitochondria, which has its own membrane, is retained, meaning its expression will be high. But many other factors likely contribute to this phenomenon, including impaired ribosomal biogenesis in damaged cells, leading to reduced ribosomal expression. 
+
+<table>
+  <tr>
+    <td style="vertical-align: top;">
+      A <code>Mitochondrial gene expression</code> tSNE shows that cells in the smaller cluster express mitochondrial genes at a very high level, suggesting they are likely damaged.
+    </td>
+    <td style="vertical-align: top;">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/mi.png" alt="Mitochondrial gene expression tSNE" width="1500">
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      The same conclusion can be reached looking at the <code>Ribosomal gene expression</code> tSNE where cells in the smaller cluster express ribosomal genes at a very low level.
+    </td>
+    <td style="vertical-align: top;">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/ri.png" alt="Ribosomal gene expression tSNE" width="1500">
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      The <code>Complexity score</code> measures the total number of mitochondrial and ribosomal genes expressed in a cell. Cells that express a large number of these genes are more likely to be metabolically active, undamaged cells while those that only express a few are likely not. In the <code>Complexity score</code> tSNE, the smaller cluster contains cells with very low complexities. This verifies by another metric that these cells are likely damaged.
+    </td>
+    <td style="vertical-align: top;">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/com.png" alt="Complexity tSNE" width="1500">
+    </td>
+  </tr>
+</table>
+
 <br><br>
+Together, these metrics are used by the ```limiric``` algorithm to annotate the _damaged_ cells, as shown in the fourth and final tSNE. In summary, by looking at the ```limiric``` tSNE plots, we can immediately tell that we have a small cluster of cells that are likley damaged and should be removed from the sample. This makes sense as, unless something went drastically wrong during sample preparations, you expect there to be far more healthy than damaged cells in your scRNA-seq data.
+<br>
+<br>
 <p align="center">
-  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/CellQC.png" height="500" />
+  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/CellQC.png" style="float: right; margin-left: 200px;" width="500">
 </p>
 <br><br>
-
-Now answering the question of which cluster is which is easy with the **_CellQC_** tSNEs where the mitochondrial and ribosomal gene expression of each cell is made visible.  In the example below, the ```Mitochondrial gene expression``` tSNE shows that cells in the smaller cluster express mitochondrial genes at a very high level, suggesting they are likely damaged. The same conclusion can be reached looking at the ```Ribosomal gene expression``` tSNE where cells in the smaller cluster expresses ribosomal genes at a very low level.  
-
-
-This can be further verified by looking at the ```Complexity score``` tSNE. This score measures the total number of mitochondrial and ribosomal genes expressed in a cell. Cells that express a large number of these genes are more likely to be metabolically active, undamaged cells while those that only express a few are likely not. In the  ```Complexity score``` plot, the cluster suspected to be damaged contains cells with very low complexities verifying by another metric that the cells are likely damaged. 
-<br>
-Together, these metrics are used by the ```limiric``` algorithm to annotate the _damaged_ cells, as shown in the fourth and final tSNE. So in summary, by looking at the ```limiric``` tSNE plots, we can immediately tell that we have a small cluster of cells that are likley damaged and should be removed from the sample. This makes sense as, unless something went drastically wrong during sample preparations, you expect there to be far more healthy than damaged cells in your scRNA-seq data.
-<br>
-<br>
-
 
 
 ### **_Filtered_** 
@@ -229,16 +263,19 @@ The main output of the ```limiric``` function comes in the form of a ```barcodes
 | AAACCTGCACATTAGC| damaged |
 | ... | ... |
 
+<br>
+<br>
 
 Additionally, ```limiric``` will output a ```Seurat``` object with ready-filtered barcodes for seamless integration at the start of a ```Seurat``` pre-processing workflow. 
 
+<br>
+<br>
 
-
-## More Information
+## Extended usage
 #### _Slightly-less_ Basic Usage
 
-1. Perform ambient RNA correction
-It is highly advised to correct for ambient RNA in your scRNAseq data. If you haven't already performed some kind of correction,
+##### 1. Perform ambient RNA correction
+Standard good practice highly advises to correct for ambient RNA in your scRNAseq data. If you haven't already performed some kind of correction,
 the ```SoupX``` parameter allows you to do so. This will occur before anything else in the ```limiric``` workflow.
 
 ```R
@@ -251,10 +288,9 @@ SRR1234567 <- limiric(
 )
 ```
 
-
-2. Isolate immune cells
 <br>
 
+##### 2. Isolate immune cells
 If you have a sample where only the immune cells are of interest, include the following ```IsolateCD45```
 parameter. This will isolate the immune cells present in the sample, then identify damaged cells.
 
@@ -279,21 +315,21 @@ SRR1234567 <- limiric(
 > └── Filtered
 > ```
 
-### **_IMCQC_**
-This output, like RBCQC, contains a scatter plot showing the removed cell in blue and the retained cells in grey.
+<table>
+  <tr>
+    <td>
+      This output, like RBCQC, contains a scatter plot showing the removed cell in blue and the retained cells in grey. 
+    </td>
+    <td>
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/IMCQC.png" alt="Scatter plot" style="float: right; margin-left: 200px;" width="500">
+    </td>
+  </tr>
+</table>
 
 <br>
-
-<p align="center">
-  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/IMCQC.png" height="500" />
-</p>
-
-<br>
 <br>
 
-3. Combine ```limiric``` annotations with ```DropletQC```
-<br>
-
+##### 3. Combine ```limiric``` annotations with ```DropletQC```
 Detect damaged cells and compare results with those from ```DropletQC```.
 
 ```R
@@ -315,19 +351,25 @@ SRR1234567 <- limiric(
 > └── Filtered
 > ```
 >
-### **_DropletQC_**
-This will output a scatter plot and tSNE showing the cells annotated as _damaged_ by both ```limiric``` and ```DropletQC```.
 
 <br>
 
-<p align="center">
-  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/DropletQC.png" height="500" />
-</p>
+<table>
+  <tr>
+    <td>
+      This will output a scatter plot and tSNE showing the cells annotated as damaged by both <code>limiric</code> and <code>DropletQC</code>. 
+    </td>
+    <td>
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/DropletQC.png" alt="Scatter plot" style="float: right; margin-left: 500px;" width="1000">
+    </td>
+  </tr>
+</table>
+
+
 
 <br>
 
-4. Combine previous conditions
-<br>
+##### 4. Combine previous condition
 Perform ambient RNA correction with ```SoupX```, filter red blood cells, isolate immune cells, detect damaged cells, and compare against ```DropletQC```.
 
 ```R
@@ -357,7 +399,7 @@ SRR1234567 <- limiric(
 <br>
 
 
-5. Process multiple samples with the same conditions as in **Example 4**
+##### 5. Process multiple samples with the same conditions as in **Example 4**
 
 ```R
 sample_list <- list(
@@ -392,6 +434,11 @@ sample_list <- list(
 GSE1234567 <- limiric(sample_list = sample_list)
 ```
 
+<br>
+<br>
+
+
+
 ## Input file format
 
 If your alignment output files are not zipped (end with a ```.gz``` extension), you will need to find a way to do this 
@@ -424,6 +471,11 @@ cd /mnt/c/Users/path/to/directory
 gzip *
 
 ```
+
+<br>
+<br>
+
+
 
 ## Downstream
 
