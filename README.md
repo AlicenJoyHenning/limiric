@@ -12,7 +12,7 @@
 
 ```limiric``` automates the sample-specific detection of damaged cells in one fast-performing and highly-reproducible function. It operates on the basic principle that damaged and healthy cells can be differentiated in lower dimensional space by their mitochondrial and ribosomal gene expression profiles and complexities. The package was developed around the community standard ```Seurat``` suite and is designed to incoporate seemlessly into a user's pre-existing ```Seurat``` workflow. However, the main output of ```limiric``` is ```Seurat``` independent and can be used in any single cell analysis platform. 
 
-In addition to predicting damaged cells, ```limiric``` can perform other pre-processing tasks including removing red blood cells, performing ambient RNA correction with the ```SoupX``` package, and isolating immune cells. There is also the option for it to be used in combination with the ```DropletQC``` package which, while not a requirement as measures of spliced and unspliced RNA are not always available, refines ```limiric```'s damaged cell detection. 
+In addition to predicting damaged cells, ```limiric``` can perform other pre-processing tasks including removing red blood cells, correcting for ambient RNA with the ```SoupX``` package, and isolating immune cells. There is also the option for it to be used in combination with the ```DropletQC``` package which, while not a requirement as measures of spliced and unspliced RNA are not always available, refines ```limiric```'s damaged cell detection. 
 
 
 
