@@ -3,7 +3,7 @@
 </p>
 
 ## Contents
-[Description](#description) | [Installation](#installation) | [Quickstart](#quickstart)  |  [Basic usage](#basic-usage)  |   [Extended usage](#extended-usage) | [Output explained](#output-explained)  |  [Input file format](#input-file-format) | [Downstream](#downstream)
+[Description](#description) | [Installation](#installation) | [Basic usage](#quickstart)  | [Extended usage](#extended-usage) | [Output explained](#output-explained)  |  [Input file format](#input-file-format) | [Downstream](#downstream)
 
 
 ## Description
