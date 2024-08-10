@@ -1,5 +1,9 @@
-^limiric\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
+^\.gitignore$
+^\.git$
+^\.DS_Store$
+^Thumbs\.db$
+^README\.md$
 ^LICENSE\.md$
-^doc$
-^Meta$
+^vignettes$
