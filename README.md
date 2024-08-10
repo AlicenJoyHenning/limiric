@@ -547,6 +547,10 @@ seurat_filtered <- subset(seurat, limiric == "cell")
 seurat_filtered$limiric <- NULL # once used, remove the column 
 ```
 
+<br>
+<br>
+
+---
 
 [![R-CMD-check](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml)
 [![license](https://img.shields.io/github/license/AlicenJoyHenning/limiric)](https://github.com/AlicenJoyHenning/limiric/LICENSE.md)
