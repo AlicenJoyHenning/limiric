@@ -400,12 +400,12 @@ before using ```limiric```. If you have a ```Linux``` or ```mac``` machine you c
 <br>
 
 ```bash
-cd path/to/files
+cd path/to/directory
 gzip * 
 ```
 > This assumes that your files are the only items inside the directory. As with the standard output of many alignment algorithms such as ```STARsolo``` and ```CellRanger```, each sample should
 > be stored in its own directory with the following file naming convention :
->
+> ```
 > path/
 > |
 > ├── matrix.mtx
@@ -413,10 +413,17 @@ gzip *
 > ├── barcodes.tsv
 > |
 > └── features.tsv
+> ```
 
 <br>
 
-If you have a ```Windows``` machine, Lord be with you. No, there are many ways to get around it with the simplest probably being to install ```Windows Subsystem for Linux```  [🐧](https://learn.microsoft.com/en-us/windows/wsl/install) that creates a new terminal environment for you with ```Linux``` capabilites. From there, you can do the same as above.
+If you have a ```Windows``` machine, the simplest solution is to install ```Windows Subsystem for Linux```  [🐧](https://learn.microsoft.com/en-us/windows/wsl/install) that creates a new terminal environment for you with ```Linux``` capabilites. From there, you can do the same as above. Note that ```WSL``` uses a different path structure to access file systems where ```Windows``` directories are mounted under ```/mnt/``` 
+
+```bash
+cd /mnt/c/Users/path/to/directory
+gzip *
+
+```
 
 ## Downstream
 
