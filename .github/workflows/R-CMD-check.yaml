@@ -17,11 +17,21 @@ jobs:
       run: |
         sudo apt-get install -y libmagick++-dev
 
+    - name: Check internet connection
+      run: |
+        ping -c 3 cran.r-project.org
+
     - name: Install R package dependencies
       run: |
         install.packages('devtools')
         install.packages('remotes')
         remotes::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+
+    - name: Retry installing devtools if failed
+      if: failure()
+      run: |
+        install.packages('devtools')
       shell: Rscript {0}
 
     - name: Install DropletQC from GitHub
