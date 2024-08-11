@@ -28,3 +28,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Additional_repositories: 
+    https://powellgenomicslab.github.io/drat
