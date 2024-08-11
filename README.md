@@ -551,7 +551,7 @@ limiric_visual <- DimPlot(seurat, group.by = limiric)
 seurat_filtered <- subset(seurat, limiric == "cell")
 seurat_filtered$limiric <- NULL # once used, remove the column 
 ```
-## R-CMD Checks 
+### R-CMD Checks 
 
 <br>
 <br>
