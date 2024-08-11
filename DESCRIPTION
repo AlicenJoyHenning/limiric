@@ -23,10 +23,8 @@ Imports:
     Seurat,
     SoupX
 Remotes:
-    powellgenomicslab/DropletQC
+    powellgenomicslab/DropletQC@main
 Suggests: 
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-Additional_repositories: 
-    https://powellgenomicslab.github.io/drat
