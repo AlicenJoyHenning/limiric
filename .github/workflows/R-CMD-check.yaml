@@ -17,29 +17,27 @@ jobs:
       run: |
         sudo apt-get install -y libmagick++-dev
 
-    - name: Install R package dependencies with retries
+    - name: Check internet connection
       run: |
-        RETRY_COUNT=5
-        RETRY_DELAY=10
-        for i in $(seq 1 $RETRY_COUNT); do
-          Rscript -e 'install.packages("devtools")' && break || sleep $RETRY_DELAY
-        done
-        for i in $(seq 1 $RETRY_COUNT); do
-          Rscript -e 'install.packages("remotes")' && break || sleep $RETRY_DELAY
-        done
-        for i in $(seq 1 $RETRY_COUNT); do
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)' && break || sleep $RETRY_DELAY
-        done
-      shell: bash
+        ping -c 3 cran.r-project.org
 
-    - name: Install DropletQC from GitHub with retries
+    - name: Install R package dependencies
       run: |
-        RETRY_COUNT=5
-        RETRY_DELAY=10
-        for i in $(seq 1 $RETRY_COUNT); do
-          Rscript -e 'devtools::install_github("powellgenomicslab/DropletQC")' && break || sleep $RETRY_DELAY
-        done
-      shell: bash
+        install.packages('devtools')
+        install.packages('remotes')
+        remotes::install_deps(dependencies = TRUE)
+      shell: Rscript {0}
+
+    - name: Retry installing devtools if failed
+      if: failure()
+      run: |
+        install.packages('devtools')
+      shell: Rscript {0}
+
+    - name: Install DropletQC from GitHub
+      run: |
+        devtools::install_github("powellgenomicslab/DropletQC")
+      shell: Rscript {0}
 
     - name: Check package
       run: |
