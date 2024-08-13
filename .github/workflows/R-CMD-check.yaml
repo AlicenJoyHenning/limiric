@@ -41,9 +41,9 @@ jobs:
 
       - name: Install CRAN and GitHub dependencies
         run: |
-          install.packages('devtools')
-          devtools::install_github('powellgenomicslab/DropletQC')
-          devtools::install_deps(dependencies = TRUE)
+          R -e "install.packages('devtools')"
+          R -e "devtools::install_github('powellgenomicslab/DropletQC')"
+          R -e "devtools::install_deps(dependencies = TRUE)"
 
       - uses: r-lib/actions/check-r-package@v2
         with:
