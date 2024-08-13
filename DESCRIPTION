@@ -14,7 +14,6 @@ Depends:
 LazyData: true
 Imports: 
     cowplot,
-    devtools,
     dplyr,
     DropletQC,
     ggplot2,
@@ -27,5 +26,6 @@ Remotes:
     powellgenomicslab/DropletQC@main
 Suggests: 
     knitr,
+    devtools,
     rmarkdown
 VignetteBuilder: knitr

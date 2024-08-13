@@ -2,7 +2,6 @@
 
 export(limiric)
 export(limiricCore)
-import(devtools)
 import(DropletQC)
 import(Matrix)
 import(Seurat)

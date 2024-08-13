@@ -39,9 +39,12 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Install CRAN and GitHub dependencies
+      - name: Install CRAN dependencies
         run: |
-          R -e "install.packages('devtools')"
+          R -e "install.packages('devtools', repos='https://cloud.r-project.org')"
+
+      - name: Install GitHub dependencies
+        run: |
           R -e "devtools::install_github('powellgenomicslab/DropletQC')"
           R -e "devtools::install_deps(dependencies = TRUE)"
 
