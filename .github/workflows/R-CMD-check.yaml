@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [main, master]
 
+name: R-CMD-check.yaml
+
 permissions: read-all
 
 jobs:
@@ -37,13 +39,10 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
-      - name: Install CRAN dependencies
-        run: |
-          R -e "install.packages('devtools', repos='https://cloud.r-project.org')"
-
-      - name: Install GitHub dependencies
-        run: |
-          R -e "devtools::install_deps(dependencies = TRUE)"
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
 
       - uses: r-lib/actions/check-r-package@v2
         with:
