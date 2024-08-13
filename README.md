@@ -1,6 +1,12 @@
+[![R-CMD-check](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml)
+
+<br>
+
 <p align="center">
-  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/limiric.png" alt="limiric_logo" height="140" width="380">
+  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/limiric.png" alt="limiric_logo" height="140" width="380">
 </p>
+
+
 
 ## Contents
 [Description](#description) | [Installation](#installation) | [Basic usage](#quickstart)  | [Extended usage](#extended-usage) | [Output explained](#output-explained)  |  [Input file format](#input-file-format) | [Downstream](#downstream)
@@ -188,7 +194,7 @@ GSE1234567 <- limiric(sample_list = sample_list)
 
 ### Test run 
 
-Download the ```matrix.mtx```, ```barcodes.tsv```. and ```features.tsv``` files from this location ([files](https://github.com/AlicenJoyHenning/limiric/tree/master/testrun)) and store them in a local directory. For demonstration purposes, we will assume this directory is ```/home/user/scRNA-seq/testrun/```. From here, you can run the basic ```limiric``` function in your ```R``` environment where the terminal output should look as indicated below. For further verification, ensure the output ```Testrun_CellQC.png``` is identicial to that shown [here](https://github.com/AlicenJoyHenning/limiric/blob/master/testrun/Testrun_CellQC.png). 
+Download the ```matrix.mtx```, ```barcodes.tsv```. and ```features.tsv``` files from this location ([files](https://github.com/AlicenJoyHenning/limiric_testdata/tree/main/testrun)) and store them in a local directory. For demonstration purposes, we will assume this directory is ```/home/user/scRNA-seq/testrun/```. From here, you can run the basic ```limiric``` function in your ```R``` environment where the terminal output should look as indicated below. For further verification, ensure the output ```Testrun_CellQC.png``` is identicial to that shown [here](https://github.com/AlicenJoyHenning/limiric_testdata/blob/main/testrun/Testrun_CellQC.png). 
 
 ```R
 
@@ -251,7 +257,7 @@ Before damaged cells can be identified, ```limiric```first removes red blood cel
       The output here comes in the form of a scatter plot where the red blood cells are coloured in blue. The percentage of the total cells that were removed is also given in the plot. 
     </td>
     <td>
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/RBCQC.png" alt="Scatter plot" style="float: right; margin-left: 200px;" width="500">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/RBCQC.png" alt="Scatter plot" style="float: right; margin-left: 200px;" width="500">
     </td>
   </tr>
 </table>
@@ -279,7 +285,7 @@ Now answering the question of which cluster is which is easy with the <code>limi
       A <code>Mitochondrial gene expression</code> tSNE shows that cells in the smaller cluster express mitochondrial genes at a very high level, suggesting they are likely damaged.
     </td>
     <td style="vertical-align: top;">
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/mi.png" alt="Mitochondrial gene expression tSNE" width="1500">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/mi.png" alt="Mitochondrial gene expression tSNE" width="1500">
     </td>
   </tr>
   <tr>
@@ -287,7 +293,7 @@ Now answering the question of which cluster is which is easy with the <code>limi
       The same conclusion can be reached looking at the <code>Ribosomal gene expression</code> tSNE where cells in the smaller cluster express ribosomal genes at a very low level.
     </td>
     <td style="vertical-align: top;">
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/ri.png" alt="Ribosomal gene expression tSNE" width="1500">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/ri.png" alt="Ribosomal gene expression tSNE" width="1500">
     </td>
   </tr>
   <tr>
@@ -295,7 +301,7 @@ Now answering the question of which cluster is which is easy with the <code>limi
       The <code>Complexity score</code> measures the total number of mitochondrial and ribosomal genes expressed in a cell. Cells that express a large number of these genes are more likely to be metabolically active, undamaged cells while those that only express a few are likely not. In the <code>Complexity score</code> tSNE, the smaller cluster contains cells with very low complexities. This verifies by another metric that these cells are likely damaged.
     </td>
     <td style="vertical-align: top;">
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/com.png" alt="Complexity tSNE" width="1500">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/com.png" alt="Complexity tSNE" width="1500">
     </td>
   </tr>
 </table>
@@ -305,7 +311,7 @@ Together, these metrics are used by the ```limiric``` algorithm to annotate the 
 <br>
 <br>
 <p align="center">
-  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/CellQC.png" style="float: right; margin-left: 200px;" width="500">
+  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/CellQC.png" style="float: right; margin-left: 200px;" width="500">
 </p>
 <br><br>
 
@@ -383,7 +389,7 @@ SRR1234567 <- limiric(
       This output, like RBCQC, contains a scatter plot showing the removed cell in blue and the retained cells in grey. 
     </td>
     <td>
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/IMCQC.png" alt="Scatter plot" style="float: right; margin-left: 200px;" width="500">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/IMCQC.png" alt="Scatter plot" style="float: right; margin-left: 200px;" width="500">
     </td>
   </tr>
 </table>
@@ -422,7 +428,7 @@ SRR1234567 <- limiric(
       This will output a scatter plot and tSNE showing the cells annotated as damaged by both <code>limiric</code> and <code>DropletQC</code>. 
     </td>
     <td>
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/images/DropletQC.png" alt="Scatter plot" style="float: right; margin-left: 500px;" width="1000">
+      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/DropletQC.png" alt="Scatter plot" style="float: right; margin-left: 500px;" width="1000">
     </td>
   </tr>
 </table>
@@ -562,13 +568,4 @@ limiric_visual <- DimPlot(seurat, group.by = limiric)
 seurat_filtered <- subset(seurat, limiric == "cell")
 seurat_filtered$limiric <- NULL # once used, remove the column 
 ```
-### R-CMD Checks 
-
-<br>
-<br>
-
----
-
-[![R-CMD-check](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml)
-[![license](https://img.shields.io/github/license/AlicenJoyHenning/limiric)](https://github.com/AlicenJoyHenning/limiric/LICENSE.md)
 
