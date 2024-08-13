@@ -1,45 +1,51 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
 name: R-CMD-check
 
-on: [push, pull_request]
+permissions: read-all
 
 jobs:
   R-CMD-check:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macos-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'release'}
+          - {os: ubuntu-latest,   r: 'oldrel-1'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-    - name: Set up R
-      uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get install -y libmagick++-dev
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
 
-    - name: Check internet connection
-      run: |
-        ping -c 3 cran.r-project.org
+      - name: Install CRAN and GitHub dependencies
+        run: |
+          install.packages('devtools')
+          devtools::install_github('powellgenomicslab/DropletQC')
+          devtools::install_deps(dependencies = TRUE)
 
-    - name: Install R package dependencies
-      run: |
-        install.packages('devtools')
-        install.packages('remotes')
-        remotes::install_deps(dependencies = TRUE)
-      shell: Rscript {0}
-
-    - name: Retry installing devtools if failed
-      if: failure()
-      run: |
-        install.packages('devtools')
-      shell: Rscript {0}
-
-    - name: Install DropletQC from GitHub
-      run: |
-        devtools::install_github("powellgenomicslab/DropletQC")
-      shell: Rscript {0}
-
-    - name: Check package
-      run: |
-        R CMD check --no-manual --as-cran
-      shell: Rscript {0}
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
