@@ -27,6 +27,5 @@ Imports:
     SoupX
 Suggests: 
     knitr,
-    devtools,
     rmarkdown
 VignetteBuilder: knitr
