@@ -22,7 +22,6 @@
 #'
 #' @import cowplot
 #' @importFrom dplyr %>% pull group_by summarise mutate arrange slice case_when
-#' @import DropletQC
 #' @import ggplot2
 #' @import magick
 #' @import Matrix
@@ -77,10 +76,6 @@ limiricCore <- function(
 
   set.seed(7777)
 
-  # Check if DropletQC is installed
-  if (DropletQC && !requireNamespace("DropletQC", quietly = TRUE)) {
-    stop("The 'DropletQC' package is not installed. Please install it using devtools::install_github('powellgenomicslab/DropletQC', build_vignettes = TRUE).")
-  }
 
   # Preparation ####
   # If an Organisms was added, check if is is valid
@@ -636,7 +631,7 @@ limiricCore <- function(
     edDf <- data.frame(nf = as.numeric(Seurat$nf), umi = Seurat$nCount_RNA)
 
     # Use DropletQC function to identify empty droplets
-    edresultsDf <- identify_empty_drops(edDf)
+    edresultsDf <- identify_empty_droplets(edDf)
 
     # Identify damaged cells
     # Create vector of length same as cell number (runs default with no adjustment on groups of cells, need to fill this column requirement while getting results for that sample as a whole)
@@ -658,7 +653,7 @@ limiricCore <- function(
     sink(tmp_conn, type = "message")
 
     # Call the (now silenced) verbose function
-    dcresultsDf <- identify_damaged_cells(dcDf)
+    dcresultsDf <- identify_damage_cells(dcDf)
 
     # Reset output redirection
     sink(NULL)

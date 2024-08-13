@@ -25,7 +25,6 @@
 #'
 #' @import cowplot
 #' @importFrom dplyr %>% pull group_by summarise mutate arrange slice case_when
-#' @import DropletQC
 #' @import ggplot2
 #' @import magick
 #' @import Matrix

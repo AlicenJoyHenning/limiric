@@ -1,10 +1,12 @@
 Package: limiric
-Title: ScRNA-seq Quality Control by Damaged Cell Detection
+Title: Damaged Cell Detection for Single Cell RNA Sequencing Quality Control
 Version: 1.0.0
 Authors@R: 
-    person("Alicen", "Henning", email = "alicen.jhb@gmail.com", role = c("aut", "cre"))
+    person("Alicen", "Henning", email = "alicen.jhb@gmail.com", role = c("aut", "cre", "cph"))
 Description: 
-    Quality control package for high precision, sample-specific damaged cell detection through low dimension mitochondrial and ribosomal cluster selection.
+    A quality control tool for single cell RNA sequencing that enables
+    high precision, sample-specific damaged cell detection through 
+    low-dimension mitochondrial and ribosomal cluster selection.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -15,15 +17,14 @@ LazyData: true
 Imports: 
     cowplot,
     dplyr,
-    DropletQC,
     ggplot2,
+    ks,
     magick,
+    mclust,
     Matrix,
     png,
     Seurat,
     SoupX
-Remotes:
-    powellgenomicslab/DropletQC@main
 Suggests: 
     knitr,
     devtools,

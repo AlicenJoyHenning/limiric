@@ -43,7 +43,6 @@ jobs:
 
       - name: Install GitHub dependencies
         run: |
-          R -e "devtools::install_github('powellgenomicslab/DropletQC')"
           R -e "devtools::install_deps(dependencies = TRUE)"
 
       - uses: r-lib/actions/check-r-package@v2
