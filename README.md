@@ -16,7 +16,7 @@
 
 <br>
 
-```limiric``` is a quality control package for identifying damaged cells in scRNA-seq data. Many scRNA-seq quality control tools have specialized functions to identify droplets that contain more than one cell or no cells, but few are able to identify those that contain damaged cells. Damaged cell detection is more often achieved by setting thresholds for metrics such as average mitochondrial gene expression and UMI counts per barcode. These thresholds, even when dynamically calculated, vary across samples, cell types, tissues, treatment conditions, and species, resulting in many true cells being excluded from downstream analysis. But searching for true damaged droplets in a sample-specific manner is tedious and not always intuitive, leading to user-defined filtering that lacks reproducibility. 
+```limiric``` is a quality control package for identifying damaged cells in scRNA-seq data. Many scRNA-seq quality control tools are designed to identify droplets that contain more than one cell (doublets) or no cells (empty droplets), but few are specialised in identifing those that contain damaged cells. Damaged cell detection is more often achieved by setting thresholds for metrics such as average mitochondrial gene expression and UMI counts per barcode. These thresholds, even when dynamically calculated, vary across samples, cell types, tissues, treatment conditions, and species, resulting in many true cells being excluded from downstream analysis. But searching for true damaged droplets in a sample-specific manner is tedious and not always intuitive, leading to user-defined filtering that lacks reproducibility. 
 
 <br>
 
@@ -24,7 +24,7 @@
 
 <br>
 
-In addition to predicting damaged cells, ```limiric``` can perform other pre-processing tasks including removing red blood cells, correcting for ambient RNA (```SoupX```), and isolating immune cells. There is also the option for combining results with ```DropletQC```, a community-accepted package that detects empty and damaged cells by their nuclear fraction scores. Combining the diagnostic power of multiple nonredundant quality control metrics, such as those offered by ```limiric``` and ```DropletQC```, further increases confidence in true damaged cell detection. This being said, ```limiric``` performs effectively without ```DropletQC```, so this feature- while advised- is not essential.
+In addition to predicting damaged cells, ```limiric``` can perform other pre-processing tasks including removing red blood cells, correcting for ambient RNA (```SoupX```), and isolating immune cells. There is also the option for combining results with ```DropletQC```, a community-accepted package that identifies empty and damaged droplets by nuclear fraction scores. Combining the diagnostic power of multiple nonredundant quality control metrics, such as those offered by ```limiric``` and ```DropletQC```, further increases confidence in true damaged cell detection. This being said, ```limiric``` performs effectively without ```DropletQC```, so this feature- while advised- is not essential.
 
 <br>
 
