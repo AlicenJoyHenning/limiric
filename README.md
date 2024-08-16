@@ -20,7 +20,7 @@
 
 <br>
 
-```limiric``` automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the basic principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, a complexity that is greatly simplified by clustering in lower dimensional space. This is achieved by applying the Louvain algorithm to a shared nearest neighbor graph constructed for each droplet using the ```Ensembl```-defined subset of genes related to mitochondrial and ribosomal structure and function. 
+```limiric``` automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the basic principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, and that this complexity can be greatly simplified by clustering in lower dimensional space. This is achieved by applying the Louvain algorithm to a shared nearest neighbor graph constructed for each droplet using the expression of the ```Ensembl```-defined subset of mitochondrial and ribosomal genes. 
 
 <br>
 
