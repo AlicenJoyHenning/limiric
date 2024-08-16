@@ -20,15 +20,15 @@
 
 <br>
 
-```limiric``` automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the basic principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, a complexity that is greatly simplified by clustering in lower dimensional space. Here, dimensionality reduction is performed by applying the Louvain algorithm to a shared nearest neighbor graph constructed for each droplet using the ```Ensembl```-defined subset of genes related to mitochondrial and ribosomal structure and function. 
+```limiric``` automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the basic principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, a complexity that is greatly simplified by clustering in lower dimensional space. This is achieved by applying the Louvain algorithm to a shared nearest neighbor graph constructed for each droplet using the ```Ensembl```-defined subset of genes related to mitochondrial and ribosomal structure and function. 
 
 <br>
 
-In addition to predicting damaged cells, ```limiric``` can perform other pre-processing tasks including removing red blood cells, correcting for ambient RNA (```SoupX```), and isolating immune cells. There is also the option for combining results with ```DropletQC```, a community-accepted package that identifies empty and damaged droplets by nuclear fraction scores. Combining the diagnostic power of multiple nonredundant quality control metrics, such as those offered by ```limiric``` and ```DropletQC```, further increases confidence in true damaged cell detection. This being said, ```limiric``` performs effectively without ```DropletQC```, so this feature- while advised- is not essential.
+In addition to predicting damaged cells, ```limiric``` can perform other pre-processing tasks including removing red blood cells, correcting for ambient RNA (```SoupX```), and isolating immune cells. There is also the option to combine results with ```DropletQC```, a community-accepted package that identifies empty and damaged droplets by nuclear fraction scores. Combining the diagnostic power of these nonredundant quality control metrics increases confidence in true damaged cell detection. This being said, ```limiric``` performs effectively without ```DropletQC```, so this feature- while advised- is not essential.
 
 <br>
 
-The package was developed around the community standard ```Seurat``` suite and is designed to incorporate seemlessly into a user's pre-existing ```Seurat``` workflow. However, the main output of ```limiric``` is a standard, two-column ```csv``` that gives the cell barcode sequences alongside their assocaited ```limiric``` annotations- a format that can easily be used in any exisiting or future scRNA-seq analysis tool. 
+The package was developed around the community standard ```Seurat``` suite can be incorporated seemlessly into a user's pre-existing ```Seurat``` workflow. However, the main output of ```limiric``` is a standard, two-column ```csv``` that can be used in any platform alongside any exisiting or future scRNA-seq analysis tool. 
 
 <br>
 
