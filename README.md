@@ -414,8 +414,11 @@ SRR1234567 <- limiric(
 > ```
 > OutputPath/
 > ├── CellQC
+> |
 > ├── DropletQC
+> |
 > ├── RBCQC
+> |
 > └── Filtered
 > ```
 >
