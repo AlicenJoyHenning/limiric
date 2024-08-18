@@ -47,7 +47,7 @@ create_dropletqc_plot <- function(Seurat,
           panel.border = element_rect(colour = "black", fill = NA, linewidth = 1))
 
   # Save the cluster plot
-  ggsave(file.path(output_path, "droplet_qc", paste0(project_name, "_clusters.png")),
+  ggsave(file.path(output_path, "DropletQC", paste0(project_name, "_clusters.png")),
          plot = cluster_plot, width = 5, height = 3, dpi = 300)
 
 
