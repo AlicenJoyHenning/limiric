@@ -100,7 +100,7 @@ create_dropletqc_plot <- function(Seurat,
   final_plot <- final_plot + theme(plot.background = element_rect(fill = "white", color = "white"))
 
   # Save the final plot
-  ggsave(file.path(output_path, "droplet_qc", paste0(project_name, ".png")), plot = final_plot, width = 12, height = 10, dpi = 300)
+  ggsave(file.path(output_path, "DropletQC", paste0(project_name, ".png")), plot = final_plot, width = 12, height = 10, dpi = 300)
 
   invisible()
 
