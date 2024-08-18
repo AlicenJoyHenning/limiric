@@ -324,6 +324,8 @@ limiric_core <- function(
   # Redefine starting cells to account for possible RBC & IMC filtering
   initial_cells <- length(Cells(Seurat))
 
+  cat("check one\n")
+
   # Use the limiric_calculation() function to identify damaged cells
   limiric_output <- limiric_calculation(organism = organism,
                                   Seurat = Seurat,
