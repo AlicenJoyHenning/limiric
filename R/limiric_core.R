@@ -149,7 +149,7 @@ limiric_core <- function(
 
   if (soupx) {
 
-     cat("\u2714 Beginning SoupX correction...\n")
+    cat("\u2714 Beginning SoupX correction...\n")
 
     # Use the soupx_calculation() function to run SoupX ambient RNA correction
     Seurat <- soupx_calculation(raw_path = raw_path,
@@ -327,7 +327,7 @@ limiric_core <- function(
   initial_cells <- length(Cells(Seurat))
 
   # Use the limiric_calculation() function to identify damaged cells
-  cat("\n Identifying damaged cells")
+  
   limiric_output <- limiric_calculation(organism = organism,
                                   Seurat = Seurat,
                                   annotations = annotations,
