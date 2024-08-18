@@ -121,7 +121,7 @@ limiric_calculation <- function(organism,
 
   # Calculate complexity
   seurat_matrix <- Seurat::GetAssayData(limiric, layer = "data")
-  
+  seurat_matrix <- as.matrix(seurat_matrix)
   cat("Dimensions of seurat_matrix:", dim(seurat_matrix), "\n")
   cat("Structure of seurat_matrix:\n")
   str(seurat_matrix)
