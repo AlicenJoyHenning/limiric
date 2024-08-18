@@ -27,7 +27,7 @@ frame with the same dimensions input to the \code{nf_umi_ed_ct} argument, with
 "damaged_cell" now recorded in the third column.
 }
 \description{
-powellgenomicslab/DropletQC function uses a combination of the cell UMI counts and the
+This function uses a combination of the cell UMI counts and the
 nuclear fraction score to assign each cell one of two values; "cell" or
 "damaged_cell". This is based on the idea that damaged cells have a lower
 UMI count and higher nuclear fraction than whole cells. The expected input

@@ -1,8 +1,14 @@
+# This file includes code derived from the DropletQC package.
+#
+# Copyright (c) 2021 Walter Muskovic
+#
+# The code is licensed under the MIT license. See the LICENSE file for more details.
+
 #' Identify damage cells
 #'
 #' @name identify_damage_cells
 #'
-#' @description powellgenomicslab/DropletQC function uses a combination of the cell UMI counts and the
+#' @description This function uses a combination of the cell UMI counts and the
 #'   nuclear fraction score to assign each cell one of two values; "cell" or
 #'   "damaged_cell". This is based on the idea that damaged cells have a lower
 #'   UMI count and higher nuclear fraction than whole cells. The expected input

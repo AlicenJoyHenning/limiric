@@ -113,8 +113,7 @@ limiric_core <- function(
     Seurat <- suppressWarnings(CreateSeuratObject(
       counts = table_of_counts,
       project = project_name,
-      min.cells = min_cells,
-      min.features = 50
+      min.cells = min_cells
     ))
 
     # Store unfiltered cell barcodes
@@ -327,7 +326,7 @@ limiric_core <- function(
   initial_cells <- length(Cells(Seurat))
 
   # Use the limiric_calculation() function to identify damaged cells
-  
+
   limiric_output <- limiric_calculation(organism = organism,
                                   Seurat = Seurat,
                                   annotations = annotations,

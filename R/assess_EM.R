@@ -1,3 +1,9 @@
+# This file includes code derived from the DropletQC package.
+#
+# Copyright (c) 2021 Walter Muskovic
+#
+# The code is licensed under the MIT license. See the LICENSE file for more details.
+
 #' assess_EM
 #'
 #' Assess Expectation-Maximization model results to assign cells as damaged or not

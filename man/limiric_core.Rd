@@ -44,7 +44,7 @@ Core helper function enabling the limiric modules to run
 SRR1234567 <- limiric_core(
   project_name  = "SRR1234567",
   filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-  soupx        = TRUE,
+  soupx         = TRUE,
   raw_path      = "/home/user/alignment/SRR1234567/raw/",
   droplet_qc    = TRUE,
   isolate_cd45  = TRUE,

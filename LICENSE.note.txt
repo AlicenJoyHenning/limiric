@@ -1,0 +1,5 @@
+The `limiric` package is licensed under the GPL-3 license.
+
+This package also includes code derived from the DropletQC package, which is licensed under the MIT license. The relevant code is clearly marked in the source files. The full text of the MIT license can be found in the file `LICENSE-MIT.md`.
+
+Users of the package must comply with the terms of both the GPL-3 and MIT licenses where applicable.

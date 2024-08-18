@@ -1,13 +1,18 @@
 Package: limiric
-Title: Damaged Cell Detection for Single Cell RNA Sequencing Quality Control
+Title: Damaged Cell Detection for Single-Cell RNA Sequencing Quality Control
 Version: 1.0.0
 Authors@R: 
-    person("Alicen", "Henning", email = "alicen.jhb@gmail.com", role = c("aut", "cre", "cph"))
+    c(
+        person("Alicen", "Henning", email = "alicen.jhb@gmail.com", role = c("aut", "cre", "cph")),
+        person("Walter", "Muskovic", role = "cph", comment = "Copyright holder for code derived from DropletQC package")
+    )
 Description: 
-    A quality control tool for single cell RNA sequencing for
-    high precision, sample-specific damaged cell detection through 
-    low-dimension mitochondrial and ribosomal cluster selection.
-License: GPL (>= 3)
+    A quality control tool for high-precision, sample-specific detection of
+    damaged cells in single-cell RNA sequencing (scRNA-seq) data. 
+    The core limiric function processes raw scRNA-seq alignment files to predict 
+    which barcodes correspond to damaged cells and outputs these 
+    predictions in a csv file alongside a filtered Seurat object.
+License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
