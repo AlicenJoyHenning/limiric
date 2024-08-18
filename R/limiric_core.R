@@ -149,6 +149,8 @@ limiric_core <- function(
 
   if (soupx) {
 
+     cat("\u2714 Beginning SoupX correction...\n")
+    
     # Use the soupx_calculation() function to run SoupX ambient RNA correction
     Seurat <- soupx_calculation(raw_path = raw_path,
                                 table_of_counts = table_of_counts,
