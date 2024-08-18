@@ -27,17 +27,16 @@
 #'
 #' @return data frame, the original data frame is returned plus an additional
 #'   column identifying each barcode as a "cell" or "empty_droplet"
+#'
+#' @importFrom ks kdde
+#' @import stats
+#' @importFrom utils globalVariables
+#'
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' data("qc_examples")
-#' gbm <- qc_examples[qc_examples$sample=="GBM",]
-#' gbm.ed <- gbm[,c("nuclear_fraction_droplet_qc","umi_count")]
-#' gbm.ed <- identify_empty_drops(nf_umi = gbm.ed)
-#' head(gbm.ed)
-#' table(gbm.ed$cell_status)
-#' }
+#' @keywords internal
+
+utils::globalVariables(c("umi", "nf", "non_integer_examples", "kdde_0", "kdde_1", "gradient_sign", "nf_cutoff"))
 
 identify_empty_droplets <-
   function(nf_umi,
@@ -49,8 +48,7 @@ identify_empty_droplets <-
            plot_height=13,
            pdf_png = "png"
   ) {
-
-    ## Check and parse arguments
+    # Check and parse arguments
     if (any(class(nf_umi) == "data.frame")) {
 
       # Assume nuclear fraction is in the first column

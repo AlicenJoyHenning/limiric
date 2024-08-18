@@ -4,7 +4,7 @@ Version: 1.0.0
 Authors@R: 
     person("Alicen", "Henning", email = "alicen.jhb@gmail.com", role = c("aut", "cre", "cph"))
 Description: 
-    A quality control tool for single cell RNA sequencing that enables
+    A quality control tool for single cell RNA sequencing for
     high precision, sample-specific damaged cell detection through 
     low-dimension mitochondrial and ribosomal cluster selection.
 License: GPL (>= 3)
@@ -19,7 +19,7 @@ Imports:
     dplyr,
     ggplot2,
     ks,
-    magick,
+    magrittr,
     mclust,
     Matrix,
     png,

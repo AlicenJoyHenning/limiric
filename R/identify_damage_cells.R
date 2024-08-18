@@ -1,89 +1,3 @@
-#' Assess EM model results and assign cells as damaged or not
-#'
-#' @name assess_EM
-#'
-#' @description powellgenomicslab/DropletQC function accepts the EM results for a particular cell type,
-#'  as well as the UMI and nuclear fraction thresholds, and assigns cells as
-#'  "cell" or "damaged_cell" This is a helper function called by
-#'  `identify_damaged_cells` and was not intended for more general use.
-#'
-#' @param em Mclust, result of running EM on the log10(UMI counts) and the
-#'   nuclear fraction to asses whether there is likely to be two cell
-#'   populations; cells and damaged cells, or just cells
-#' @param umi_thresh numeric, percentage of the cell disitribution UMI counts
-#'   which the damaged_cell distribution must be below in order to be accepted
-#'   as damaged cells. For example if the mean UMI count of the distribution fit
-#'   to the cell population is 1,000 and `umi_thresh` is set to 30, the
-#'   damaged_cell distribution mean must be less than 700 to be classified as
-#'   damaged_cells, otherwise all barcodes will be returned as cells
-#' @param nf_thresh numeric, the minimum difference in the nuclear fraction
-#'   score required between the two distributions (cells and damaged_cells) for
-#'   the damaged_cell distribution to be accepted as real
-#'
-#' @return data frame, with three columns containing the log10(UMI counts),
-#'   nuclear fraction score and the assigned cell status; "cell" or
-#'   "damaged_cell"
-#'
-#' @keywords internal
-assess_EM <- function(em, umi_thresh, nf_thresh){
-
-  # Separately for each cell type, assign a barcode as "cell" or "damaged_cell"
-  # based on the EM results using the following sequential procedure:
-
-  # 1. If the EM model selected contained only one distribution, score all
-  # barcodes as "cell".
-  check_1 <- em$G==2
-
-  # 2. If two distirbutions were fit, check the distribution with the higher
-  # nuclear_fraction mean also has a lower umi mean. If this criteria is
-  # satisfied, we consider the population with the lower umi count and higher
-  # nuclear_fraction scores the damaged_cell population and move on to step 3.
-  # If this is not the case we score all barcodes as "cell".
-  if(check_1){
-    nf_means <- em$parameters$mean["nf",]
-    umi_means <- em$parameters$mean["umi",]
-    check_2 <- umi_means[which.max(nf_means)] < umi_means[which.min(nf_means)]
-  } else {
-    check_2 <- FALSE
-  }
-
-  # 3. If 2. was satisfied, we check the damaged_cell nuclear_fraction
-  # distribution mean is at least nf_thresh greater than the cell mean. Also
-  # check the damaged_cell umi distribution mean is at least umi_thresh
-  # percent lower than the cell umi distribution mean. If these two criteria
-  # are satisfied we assign the damaged cells, otherwise all barcodes are
-  # labelled "cell".
-  if(check_2){
-    # Check nuclear fraction threshold is satisfied
-    nf_check <- nf_means[which.max(nf_means)] - nf_means[which.min(nf_means)] > nf_thresh
-    # Check umi threshold is satisfied
-    damaged_cell_umi <- 10^umi_means[which.max(nf_means)]
-    cell_umi <- 10^umi_means[which.min(nf_means)]
-    umi_check <- damaged_cell_umi < (cell_umi - cell_umi*(umi_thresh/100))
-
-    if(all(nf_check, umi_check)){ check_3 <- TRUE } else { check_3 <- FALSE }
-  } else {
-    check_3 <- FALSE
-  }
-
-  # Assign barcodes
-  em_classification <- data.frame(nf = em$data[,"nf"],
-                                  umi = em$data[,"umi"],
-                                  classification= em$classification)
-  row.names(em_classification) <- row.names(em$data)
-
-  if(all(check_1, check_2, check_3)){
-    damaged_cells <- em_classification$classification==which.max(em$parameters$mean["nf",])
-    em_classification$classification[damaged_cells] <- "damaged_cell"
-    em_classification$classification[!damaged_cells] <- "cell"
-  } else {
-    em_classification$classification <- "cell"
-  }
-
-  return(em_classification)
-}
-
-
 #' Identify damage cells
 #'
 #' @name identify_damage_cells
@@ -103,6 +17,9 @@ assess_EM <- function(em, umi_thresh, nf_thresh){
 #'   with the `mclust` package. The best model is selected using the Bayesian
 #'   Information Criterion (BIC). The two populations (cells and damaged cells)
 #'   are assumed to have equal variance (mclust model name "EEI").
+#'   EM Model: It’s used to find and separate multiple groups or clusters within
+#'   the data. It’s not just about finding points that don’t fit in; it’s about
+#'   identifying distinct groups that may exist in the data.
 #'
 #' @param nf_umi_ed_ct data frame, with four columns. The first three columns
 #'   should match the output from the `identify_empty_drops` function. The
@@ -125,114 +42,103 @@ assess_EM <- function(em, umi_thresh, nf_thresh){
 #' @export
 #'
 #' @importFrom ks kde hpi
-#' @importFrom mclust mclustBIC
+#' @importFrom mclust mclustBIC Mclust
+#' @import stats
 #'
-#' @examples
-#' \dontrun{
-#' data("qc_examples")
-#' gbm <- qc_examples[qc_examples$sample=="MB",]
-#' gbm.ed <- gbm[,c("nuclear_fraction_droplet_qc","umi_count")]
-#' gbm.ed <- identify_empty_drops(nf_umi = gbm.ed)
-#' gbm.ed$cell_type <- gbm$cell_type
-#' gbm.ed.dc <- identify_damaged_cells(gbm.ed, verbose=FALSE)
-#' gbm.ed.dc <- gbm.ed.dc[[1]]
-#' head(gbm.ed.dc)
-#' table(gbm.ed.dc$cell_status)
-#' }
-#'
+#' @keywords internal
 
 utils::globalVariables(c("nf_umi"))
 
 identify_damage_cells <- function(nf_umi_ed_ct,
-                                   nf_sep=0.15,
-                                   umi_sep_perc=50, # UMI counts percentage less than cell
-                                   verbose=TRUE){
-
-  # Check nf_umi_ed_ct argument
+                                  nf_sep       = 0.15,  # Nuclear fraction separation threshold
+                                  umi_sep_perc = 50,    # UMI counts percentage less than cell
+                                  verbose      = TRUE   # Print progress messages
+) {
+  # Check if 'nf_umi_ed_ct' is a data frame
   if (any(class(nf_umi_ed_ct) == "data.frame")) {
 
-    # Check four columns exist
-    if(ncol(nf_umi_ed_ct)!=4){
-      stop(paste0("nf_umi_ed_ct should be a data frame with four columns, see function arguments"), call.=FALSE)
+    # Ensure the data frame has exactly four columns
+    if (ncol(nf_umi_ed_ct) != 4) {
+      stop("nf_umi_ed_ct should be a data frame with four columns", call. = FALSE)
     }
 
-    # Assume nuclear fraction is in the first column
-    nf <- unlist(nf_umi_ed_ct[, 1], use.names = FALSE)
-    # Assume UMI counts are in the second column
-    umi <- unlist(nf_umi_ed_ct[, 2], use.names = FALSE)
-    # Assume third column contains "cell" or "empty_droplet"
-    ed <- unlist(nf_umi_ed_ct[, 3], use.names = FALSE)
-    # Assume fourth column contains cell types
-    ct <- unlist(nf_umi_ed_ct[, 4], use.names = FALSE)
+
+    nf  <- unlist(nf_umi_ed_ct[, 1], use.names = FALSE) # Extract the nuclear fraction (1st column)
+    umi <- unlist(nf_umi_ed_ct[, 2], use.names = FALSE) # Extract UMI counts (2nd column)
+    ed  <- unlist(nf_umi_ed_ct[, 3], use.names = FALSE) # Extract cell status ("cell" or "empty_droplet", 3rd column)
+    ct  <- unlist(nf_umi_ed_ct[, 4], use.names = FALSE) # Extract cell types (4th column)
 
 
-    # Check values are reasonable
-    if(any(c(max(nf)>1, min(nf)<0))){
-      warning(paste0("The nuclear fraction values provided in the first column of 'nf_umi_ed_ct' should be between 0 and 1, but values outside this range were identified : minimum = ",min(nf),", maximum = ",max(nf)), call.=FALSE)
+    # Validate nuclear fraction values are between 0 and 1
+    if (any(c(max(nf) > 1, min(nf) < 0))) {
+      warning(paste0("Nuclear fraction values should be between 0 and 1, found range: ", min(nf), " to ", max(nf)), call. = FALSE)
     }
 
-    if(!all(umi == floor(umi))){
+    # Ensure UMI counts are integers
+    if (!all(umi == floor(umi))) {
       non_integer_examples <- which(umi != floor(umi))
-      if(length(non_integer_examples)>5){
+      if (length(non_integer_examples) > 5) {
         non_integer_examples <- non_integer_examples[1:5]
       }
       non_integer_examples <- paste(umi[non_integer_examples], collapse = ",")
-      warning(paste0("Non-integer values detected in the second column of 'nf_umi_ed_ct' (e.g. ",non_integer_examples,") where umi counts were expected"), call.=FALSE)
+      warning(paste0("Non-integer UMI counts detected (e.g., ", non_integer_examples, ")"), call. = FALSE)
     }
 
-    if(max(umi)<100){
-      warning(paste0("The total umi counts provided in the second column of 'nf_umi_ed_ct' appear to be quite low (max = ",max(umi),"), are these the total UMI counts per cell?"), call.=FALSE)
+    # Warn if UMI counts appear too low
+    if (max(umi) < 100) {
+      warning(paste0("UMI counts appear low (max = ", max(umi), "), ensure these are total UMI counts per cell"), call. = FALSE)
     }
 
-    if(!all(unique(ed)%in%c("cell", "empty_droplet"))){
+    # Validate cell status values
+    if (!all(unique(ed) %in% c("cell", "empty_droplet"))) {
       ed_output <- unique(ed)
-      if(length(ed_output)>5){
+      if (length(ed_output) > 5) {
         ed_output <- ed_output[1:5]
-        ed_output <- paste(ed_output, collapse = ",")
       }
-      warning(paste0("The third column of 'nf_umi_ed_ct' was expected to contain either 'cell' or 'empty_droplet' but contains; ",ed_output), call.=FALSE)
+      ed_output <- paste(ed_output, collapse = ",")
+      warning(paste0("Unexpected values in the third column: ", ed_output), call. = FALSE)
     }
 
-    if(verbose){
+    # Print unique cell types if verbose is TRUE
+    if (verbose) {
       ct <- unique(ct)
       ct <- paste(ct, collapse = ",")
-      print(paste0("The following cell types were provided; ", ct))
+      print(paste0("Provided cell types: ", ct))
     }
 
   } else {
-    stop(paste0("A data frame should be supplied to the nf_umi_ed_ct argument, but an object of class ",paste(class(nf_umi), collapse = "/")," was provided"), call.=FALSE)
+    stop(paste0("Expected a data frame for 'nf_umi_ed_ct', but received: ", paste(class(nf_umi_ed_ct), collapse = "/")), call. = FALSE)
   }
 
-  # Extract data for EM
-  em.data <- data.frame(nf = unlist(nf_umi_ed_ct[,1], use.names = FALSE),
-                        umi = log10(unlist(nf_umi_ed_ct[,2], use.names = FALSE)),
-                        ct = unlist(nf_umi_ed_ct[,4], use.names = FALSE))
+  # Prepare data for EM (Expectation-Maximization) model fitting
+  em.data <- data.frame(
+    nf  = unlist(nf_umi_ed_ct[, 1], use.names = FALSE),        # Nuclear fraction
+    umi = log10(unlist(nf_umi_ed_ct[, 2], use.names = FALSE)), # Log-transformed UMI counts
+    ct  = unlist(nf_umi_ed_ct[, 4], use.names = FALSE)         # Cell types
+  )
   row.names(em.data) <- 1:nrow(em.data)
 
-  # Filter out any empty droplets
-  em.data <- em.data[nf_umi_ed_ct[,3]=="cell",]
+  # Filter out empty droplets
+  em.data <- em.data[nf_umi_ed_ct[, 3] == "cell", ]
 
-  # Split by cell type
-  em.data.ct <-split(em.data, em.data$ct)
+  # Split data by cell type
+  em.data.ct <- split(em.data, em.data$ct)
 
-  # Run EM for all cell types
-  if(verbose){ print("Fitting models with EM") }
-  em_mods <- lapply(em.data.ct, function(x) mclust::Mclust(data = x[,1:2], G = 1:2, modelNames = "EEI", verbose = verbose))
+  # Fit EM models (assess_EM) to each cell type
+  if (verbose) {
+    print("Fitting models with EM")
+  }
+  em_mods <- lapply(em.data.ct, function(x) mclust::Mclust(data = x[, 1:2], G = 1:2, modelNames = "EEI", verbose = verbose))
 
-  # Assign barcodes as "cell" or "damaged_cell" using the `assess_EM` function
-  em_mods_assessed  <- lapply(em_mods,
-                              assess_EM,
-                              nf_thresh = nf_sep,
-                              umi_thresh = umi_sep_perc)
+  # Assess EM models and assign barcodes as "cell" or "damaged_cell"
+  em_mods_assessed <- lapply(em_mods, assess_EM, nf_thresh = nf_sep, umi_thresh = umi_sep_perc)
 
-
-  # Update the input data frame "nf_umi_ed_ct" (which still contains empty
-  # droplets) any with damaged_cell info
+  # Update the original data frame with damaged cell info
   names(em_mods_assessed) <- NULL
   em_mods_assessed <- do.call(rbind, em_mods_assessed)
   nf_umi_ed_ct$cell_status[as.integer(row.names(em_mods_assessed))] <- em_mods_assessed$classification
 
-  # Return results as a data frame
-    return(list(df=nf_umi_ed_ct, plots=NULL))
-
+  # Return results as a list containing the updated data frame
+  return(list(df = nf_umi_ed_ct, plots = NULL))
 }
+
