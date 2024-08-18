@@ -37,7 +37,7 @@
 #' SRR1234567 <- limiric_core(
 #'   project_name  = "SRR1234567",
 #'   filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-#'   soupx        = TRUE,
+#'   soupx         = TRUE,
 #'   raw_path      = "/home/user/alignment/SRR1234567/raw/",
 #'   droplet_qc    = TRUE,
 #'   isolate_cd45  = TRUE,
@@ -150,7 +150,7 @@ limiric_core <- function(
   if (soupx) {
 
      cat("\u2714 Beginning SoupX correction...\n")
-    
+
     # Use the soupx_calculation() function to run SoupX ambient RNA correction
     Seurat <- soupx_calculation(raw_path = raw_path,
                                 table_of_counts = table_of_counts,
@@ -336,7 +336,7 @@ limiric_core <- function(
                                   output_path = output_path)
 
   # Add output to function environment
-  Seurat <- limiric_output$Seurat
+  Seurat  <- limiric_output$Seurat
   limiric <- limiric_output$limiric
 
 
