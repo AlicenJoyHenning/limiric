@@ -89,14 +89,14 @@ for (pkg in packages) {
 <br><br>
 
 ### Package installation
-After all the prerequisites are installed, you can install the latest development version of ```limiric``` from CRAN 
+After all the prerequisites are installed, you can install the latest development version of ```limiric``` from CRAN using 
 
 ```R
 install.packages("limiric")
 ```
 <br>
 
-Else the package can be installed from GitHub using the ```devtools``` package
+Alternatively, the package can be installed from ```GitHub``` using the ```devtools``` package:
 
 ```R
 devtools::install_github("AlicenJoyHenning/limiric", build_vignettes = TRUE)
