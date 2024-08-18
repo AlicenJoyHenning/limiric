@@ -148,10 +148,6 @@ limiric_core <- function(
 
   if (soupx) {
 
-    if (is.null(table_of_counts)) {
-      stop("table_of_counts must be defined with raw_path for SoupX correction")
-    }
-
     # Use the soupx_calculation() function to run SoupX ambient RNA correction
     Seurat <- soupx_calculation(raw_path = raw_path,
                                 table_of_counts = table_of_counts,
