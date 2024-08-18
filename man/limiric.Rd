@@ -4,31 +4,31 @@
 \alias{limiric}
 \title{limiric}
 \arguments{
-\item{ProjectName}{String with project or sample name}
+\item{project_name}{String with project or sample name}
 
-\item{FilteredPath}{Directory of filtered alignment output}
+\item{filtered_path}{Directory of filtered alignment output}
 
-\item{SeuratInput}{Seurat object to be used as input over raw files. Default NULL}
+\item{seurat_input}{Seurat object to be used as input over raw files. Default NULL}
 
-\item{MinCells}{In how many cells should a gene be expressed to be kept}
+\item{min_cells}{In how many cells should a gene be expressed to be kept}
 
-\item{SoupX}{Perform ambient RNA correction, if TRUE RawPath must be given. Default is FALSE}
+\item{soupx}{Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE}
 
-\item{RawPath}{Directory of unfiltered alignment output}
+\item{raw_path}{Directory of unfiltered alignment output}
 
-\item{DropletQC}{Verify output with DropletQC, if TRUE VelocytoPath must be given. Default is FALSE}
+\item{droplet_qc}{Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE}
 
-\item{VelocytoPath}{Directory of Veocyto filtered alignment output}
+\item{velocyto_path}{Directory of Veocyto filtered alignment output}
 
-\item{FilterRBC}{Whether or not red blood cells should be removed. Default is TRUE}
+\item{filter_rbc}{Whether or not red blood cells should be removed. Default is TRUE}
 
-\item{IsolateCD45}{Discard non-immune cells. Default is FALSE}
+\item{isolate_cd45}{Discard non-immune cells. Default is FALSE}
 
-\item{FilterOutput}{Should output contain no damaged cells. Default is TRUE}
+\item{filter_output}{Should output contain no damaged cells. Default is TRUE}
 
-\item{OutputPath}{Directory where limiric output should be generated}
+\item{output_path}{Directory where limiric output should be generated}
 
-\item{Organism}{"Hsap" if human sample or "Mmus" if mouse sample}
+\item{organism}{"Hsap" if human sample or "Mmus" if mouse sample}
 
 \item{sample_list}{Input multiple samples in list. Default is FALSE}
 }
@@ -48,9 +48,9 @@ low dimension mitochondrial and ribosomal clustering.
 # the filtered alignment files
 
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    output_path   = "/home/user/alignment/limiric/"
 )
 
 
@@ -59,11 +59,11 @@ SRR1234567 <- limiric(
 # Detect damaged cells after performing ambient RNA correction
 
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    SoupX        = TRUE,
-    RawPath      = "/home/user/alignment/SRR1234567/raw/",
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    soupx        = TRUE,
+    raw_path      = "/home/user/alignment/SRR1234567/raw/",
+    output_path   = "/home/user/alignment/limiric/"
 )
 
 
@@ -71,37 +71,37 @@ SRR1234567 <- limiric(
 # then identify damaged cells
 
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    IsolateCD45  = TRUE,
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    isolate_cd45  = TRUE,
+    output_path   = "/home/user/alignment/limiric/"
 )
 
 
-## 4. Combine limiric damaged cell annotations with DropletQC
+## 4. Combine limiric damaged cell annotations with droplet_qc
 
-# Detect damaged cells and compare results with those from DropletQC
+# Detect damaged cells and compare results with those from droplet_qc
 
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    DropletQC    = TRUE,
-    VelocytoPath = "/home/user/alignment/velocyto/",
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    droplet_qc    = TRUE,
+    velocyto_path = "/home/user/alignment/velocyto/",
+    output_path   = "/home/user/alignment/limiric/"
 )
 
 
 ## 5. Combine the previous four conditions
 
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    SoupX        = TRUE,
-    RawPath      = "/home/user/alignment/SRR1234567/raw/",
-    DropletQC    = TRUE,
-    IsolateCD45  = TRUE,
-    VelocytoPath = "/home/user/alignment/velocyto/",
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    soupx        = TRUE,
+    raw_path      = "/home/user/alignment/SRR1234567/raw/",
+    droplet_qc    = TRUE,
+    isolate_cd45  = TRUE,
+    velocyto_path = "/home/user/alignment/velocyto/",
+    output_path   = "/home/user/alignment/limiric/"
 )
 
 
@@ -110,32 +110,32 @@ SRR1234567 <- limiric(
 
 sample_list <- list(
 
-    list(ProjectName  = "SRR1234567",
-         FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-         SoupX        = TRUE,
-         RawPath      = "/home/user/alignment/SRR1234567/raw/",
-         DropletQC    = TRUE,
-         IsolateCD45  = TRUE,
-         VelocytoPath = "/home/user/alignment/velocyto/",
-         OutputPath   = "/home/user/alignment/limiric/"),
+    list(project_name  = "SRR1234567",
+         filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+         soupx        = TRUE,
+         raw_path      = "/home/user/alignment/SRR1234567/raw/",
+         droplet_qc    = TRUE,
+         isolate_cd45  = TRUE,
+         velocyto_path = "/home/user/alignment/velocyto/",
+         output_path   = "/home/user/alignment/limiric/"),
 
-    list(ProjectName  = "SRR1234568",
-         FilteredPath = "/home/user/alignment/SRR1234568/filtered/",
-         SoupX        = TRUE,
-         RawPath      = "/home/user/alignment/SRR1234568/raw/",
-         DropletQC    = TRUE,
-         IsolateCD45  = TRUE,
-         VelocytoPath = "/home/user/alignment/velocyto/",
-         OutputPath   = "/home/user/alignment/limiric/"),
+    list(project_name  = "SRR1234568",
+         filtered_path = "/home/user/alignment/SRR1234568/filtered/",
+         soupx        = TRUE,
+         raw_path      = "/home/user/alignment/SRR1234568/raw/",
+         droplet_qc    = TRUE,
+         isolate_cd45  = TRUE,
+         velocyto_path = "/home/user/alignment/velocyto/",
+         output_path   = "/home/user/alignment/limiric/"),
 
-    list(ProjectName  = "SRR1234569",
-         FilteredPath = "/home/user/alignment/SRR1234569/filtered/",
-         SoupX        = TRUE,
-         RawPath      = "/home/user/alignment/SRR1234569/raw/",
-         DropletQC    = TRUE,
-         IsolateCD45  = TRUE,
-         VelocytoPath = "/home/user/alignment/velocyto/",
-         OutputPath   = "/home/user/alignment/limiric/")
+    list(project_name  = "SRR1234569",
+         filtered_path = "/home/user/alignment/SRR1234569/filtered/",
+         soupx        = TRUE,
+         raw_path      = "/home/user/alignment/SRR1234569/raw/",
+         droplet_qc    = TRUE,
+         isolate_cd45  = TRUE,
+         velocyto_path = "/home/user/alignment/velocyto/",
+         output_path   = "/home/user/alignment/limiric/")
 )
 
 GSE1234567 <- limiric(sample_list = sample_list)
@@ -143,9 +143,9 @@ GSE1234567 <- limiric(sample_list = sample_list)
 ## 7. Alternatively, use a Seurat object as input
 
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    SeuratInput  = seurat_object,
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    seurat_input  = seurat_object,
+    output_path   = "/home/user/alignment/limiric/"
 )
 }
 

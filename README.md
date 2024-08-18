@@ -89,7 +89,14 @@ for (pkg in packages) {
 <br><br>
 
 ### Package installation
-After all the prerequisites are installed, you can install the latest development version of ```limiric``` 
+After all the prerequisites are installed, you can install the latest development version of ```limiric``` from CRAN 
+
+```R
+install.packages("limiric")
+```
+<br>
+
+Else the package can be installed from GitHub using the ```devtools``` package
 
 ```R
 devtools::install_github("AlicenJoyHenning/limiric", build_vignettes = TRUE)
@@ -247,7 +254,7 @@ OutputPath/
 
 ### **_RBCQC_** 
 
-Before damaged cells can be identified, ```limiric```first removes red blood cells, or cells that are highly contaminated with haemoglobin, from your data. This is done under the assumption that these cells will not be informative to your study. If this assumption should not be true, you can avoid this filtering using ```FilterRBC = FALSE```.
+Before damaged cells can be identified, ```limiric``` removes red blood cells, or cells that are highly contaminated with haemoglobin, from your data. This is done under the assumption that red blood cells will not be informative to your study. If this assumption should not be true, you can avoid this filtering using ```FilterRBC = FALSE```.
 > **NB** Given many scRNA-seq protocols, such as the ```10X Genomics``` protocol, advise for globin treatment, we hope for the contamination percentage to be as low as possible.
 
 <br>
@@ -378,8 +385,11 @@ SRR1234567 <- limiric(
 > ```
 > OutputPath/
 > ├── CellQC
+> |
 > ├── IMCQC
+> |
 > ├── RBCQC
+> |
 > └── Filtered
 > ```
 
@@ -414,8 +424,11 @@ SRR1234567 <- limiric(
 > ```
 > OutputPath/
 > ├── CellQC
+> |
 > ├── DropletQC
+> |
 > ├── RBCQC
+> |
 > └── Filtered
 > ```
 >

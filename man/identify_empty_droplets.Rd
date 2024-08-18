@@ -3,18 +3,6 @@
 \name{identify_empty_droplets}
 \alias{identify_empty_droplets}
 \title{Identify empty droplets}
-\usage{
-identify_empty_droplets(
-  nf_umi,
-  nf_rescue = 0.05,
-  umi_rescue = 1000,
-  plot_name = NULL,
-  plot_path = NULL,
-  plot_width = 18,
-  plot_height = 13,
-  pdf_png = "png"
-)
-}
 \arguments{
 \item{nf_umi}{data frame, containing two columns; the nuclear fraction
 estimates in the first column and the total UMI count for each barcode in
@@ -51,13 +39,4 @@ calculates the kernel density estimate of the input nuclear fraction scores
 and identifies the trough after the first peak, which is assumed to
 represent the population of empty droplets.
 }
-\examples{
-\dontrun{
-data("qc_examples")
-gbm <- qc_examples[qc_examples$sample=="GBM",]
-gbm.ed <- gbm[,c("nuclear_fraction_droplet_qc","umi_count")]
-gbm.ed <- identify_empty_drops(nf_umi = gbm.ed)
-head(gbm.ed)
-table(gbm.ed$cell_status)
-}
-}
+\keyword{internal}

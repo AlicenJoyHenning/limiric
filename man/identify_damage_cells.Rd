@@ -42,18 +42,8 @@ parameters of the model are estimated using expectation maximisation (EM)
 with the \code{mclust} package. The best model is selected using the Bayesian
 Information Criterion (BIC). The two populations (cells and damaged cells)
 are assumed to have equal variance (mclust model name "EEI").
+EM Model: It’s used to find and separate multiple groups or clusters within
+the data. It’s not just about finding points that don’t fit in; it’s about
+identifying distinct groups that may exist in the data.
 }
-\examples{
-\dontrun{
-data("qc_examples")
-gbm <- qc_examples[qc_examples$sample=="MB",]
-gbm.ed <- gbm[,c("nuclear_fraction_droplet_qc","umi_count")]
-gbm.ed <- identify_empty_drops(nf_umi = gbm.ed)
-gbm.ed$cell_type <- gbm$cell_type
-gbm.ed.dc <- identify_damaged_cells(gbm.ed, verbose=FALSE)
-gbm.ed.dc <- gbm.ed.dc[[1]]
-head(gbm.ed.dc)
-table(gbm.ed.dc$cell_status)
-}
-
-}
+\keyword{internal}
