@@ -104,7 +104,7 @@ limiric_core <- function(
   }
 
   # EITHER create project Seurat object with filtered counts
-  if (is.null(seurat_input)) {
+  if (is.null(seurat_input) || seurat_input == FALSE) {
 
     # Create Seurat object using filtered counts (zipped)
     table_of_counts <- suppressWarnings(Read10X(filtered_path))
