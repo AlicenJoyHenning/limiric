@@ -350,7 +350,7 @@ limiric_core <- function(
   if (droplet_qc == TRUE) {
 
     # Create Droplet QC subdirectories if needed
-    full_path <- file.path(output_path, "droplet_qc")
+    full_path <- file.path(output_path, "DropletQC")
 
     # If subdirectory does not exist it will be created
     if (!dir.exists(full_path)) {
@@ -425,7 +425,7 @@ limiric_core <- function(
     annotated_cells <- merge(storage_cells, clean_cells, by = "barcode", all.x = TRUE)
     annotated_cells$QC_annotation[is.na(annotated_cells$QC_annotation)] <- "removed"
 
-    write.csv(annotated_cells, file = file.path(output_path, "droplet_qc", paste0(project_name, "_barcodes.csv")), row.names = FALSE)
+    write.csv(annotated_cells, file = file.path(output_path, "DropletQC", paste0(project_name, "_barcodes.csv")), row.names = FALSE)
 
     # Rename column
     Seurat$limiric.droplet_qc <- Seurat$QC
