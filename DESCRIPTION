@@ -34,3 +34,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/AlicenJoyHenning/limiric
+BugReports: https://github.com/AlicenJoyHenning/limiric/issues
