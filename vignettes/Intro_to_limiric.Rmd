@@ -9,7 +9,11 @@ vignette: >
 
 ## Description
 
-`limiric` is a quality control package for detecting damaged cells in single cell RNA sequencing data, featuring a single function, [`limiric`](\link[=limiric]{limiric}).
+`limiric` is a quality control package for detecting damaged cells in single cell RNA sequencing data, featuring a single function, `limiric`. To learn more about the `limiric` function, you can refer to its help page:
+
+```r
+?limiric
+```
 
 ## Quickstart
 
