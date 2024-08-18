@@ -175,7 +175,7 @@ limiric <- function(
   if (is.null(sample_list)) {
 
     # Account for defaults
-    if (is.null(seurat_input))  { seurat_input = NULL}
+    if (is.null(seurat_input))  { seurat_input = FALSE }
     if (is.null(min_cells))     { min_cells = 0 }
     if (is.null(soupx))         { soupx = FALSE}
     if (is.null(droplet_qc))    { droplet_qc = FALSE}
@@ -259,7 +259,7 @@ limiric <- function(
       organism      <- sample$organism
 
       # Account for defaults
-      if (is.null(seurat_input))  { seurat_input = NULL}
+      if (is.null(seurat_input))  { seurat_input = FALSE }
       if (is.null(min_cells))     { min_cells = 0 }
       if (is.null(soupx))         { soupx = FALSE}
       if (is.null(droplet_qc))    { droplet_qc = FALSE}
