@@ -80,7 +80,7 @@ create_dropletqc_plot <- function(Seurat,
     )
 
   # FANCY PLOT COMBINING
-  clusters <- readPNG(file.path(output_path, "droplet_qc", paste0(project_name, "_clusters.png")))
+  clusters <- readPNG(file.path(output_path, "DropletQC", paste0(project_name, "_clusters.png")))
 
   # Create the title and subtitle
   title <- ggdraw() + draw_label(project_name, fontface = 'bold', x = 0.5, y = 0.1, hjust = 0.5, size = 20)
