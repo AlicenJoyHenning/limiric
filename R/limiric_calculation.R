@@ -120,7 +120,8 @@ limiric_calculation <- function(organism,
   Seurat$limiric.ri <- limiric$rb.percent
 
   # Calculate complexity
-  matrix <- GetAssayData(limiric, layer = "data")
+  matrix <- Seurat::GetAssayData(limiric, layer = "data")
+  cat("check")
   complexity_metric <- colSums(matrix > 0)
   limiric$complexity <- complexity_metric
 

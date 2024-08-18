@@ -175,14 +175,14 @@ limiric <- function(
   if (is.null(sample_list)) {
 
     # Account for defaults
-    if (is.null(seurat_input))  { seurat_input = FALSE }
-    if (is.null(min_cells))     { min_cells = 0 }
-    if (is.null(soupx))         { soupx = FALSE}
-    if (is.null(droplet_qc))    { droplet_qc = FALSE}
-    if (is.null(filter_rbc))    { filter_rbc = TRUE}
-    if (is.null(isolate_cd45))  { isolate_cd45 = FALSE}
-    if (is.null(filter_output)) { filter_output = TRUE}
-    if (is.null(organism))      { organism = "Hsap"}
+    if (is.null(seurat_input))  {seurat_input = NULL}
+    if (is.null(min_cells))     {min_cells = 0}
+    if (is.null(soupx))         {soupx = FALSE}
+    if (is.null(droplet_qc))    {droplet_qc = FALSE}
+    if (is.null(filter_rbc))    {filter_rbc = TRUE}
+    if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
+    if (is.null(filter_output)) {filter_output = TRUE}
+    if (is.null(organism))      {organism = "Hsap"}
 
     # Run single sample using the limiric_core function
     result <- limiric_core(
@@ -259,14 +259,14 @@ limiric <- function(
       organism      <- sample$organism
 
       # Account for defaults
-      if (is.null(seurat_input))  { seurat_input = FALSE }
-      if (is.null(min_cells))     { min_cells = 0 }
-      if (is.null(soupx))         { soupx = FALSE}
-      if (is.null(droplet_qc))    { droplet_qc = FALSE}
-      if (is.null(filter_rbc))    { filter_rbc = TRUE}
-      if (is.null(isolate_cd45))  { isolate_cd45 = FALSE}
-      if (is.null(filter_output)) { filter_output = TRUE}
-      if (is.null(organism))      { organism = "Hsap"}
+      if (is.null(seurat_input))  {seurat_input = NULL}
+      if (is.null(min_cells))     {min_cells = 0}
+      if (is.null(soupx))         {soupx = FALSE}
+      if (is.null(droplet_qc))    {droplet_qc = FALSE}
+    if (is.null(filter_rbc))      {filter_rbc = TRUE}
+      if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
+      if (is.null(filter_output)) {filter_output = TRUE}
+      if (is.null(organism))      {organism = "Hsap"}
 
 
       # Call the function with error handling
@@ -279,7 +279,7 @@ limiric <- function(
           filtered_path = filtered_path,
           seurat_input  = seurat_input,
           min_cells     = min_cells,
-          soupx        = soupx,
+          soupx         = soupx,
           raw_path      = raw_path,
           droplet_qc    = droplet_qc,
           velocyto_path = velocyto_path,

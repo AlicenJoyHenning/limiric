@@ -6,7 +6,7 @@
 #'
 #' @param project_name String with project or sample name
 #' @param filtered_path Directory of filtered alignment output
-#' @param seurat_input Seurat object to be used as input over raw files. Default FALSE
+#' @param seurat_input Seurat object to be used as input over raw files. Default NULL
 #' @param min_cells In how many cells should a gene be expressed to be kept
 #' @param soupx Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE
 #' @param raw_path Directory of unfiltered alignment output
@@ -59,7 +59,7 @@ utils::globalVariables(c(
 limiric_core <- function(
     project_name,
     filtered_path,
-    seurat_input  = FALSE,
+    seurat_input  = NULL,
     min_cells     = 0,
     soupx         = FALSE,
     raw_path      = NULL,
@@ -104,8 +104,8 @@ limiric_core <- function(
   }
 
   # EITHER create project Seurat object with filtered counts
-  if (seurat_input == FALSE) {
-    cat("Check 1\n")
+  if (is.null(seurat_input)) {
+
     # Create Seurat object using filtered counts (zipped)
     table_of_counts <- suppressWarnings(Read10X(filtered_path))
 
@@ -128,7 +128,8 @@ limiric_core <- function(
   }
 
   # OR use input Seurat object if provided
-  if (seurat_input) {
+
+  else {
    # If specified input is Seurat object, take it as such
    Seurat <- seurat_input
 
