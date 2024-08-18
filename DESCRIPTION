@@ -12,7 +12,7 @@ Description:
     The core limiric function processes raw scRNA-seq alignment files to predict 
     which barcodes correspond to damaged cells and outputs these 
     predictions in a csv file alongside a filtered Seurat object.
-License: GPL-3
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

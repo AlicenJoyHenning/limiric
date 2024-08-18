@@ -24,4 +24,25 @@ This helper function calculates the LIMIRIC metrics for a given Seurat object an
 It identifies mitochondrial and ribosomal genes, reduces the Seurat object based on these genes,
 and calculates various metrics including mitochondrial and ribosomal expression, and complexity.
 }
+\examples{
+\dontrun{
+# Assuming `seurat_obj` is a Seurat object
+seurat_obj <- CreateSeuratObject(counts = your_counts)
+annotations <- data.frame(
+  gene_name = c("MT-CO1", "RPS3", "RPL5"),
+  gene_biotype = c("protein_coding", "protein_coding", "protein_coding"))
+organism <- "Hsap"
+initial_cells <- 1000
+project_name <- "MyProject"
+output_path <- "path/to/save/plots"
+
+result <- limiric_calculation(organism,
+                              seurat_obj,
+                              annotations,
+                              initial_cells,
+                              project_name,
+                              output_path)
+print(result)
+}
+}
 \keyword{internal}

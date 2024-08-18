@@ -16,6 +16,15 @@
 #' @export
 #'
 #' @keywords internal
+#' 
+#' @examples
+#' \dontrun{
+#' # Example usage:
+#' # Assuming `seurat_obj` is a Seurat object containing the single-cell RNA-seq data.
+#' seurat_obj <- CreateSeuratObject(counts = your_counts)  # Replace `your_counts` with actual data
+#' updated_seurat_obj <- dropletqc_calculation(seurat_obj)
+#' print(updated_seurat_obj)
+#' }
 
 utils::globalVariables(c("nf", "nCount_RNA", "cell_status"))
 

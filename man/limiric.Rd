@@ -41,24 +41,6 @@ and identifies damaged cells present within the sample according to
 low dimension mitochondrial and ribosomal clustering.
 }
 \examples{
-# Load the example Seurat object for test run
-data("test_data")
-
-# Detect damaged cells in the Seurat object
-result <- limiric(
-  project_name  = "ExampleProject",
-  filter_rbc = FALSE,
-  seurat_input  = test_data,
-  output_path   = tempdir()
-)
-
-# Check the result
-print(result)
-# An object of class Seurat
-# 20628 features across 1201 samples within 1 assay
-# Active assay: RNA (20628 features, 0 variable features)
-# 1 layer present: counts
-
 \dontrun{
 ## 1. Basic usage
 

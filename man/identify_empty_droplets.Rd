@@ -39,4 +39,30 @@ calculates the kernel density estimate of the input nuclear fraction scores
 and identifies the trough after the first peak, which is assumed to
 represent the population of empty droplets.
 }
+\examples{
+\dontrun{
+# Assuming `nf_umi` is a data frame with the required structure.
+nf_umi <- data.frame(
+  nf = runif(100, min = 0, max = 1),
+  umi = sample(100:10000, 100, replace = TRUE)
+)
+nf_rescue <- 0.05
+umi_rescue <- 1000
+plot_name <- "empty_droplets_plot"
+plot_path <- "path/to/save/plot"
+plot_width <- 18
+plot_height <- 13
+pdf_png <- "png"
+
+result <- identify_empty_droplets(nf_umi,
+                                  nf_rescue,
+                                  umi_rescue,
+                                  plot_name,
+                                  plot_path,
+                                  plot_width,
+                                  plot_height,
+                                  pdf_png)
+print(result)
+}
+}
 \keyword{internal}

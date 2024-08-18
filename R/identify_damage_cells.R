@@ -52,6 +52,23 @@
 #' @import stats
 #'
 #' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' # Example usage:
+#' # Assuming `nf_umi_ed_ct` is a data frame with the required structure.
+#' nf_umi_ed_ct <- data.frame(
+#'   nf = runif(100, min = 0, max = 1),
+#'   umi = sample(100:10000, 100, replace = TRUE),
+#'   ed = sample(c("cell", "empty_droplet"), 100, replace = TRUE),
+#'   ct = sample(c("type1", "type2"), 100, replace = TRUE)
+#' )
+#' nf_sep <- 0.15
+#' umi_sep_perc <- 50
+#' verbose <- TRUE
+#' result <- identify_damage_cells(nf_umi_ed_ct, nf_sep, umi_sep_perc, verbose)
+#' print(result)
+#' }
 
 utils::globalVariables(c("nf_umi"))
 

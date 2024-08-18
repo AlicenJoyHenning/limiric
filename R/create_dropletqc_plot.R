@@ -13,7 +13,7 @@
 #' @param damaged_percent A numeric value representing the percentage of damaged cells.
 #' @param initial_cells An integer representing the initial number of cells.
 #'
-#' @return A list containing the Seurat object and the limiric object.
+#' @return None. The function saves the plots as PNG files.
 #'
 #' @import cowplot
 #' @importFrom dplyr %>% pull group_by summarise mutate arrange slice case_when
@@ -25,6 +25,27 @@
 #' @export
 #'
 #' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' # Assuming `seurat_obj` is a Seurat object
+#' # and `limiric_obj` is a Seurat object
+#'
+#' # Define inputs
+#' seurat_obj <- CreateSeuratObject(counts = your_counts)
+#' limiric_obj <- CreateSeuratObject(counts = your_lim_counts)
+#' output_path <- "path/to/save/plots"
+#' project_name <- "MyProject"
+#' damaged_percent <- 5.0
+#' initial_cells <- 1000
+#'
+#' create_dropletqc_plot(seurat_obj,
+#'                       limiric_obj,
+#'                       output_path,
+#'                       project_name,
+#'                       damaged_percent,
+#'                       initial_cells)
+#' }
 
 utils::globalVariables(c("QC", "nf", "nCount_RNA"))
 

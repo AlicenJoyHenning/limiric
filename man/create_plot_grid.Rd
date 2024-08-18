@@ -21,4 +21,19 @@ None. The function saves the plot grid to the specified file path.
 \description{
 Helper function to save a grid of plots with a specified number of columns and rows.
 }
+\examples{
+\dontrun{
+# Example usage:
+# Assuming `plot_list` is a list of ggplot objects.
+plot_list <- list(
+  ggplot(mtcars, aes(x = mpg, y = wt)) + geom_point(),
+  ggplot(mtcars, aes(x = hp, y = qsec)) + geom_point(),
+  ggplot(mtcars, aes(x = drat, y = wt)) + geom_point()
+)
+file_path <- "path/to/save/plot_grid.png"
+nrow <- 2
+ncol <- 2
+create_plot_grid(plot_list, file_path, nrow, ncol)
+}
+}
 \keyword{internal}

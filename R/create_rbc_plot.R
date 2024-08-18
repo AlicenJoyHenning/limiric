@@ -18,6 +18,22 @@
 #' @export
 #'
 #' @keywords internal
+#' 
+#' @examples
+#' \dontrun{
+#' # Assuming `rbc_data` is a data frame containing the RBC data.
+#' rbc_data <- data.frame(
+#'   hemo.percent = runif(100, min = 0, max = 100),
+#'   ptprc.percent = runif(100, min = 0, max = 100),
+#'   RBC = sample(c("RBC", "non-RBC"), 100, replace = TRUE)
+#' )
+#' project_name <- "RBC Contamination Analysis"
+#' RBC_percent <- 15.0
+#' initial_cells <- 1000
+#' 
+#' plot <- create_rbc_plot(rbc_data, project_name, RBC_percent, initial_cells)
+#' print(plot)
+#' }
 
 utils::globalVariables(c("RBC"))
 

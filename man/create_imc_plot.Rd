@@ -17,4 +17,19 @@ A ggplot object representing the immune feature QC plot.
 Helper function to generate scatter plot of UMI & gene counts per cell barcode
 with points colored based on whether they are immune cells (IMC) or non-immune cells.
 }
+\examples{
+\dontrun{
+# Example usage:
+# Assuming `imc_data` is a data frame containing the immune cell data.
+imc_data <- data.frame(
+  nCount_RNA = runif(100, min = 500, max = 10000),
+  nFeature_RNA = runif(100, min = 200, max = 3000),
+  IMC = sample(c("IMC", "non-IMC"), 100, replace = TRUE)
+)
+project_name <- "ImmuneFeatureQC"
+IMC_percent <- 25.0
+plot <- create_imc_plot(imc_data, project_name, IMC_percent)
+print(plot)
+}
+}
 \keyword{internal}

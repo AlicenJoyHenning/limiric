@@ -23,6 +23,18 @@
 #' @export
 #'
 #' @keywords internal
+#' 
+#' @examples
+#' \dontrun{
+#' # Assuming `raw_path` is the path to the raw data and `table_of_counts` is a matrix of counts.
+#' raw_path <- "path/to/raw/data"
+#' table_of_counts <- matrix(sample(0:100, 100, replace = TRUE), nrow = 10)
+#' min_cells <- 3
+#' project_name <- "SoupX_Project"
+#' 
+#' result <- soupx_calculation(raw_path, table_of_counts, min_cells, project_name)
+#' print(result)
+#' }
 
 utils::globalVariables(c("SeuratSoup", "meta_data", "umap_embedding", "adj_matrix", "Seurat"))
 
