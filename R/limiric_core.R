@@ -325,6 +325,7 @@ limiric_core <- function(
   initial_cells <- length(Cells(Seurat))
 
   # Use the limiric_calculation() function to identify damaged cells
+  cat("\n Identifying damaged cells")
   limiric_output <- limiric_calculation(organism = organism,
                                   Seurat = Seurat,
                                   annotations = annotations,
