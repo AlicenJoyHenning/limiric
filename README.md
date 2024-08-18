@@ -36,7 +36,7 @@ The package was developed around the community standard ```Seurat``` suite can b
 
 ## Installation
 ### Prerequisites
-```limiric``` requires the following packages to be installed in your ```R``` environment  
+```limiric``` makes use of the following packages
 * ```cowplot``` Wilke, 2024. [GitHub repo](https://github.com/wilkelab/cowplot)
 * ```devtools``` Wickham and Hester, 2022. [GitHub repo](https://github.com/r-lib/devtools)
 * ```DropletQC``` Muskovic, 2024. [GitHub repo](https://github.com/powellgenomicslab/DropletQC)
@@ -48,7 +48,7 @@ The package was developed around the community standard ```Seurat``` suite can b
 * ```SoupX``` Young and Behjati, 2020. [GitHub repo](https://github.com/constantAmateur/SoupX)
 <br>
 
-If not already, you can install them together
+Of these, the following need to be made available in your ```R``` environment before ```limiric``` can be installed. If not already, you can install them together with the following code 
 
 ```R
 
@@ -62,19 +62,13 @@ for (pkg in packages) {
 
 
 ```
-<br>
-
-But ```DropletQC``` must be installed as follows 
-```R
-devtools::install_github("powellgenomicslab/DropletQC")
-```
 
 <br>
 
 Be sure to load these into your environment before continuing with ```limiric``` installation 
 ```R
 
-packages <- c("cowplot", "devtools", "dplyr", "DropletQC", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
+packages <- c("cowplot", "devtools", "dplyr", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
 
 for (pkg in packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -89,14 +83,14 @@ for (pkg in packages) {
 <br><br>
 
 ### Package installation
-After all the prerequisites are installed, you can install the latest development version of ```limiric``` from CRAN 
+After all the prerequisites are installed, you can install the latest development version of ```limiric``` from CRAN using 
 
 ```R
 install.packages("limiric")
 ```
 <br>
 
-Else the package can be installed from GitHub using the ```devtools``` package
+Alternatively, the package can be installed from ```GitHub``` using the ```devtools``` package:
 
 ```R
 devtools::install_github("AlicenJoyHenning/limiric", build_vignettes = TRUE)
