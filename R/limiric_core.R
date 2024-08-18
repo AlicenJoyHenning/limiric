@@ -99,16 +99,14 @@ limiric_core <- function(
   # Read in required organism annotation file
   if (organism == "Hsap") {
     annotations <- get("human_annotations", envir = asNamespace("limiric"))
-  }
-
-  if (organism == "Mmus") {
+  } else if (organism == "Mmus") {
     annotations <- get("mouse_annotations", envir = asNamespace("limiric"))
   }
 
   # EITHER create project Seurat object with filtered counts
   if (!is.null(seurat_input)) {
 
-    # Create Seurat object using filtered counts (zipped please!)
+    # Create Seurat object using filtered counts (zipped)
     table_of_counts <- suppressWarnings(Read10X(filtered_path))
 
     # Create a Seurat object & record cell number
@@ -149,6 +147,10 @@ limiric_core <- function(
   # Optional ambient RNA correction with SoupX ------------------------------------
 
   if (soupx == TRUE) {
+
+    if (is.null(table_of_counts)) {
+      stop("table_of_counts must be defined with raw_path for SoupX correction")
+    }
 
     # Use the soupx_calculation() function to run SoupX ambient RNA correction
     Seurat <- soupx_calculation(raw_path = raw_path,
