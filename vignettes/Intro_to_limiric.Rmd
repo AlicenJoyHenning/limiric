@@ -9,11 +9,11 @@ vignette: >
 
 ## Description
 
-`limiric` is a quality control package for detecting damaged cells in single cell RNA sequencing data, featuring a single function, [limiric](\link[=limiric]{limiric}).
+`limiric` is a quality control package for detecting damaged cells in single cell RNA sequencing data, featuring a single function, [`limiric`](\link[=limiric]{limiric}).
 
 ## Quickstart
 
-The fundamental use case of `limiric` is to take raw scRNA-seq alignment files and predict which barcodes are most likely damaged cells. Output comes in the form of a `csv` that will be generated in the `OutputPath` containing cell barcodes and an annotation of either _damaged_ or _cell_.
+The fundamental use case of `limiric` is to take raw scRNA-seq alignment files and predict which barcodes are most likely damaged cells. Output comes in the form of a `csv` that will be generated in the `OutputPath`. This will contain all cell barcodes present in the input data alongside a label of _damaged_ or _cell_ given to the barcode by `limiric`. 
 
 Additionally, a `Seurat` object containing only the filtered cells will be available in your local environment whose name is that which is assigned to the function output, for example here it will be `SRR1234567`.
 

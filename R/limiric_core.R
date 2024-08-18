@@ -66,7 +66,7 @@ limiric_core <- function(
     droplet_qc    = FALSE,
     velocyto_path = NULL,
     filter_rbc    = TRUE,
-    isolate_cd45  = NULL,
+    isolate_cd45  = FALSE,
     filter_output = TRUE,
     output_path   = "./",
     organism      = "Hsap"
@@ -104,7 +104,7 @@ limiric_core <- function(
   }
 
   # EITHER create project Seurat object with filtered counts
-  if (!is.null(seurat_input)) {
+  if (is.null(seurat_input)) {
 
     # Create Seurat object using filtered counts (zipped)
     table_of_counts <- suppressWarnings(Read10X(filtered_path))
@@ -146,7 +146,7 @@ limiric_core <- function(
 
   # Optional ambient RNA correction with SoupX ------------------------------------
 
-  if (soupx == TRUE) {
+  if (soupx) {
 
     if (is.null(table_of_counts)) {
       stop("table_of_counts must be defined with raw_path for SoupX correction")
@@ -166,7 +166,7 @@ limiric_core <- function(
 
   # Optional add nuclear fraction data for downstream DropletQC ------------------------------------
 
-  if (droplet_qc == TRUE) {
+  if (droplet_qc) {
 
     # Define parameters for file paths and gene names
     spliced_file   <- file.path(velocyto_path, "spliced.mtx.gz")
@@ -210,7 +210,7 @@ limiric_core <- function(
 
   # Default red blood cell QC ------------------------------------
 
-  if (filter_rbc == TRUE) {
+  if (filter_rbc) {
 
     # Use the input organism for hemoglobin gene nomenclature
 
@@ -282,7 +282,7 @@ limiric_core <- function(
 
   # Optional IMC QC ------------------------------------
 
-  if (isolate_cd45 == TRUE) {
+  if (isolate_cd45) {
 
     # Generate IMC subdirectory name
     full_path <- file.path(output_path, "IMCQC")

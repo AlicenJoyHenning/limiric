@@ -93,12 +93,11 @@ limiric_calculation <- function(organism,
     FindClusters(resolution = 1, verbose = FALSE) %>%
     RunTSNE(dims = 1:10, verbose = FALSE, check_duplicates = FALSE)
 
-
   # Calculate mitochondrial & ribosomal QC metrics ------------------------------------
 
   # Annotations to the reduced object based on the unreduced seurat object (all genes)
   DefaultAssay(limiric) <- "RNA"
-  DefaultAssay(Seurat) <- "RNA"
+  DefaultAssay(Seurat)  <- "RNA"
 
   # Define mitochondrial expression
   limiric$mt.percent <- PercentageFeatureSet(
@@ -206,7 +205,6 @@ limiric_calculation <- function(organism,
   title <- ggdraw() + draw_label(project_name, fontface = 'bold', x = 0.45, y = 0.1, hjust = 0.5, size = 20)
   subtitle <- ggdraw() + draw_label(paste("Estimated", round(damaged_percent, 2), "% damaged of ", initial_cells, " cells"), x = 0.45, hjust = 0.5, size = 16)
 
-  logo_plot <- ggdraw() + draw_image(logo, x = 0.25, y = 0.3, width = 0.4, height = 0.4)
   dim_plot <- ggdraw() + draw_image(dim, x = 0.54, y = 0.5, width = 0.8, height = 0.8)
 
   final_plot <- plot_grid(
