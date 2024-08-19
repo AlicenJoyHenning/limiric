@@ -56,9 +56,11 @@ jobs:
         run: Rscript -e 'install.packages("urlchecker", repos = "https://cloud.r-project.org")'
 
       - name: Check URLs
+        if: runner.os != 'Windows'
         run: Rscript -e 'urlchecker::url_check(".")'
 
       - name: Update URLs
+        if: runner.os != 'Windows'
         run: Rscript -e 'urlchecker::url_update(".")'
 
       - uses: r-lib/actions/check-r-package@v2

@@ -40,11 +40,11 @@
 #'
 #'
 #'   # Run the limiric function with the example data
-#'   test <- limiric_core(
+#'   test <- limiric(
 #'     project_name = "test_run",
-#'     filter_rbc = FALSE,
+#'     filter_rbc   = FALSE,
 #'     seurat_input = test_data,
-#'     output_path = tempdir()
+#'     output_path  = tempdir()
 #'   )
 #' }
 #'

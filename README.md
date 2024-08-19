@@ -109,7 +109,7 @@ help(package = "limiric")
 ```
 <br>
 
-Additionally, you can perform a test run using a small example dataset stored in the ```testrun``` directory of this repository, also found [here](https://github.com/AlicenJoyHenning/limiric/tree/master/testrun). If you need assistance setting this up, please see [Test run](#test-run) for more details. 
+Additionally, you can perform a test run using a small example dataset stored in the package called ```test_data```. If you need assistance setting this up, please see [Test run](#test-run) for more details. 
 
 <br>
 <br>
@@ -195,24 +195,36 @@ GSE1234567 <- limiric(sample_list = sample_list)
 
 ### Test run 
 
-Download the ```matrix.mtx```, ```barcodes.tsv```. and ```features.tsv``` files from this location ([files](https://github.com/AlicenJoyHenning/limiric_testdata/tree/main/testrun)) and store them in a local directory. For demonstration purposes, we will assume this directory is ```/home/user/scRNA-seq/testrun/```. From here, you can run the basic ```limiric``` function in your ```R``` environment where the terminal output should look as indicated below. For further verification, ensure the output ```Testrun_CellQC.png``` is identicial to that shown [here](https://github.com/AlicenJoyHenning/limiric_testdata/blob/main/testrun/Testrun_CellQC.png). 
+To ensure the package is running smoothly on your device, access the available test data (```test_data```) and 
+run the ```limiric``` function with the following parameters (ensures test_run is as quick as possible). 
 
 ```R
 
-testrun <- limiric(
-    project_name  = "Testrun",
-    filter_rbc    = FALSE,
-    filtered_path = "/home/user/scRNA-seq/testrun/",
-    output_path   = "/home/user/scRNA-seq/testrun/"
-)
+# Load example Seurat object from the limiric package
+data("test_data", package = "limiric")
 
-# Beginning limiric analysis for TestRun ...
+test <- limiric(
+     project_name = "test_run",
+     filter_rbc   = FALSE,
+     seurat_input = test_data,
+     output_path  = tempdir()
+   )
+```
+
+<br>
+
+If anything other than the output below is displayed, please check the installation of prerequisites or open an ```issue``` on this ```GitHub``` page.
+
+<br>
+
+```R
+# Beginning limiric analysis for test_run ...
 # ✔ Seurat object created
 # ✔ limiric damaged cell predictions
 # ✔ limiric analysis complete.
 
 ```
-> **Note:** This shouldn't take more than 10 seconds to run but this may vary depending on your machine.
+> **Note:** This shouldn't take more than 10 seconds to run but it will vary depending on your machine.
 
 <br><br>
 
