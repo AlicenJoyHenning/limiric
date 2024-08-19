@@ -36,12 +36,11 @@
 (list) Output storing the final \strong{Seurat} object
 }
 \description{
-Function that takes as input filtered scRNA-seq alignment output (or a \strong{Seurat} object)
+Takes as input filtered scRNA-seq alignment output (or a \strong{Seurat} object)
 and identifies damaged cells present within the sample according to
 low dimension mitochondrial and ribosomal clustering.
 }
 \examples{
-\dontrun{
 
 if (interactive()) {
 
@@ -56,8 +55,6 @@ if (interactive()) {
     seurat_input = test_data,
     output_path = tempdir()
   )
-}
-
 }
 
 }

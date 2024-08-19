@@ -32,8 +32,7 @@
 #' @importFrom utils globalVariables
 #'
 #' @examples
-#' \dontrun{
-#'
+#' 
 #' if (interactive()) {
 #'
 #'   # Load example Seurat object from the limiric package
@@ -49,16 +48,15 @@
 #'   )
 #' }
 #'
-#' }
-#'
 #' @export
 
 utils::globalVariables(c(
-  "output_path", "project_name", "rds_dir", "rds_files", "plots", "num_plots",
-  "plots_per_page", "page_num", "i", "end_index", "current_plots", "num_current_plots",
-  "nrow", "png_path", "sample_list", "results", "sample", "filtered_path",
-  "seurat_input", "min_cells", "soupx", "raw_path", "droplet_qc", "velocyto_path",
-  "filter_rbc", "isolate_cd45", "filter_output", "organism", "temp_result"
+  "current_plots", "droplet_qc", "end_index", "filtered_path", "filter_output",
+  "filter_rbc", "i", "isolate_cd45", "min_cells", "nrow", "num_current_plots",
+  "num_plots", "organism", "output_path", "page_num", "plots", "plots_per_page",
+  "png_path", "project_name", "raw_path", "rds_dir", "rds_files", "results",
+  "sample", "sample_list", "seurat_input", "soupx", "temp_result", "test_data",
+  "velocyto_path"
 ))
 
 limiric <- function(

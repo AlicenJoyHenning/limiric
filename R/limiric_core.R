@@ -50,10 +50,11 @@
 #' @keywords internal
 
 utils::globalVariables(c(
-  "human_annotations", "mouse_annotations", "hemo.percent", "ptprc.percent",
-  "nCount_RNA", "nFeature_RNA", "gene_name", "seurat_clusters", "mt.percent",
-  "rb.percent", "avg_mt_percent", "avg_rb_percent", "rank_mt", "rank_rb",
-  "combined_rank", "MtRb", "quality", "QC"
+  "avg_mt_percent", "avg_rb_percent", "combined_rank", "gene_name",
+  "hemo.percent", "human_annotations", "MtRb", "mouse_annotations",
+  "mt.percent", "nCount_RNA", "nFeature_RNA", "ptprc.percent", "QC",
+  "quality", "rank_mt", "rank_rb", "rb.percent", "seurat_clusters",
+  "test_data"
 ))
 
 limiric_core <- function(

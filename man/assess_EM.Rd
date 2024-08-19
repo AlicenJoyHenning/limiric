@@ -33,15 +33,20 @@ differences in these metrics are considered damaged.
 Assess Expectation-Maximization model results to assign cells as damaged or not
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-# Example usage:
-# Assuming `em_result` is the result of an EM model on log10(UMI counts) and nf
-# and you have set thresholds for UMI and nuclear fraction.
-em_result <- Mclust(data = your_data)  # Replace `your_data` with actual data
-umi_threshold <- 30
-nf_threshold <- 0.1
-result <- assess_EM(em_result, umi_threshold, nf_threshold)
-print(result)
-\dontshow{\}) # examplesIf}
+
+if (interactive()) {
+
+    # Example usage:
+    # Assuming `em_result` is the result of an EM model on log10(UMI counts) and nf
+    # and you have set thresholds for UMI and nuclear fraction.
+    em_result <- Mclust(data = your_data)  # Replace `your_data` with actual data
+    umi_threshold <- 30
+    nf_threshold <- 0.1
+
+    result <- assess_EM(em_result, umi_threshold, nf_threshold)
+
+    print(result)
+}
+
 }
 \keyword{internal}

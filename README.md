@@ -124,17 +124,17 @@ Additionally, you can perform a test run using a small example dataset stored in
 is your sample name, the directory where your alignment files are stored, and a directory where the ```limiric``` output can be created.  
 ```R
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    output_path   = "/home/user/alignment/limiric/"
 )
 ```  
 > **NB** Please keep the following in mind:
 > * Your files must be zipped, see [Input file format](#input-file-format) for more
-> * The above usage assumes the sample is of human origin (See parameter: ```Organism```)
-> * When compiling the data, all genes will be retained (See parameter: ```MinCells```)
-> * Red blood cells will automatically be removed from the sample before damaged cell detection (See parameter: ```FilterRBC```)
-> * Your output ```Seurat``` object will be filtered, containing only undamaged cells (See parameter: ```FilterOutput```)
+> * The above usage assumes the sample is of human origin (See parameter: ```organism```)
+> * When compiling the data, all genes will be retained (See parameter: ```min_cells```)
+> * Red blood cells will automatically be removed from the sample before damaged cell detection (See parameter: ```filter_rbc```)
+> * Your output ```Seurat``` object will be filtered, containing only undamaged cells (See parameter: ```filter_output```)
 >
 
 <br>
@@ -143,9 +143,9 @@ SRR1234567 <- limiric(
 2. Alternatively, you can use a ```Seurat``` object as input
 ```R
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    SeuratInput  = seurat_object,
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    seurat_input  = seurat_object,
+    output_path   = "/home/user/alignment/limiric/"
 )
 ```
 
@@ -158,17 +158,17 @@ You can do this through the ```sample_list``` parameter.
 ```R
 sample_list <- list(
 
-    list(ProjectName  = "SRR1234567",
-         FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-         OutputPath   = "/home/user/alignment/limiric/"),
+    list(project_name  = "SRR1234567",
+         filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+         output_path   = "/home/user/alignment/limiric/"),
     
-    list(ProjectName  = "SRR1234568",
-         FilteredPath = "/home/user/alignment/SRR1234568/filtered/",
-         OutputPath   = "/home/user/alignment/limiric/"),
+    list(project_name  = "SRR1234568",
+         filtered_path = "/home/user/alignment/SRR1234568/filtered/",
+         output_path   = "/home/user/alignment/limiric/"),
     
-    list(ProjectName  = "SRR1234569",
-         FilteredPath = "/home/user/alignment/SRR1234569/filtered/",
-         OutputPath   = "/home/user/alignment/limiric/")
+    list(project_name  = "SRR1234569",
+         filtered_path = "/home/user/alignment/SRR1234569/filtered/",
+         output_path   = "/home/user/alignment/limiric/")
 )
 
 GSE1234567 <- limiric(sample_list = sample_list)
@@ -200,10 +200,10 @@ Download the ```matrix.mtx```, ```barcodes.tsv```. and ```features.tsv``` files 
 ```R
 
 testrun <- limiric(
-    ProjectName  = "Testrun",
-    FilterRBC    = FALSE,
-    FilteredPath = "/home/user/scRNA-seq/testrun/",
-    OutputPath   = "/home/user/scRNA-seq/testrun/"
+    project_name  = "Testrun",
+    filter_rbc    = FALSE,
+    filtered_path = "/home/user/scRNA-seq/testrun/",
+    output_path   = "/home/user/scRNA-seq/testrun/"
 )
 
 # Beginning limiric analysis for TestRun ...
@@ -232,10 +232,10 @@ This is the basis of the ```low dimension mitochondrial & ribosomal clustering``
 
 ### Output directory 
 
-The ```limiric``` output will be created in the ```OutputPath```directory with the following structure  
+The ```limiric``` output will be created in the ```output_path```directory with the following structure  
 
 ```
-OutputPath/
+output_path/
 |
 ├── RBCQC
 |
@@ -248,7 +248,7 @@ OutputPath/
 
 ### **_RBCQC_** 
 
-Before damaged cells can be identified, ```limiric``` removes red blood cells, or cells that are highly contaminated with haemoglobin, from your data. This is done under the assumption that red blood cells will not be informative to your study. If this assumption should not be true, you can avoid this filtering using ```FilterRBC = FALSE```.
+Before damaged cells can be identified, ```limiric``` removes red blood cells, or cells that are highly contaminated with haemoglobin, from your data. This is done under the assumption that red blood cells will not be informative to your study. If this assumption should not be true, you can avoid this filtering using ```filter_rbc = FALSE```.
 > **NB** Given many scRNA-seq protocols, such as the ```10X Genomics``` protocol, advise for globin treatment, we hope for the contamination percentage to be as low as possible.
 
 <br>
@@ -308,7 +308,7 @@ Together, these metrics are used by the ```limiric``` algorithm to annotate the 
 
 The main output of the ```limiric``` function comes in the form of a ```barcodes.csv``` containing annotations for each cell barcode of the input data. This can easily be incorporated into an existing scRNA-seq analysis workflow for filtering (see [example](#downstream)).
 
-#### ProjectName_barcodes.csv  
+#### project_name_barcodes.csv  
 
 |     Barcode      | Limiric |
 |:---------------:|:-------:|
@@ -335,26 +335,26 @@ the ```SoupX``` parameter allows you to do so. This will occur before anything e
 
 ```R
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    SoupX        = TRUE,
-    RawPath      = "/home/user/alignment/SRR1234567/raw/",
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    soupx        = TRUE,
+    raw_path      = "/home/user/alignment/SRR1234567/raw/",
+    output_path   = "/home/user/alignment/limiric/"
 )
 ```
 
 <br>
 
 ##### 2. Isolate immune cells
-If you have a sample where only the immune cells are of interest, include the following ```IsolateCD45```
+If you have a sample where only the immune cells are of interest, include the following ```isolate_cd45```
 parameter. This will isolate the immune cells present in the sample, then identify damaged cells.
 
 ```R
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    IsolateCD45  = TRUE,
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    isolate_cd45  = TRUE,
+    output_path   = "/home/user/alignment/limiric/"
 )
 ```
 
@@ -363,7 +363,7 @@ SRR1234567 <- limiric(
 > **NB** This will change your output directory structure by adding a new ```IMCQC``` layer
 >
 > ```
-> OutputPath/
+> output_path/
 > ├── CellQC
 > |
 > ├── IMCQC
@@ -392,17 +392,17 @@ Detect damaged cells and compare results with those from ```DropletQC```.
 
 ```R
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    DropletQC    = TRUE,
-    VelocytoPath = "/home/user/alignment/velocyto/",
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    droplet_qc    = TRUE,
+    velocyto_path = "/home/user/alignment/velocyto/",
+    output_path   = "/home/user/alignment/limiric/"
 )
 ```
 > **NB** This will change your output directory structure by adding a new ```DropletQC``` layer
 >
 > ```
-> OutputPath/
+> output_path/
 > ├── CellQC
 > |
 > ├── DropletQC
@@ -435,20 +435,20 @@ Perform ambient RNA correction with ```SoupX```, filter red blood cells, isolate
 
 ```R
 SRR1234567 <- limiric(
-    ProjectName  = "SRR1234567",
-    FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-    SoupX        = TRUE,
-    RawPath      = "/home/user/alignment/SRR1234567/raw/",
-    DropletQC    = TRUE,
-    IsolateCD45  = TRUE,
-    VelocytoPath = "/home/user/alignment/velocyto/",
-    OutputPath   = "/home/user/alignment/limiric/"
+    project_name  = "SRR1234567",
+    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+    soupx         = TRUE,
+    raw_path      = "/home/user/alignment/SRR1234567/raw/",
+    droplet_qc    = TRUE,
+    isolate_cd45  = TRUE,
+    velocyto_path = "/home/user/alignment/velocyto/",
+    output_path   = "/home/user/alignment/limiric/"
 )
 ```
 > **NB** This will mean your output directory looks like this
 >
 > ```
-> OutputPath/
+> output_path/
 >
 > ├── CellQC
 > |
@@ -469,32 +469,32 @@ SRR1234567 <- limiric(
 
 ```R
 sample_list <- list(
-    list(ProjectName  = "SRR1234567",
-         FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-         SoupX        = TRUE,
-         RawPath      = "/home/user/alignment/SRR1234567/raw/",
-         DropletQC    = TRUE,
-         IsolateCD45  = TRUE,
-         VelocytoPath = "/home/user/alignment/velocyto/",
-         OutputPath   = "/home/user/alignment/limiric/"),
+    list(project_name  = "SRR1234567",
+         filtered_path = "/home/user/alignment/SRR1234567/filtered/",
+         soupx         = TRUE,
+         raw_path      = "/home/user/alignment/SRR1234567/raw/",
+         droplet_qc    = TRUE,
+         isolate_cd45  = TRUE,
+         velocyto_path = "/home/user/alignment/velocyto/",
+         output_path   = "/home/user/alignment/limiric/"),
     
-    list(ProjectName  = "SRR1234568",
-         FilteredPath = "/home/user/alignment/SRR1234568/filtered/",
-         SoupX        = TRUE,
-         RawPath      = "/home/user/alignment/SRR1234568/raw/",
-         DropletQC    = TRUE,
-         IsolateCD45  = TRUE,
-         VelocytoPath = "/home/user/alignment/velocyto/",
-         OutputPath   = "/home/user/alignment/limiric/"),
+    list(project_name  = "SRR1234568",
+         filtered_path = "/home/user/alignment/SRR1234568/filtered/",
+         soupx         = TRUE,
+         raw_path      = "/home/user/alignment/SRR1234568/raw/",
+         droplet_qc    = TRUE,
+         isolate_cd45  = TRUE,
+         velocyto_path = "/home/user/alignment/velocyto/",
+         output_path   = "/home/user/alignment/limiric/"),
     
-    list(ProjectName  = "SRR1234569",
-         FilteredPath = "/home/user/alignment/SRR1234569/filtered/",
-         SoupX        = TRUE,
-         RawPath      = "/home/user/alignment/SRR1234569/raw/",
-         DropletQC    = TRUE,
-         IsolateCD45  = TRUE,
-         VelocytoPath = "/home/user/alignment/velocyto/",
-         OutputPath   = "/home/user/alignment/limiric/")
+    list(project_name  = "SRR1234569",
+         filtered_path = "/home/user/alignment/SRR1234569/filtered/",
+         soupx         = TRUE,
+         raw_path      = "/home/user/alignment/SRR1234569/raw/",
+         droplet_qc    = TRUE,
+         isolate_cd45  = TRUE,
+         velocyto_path = "/home/user/alignment/velocyto/",
+         output_path   = "/home/user/alignment/limiric/")
 )
 
 GSE1234567 <- limiric(sample_list = sample_list)
@@ -548,7 +548,7 @@ gzip *
 ### Adding barcode annotations to pre-existing Seurat object 
 ```R
 # Add output to pre-existing Seurat object
-limiric_annotations <- read.csv2("path/to/ProjectName_barcodes.csv",
+limiric_annotations <- read.csv2("path/to/project_name_barcodes.csv",
                       sep = ",",
                       col.names = c("barcodes", "limiric"))
 
