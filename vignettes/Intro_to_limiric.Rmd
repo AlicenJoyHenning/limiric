@@ -45,12 +45,12 @@ In addition to predicting damaged cells, `limiric` can perform other pre-process
 
 `limiric` makes use of the following packages that can be viewed in detail with the links below
 
-- **[cowplot](https://github.com/cran/cowplot)**: Wilke, C. (2024). See also the vignette: [cowplot vignette](https://cran.r-project.org/web/packages/cowplot/index.html).
-- **[devtools](https://github.com/cran/devtools)**: Wickham, H., & Hester, J. (2022). See also the vignette: [devtools vignette](https://cran.r-project.org/web/packages/devtools/readme/README.html).
+- **[cowplot](https://github.com/cran/cowplot)**: Wilke, C. (2024). 
+- **[devtools](https://github.com/cran/devtools)**: Wickham, H., & Hester, J. (2022).
 - **[DropletQC](https://github.com/powellgenomicslab/DropletQC)**: Muskovic, W. (2024).
-- **[dplyr](https://github.com/cran/dplyr)**: Wickham, H., et al. (2023). See also the vignette: [dplyr vignette](https://cran.r-project.org/web/packages/dplyr/index.html).
-- **[ggplot2](https://github.com/cran/ggplot2)**: Wickham, H. (2016). See also the vignette: [ggplot2 vignette](https://cran.r-project.org/web/packages/ggplot2/index.html).
-- **[Matrix](https://github.com/cran/Matrix)**: Bates, D., et al. (2024). See also the vignette: [Matrix vignette](https://cran.r-project.org/web/packages/Matrix/index.html).
+- **[dplyr](https://github.com/cran/dplyr)**: Wickham, H., et al. (2023).
+- **[ggplot2](https://github.com/cran/ggplot2)**: Wickham, H. (2016).
+- **[Matrix](https://github.com/cran/Matrix)**: Bates, D., et al. (2024).
 - **[png](https://github.com/cran/png)**: Urbanek, S. (2022). 
 - **[Seurat](https://satijalab.org/seurat/)**: Satija, R., & Farrell, C., et al. (2015).
 - **[SoupX](https://github.com/constantAmateur/SoupX)**: Young, M., & Behjati, S. (2020). 

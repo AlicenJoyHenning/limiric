@@ -1,5 +1,5 @@
 Package: limiric
-Title: Damaged Cell Detection for Single-Cell RNA Sequencing Quality Control
+Title: Detect Damaged Cells in Single-Cell RNA Sequencing Data
 Version: 1.0.0
 Authors@R: 
     c(
