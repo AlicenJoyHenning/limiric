@@ -30,8 +30,7 @@ Imports:
     methods,
     png,
     Seurat,
-    SoupX
-Suggests: 
+    SoupX,
     knitr,
     rmarkdown
 VignetteBuilder: knitr

@@ -53,7 +53,7 @@ jobs:
           extra-packages: any::rcmdcheck
 
       - name: Install urlchecker
-        run: Rscript -e 'install.packages("urlchecker")'
+        run: Rscript -e 'install.packages("urlchecker", repos = "https://cloud.r-project.org")'
 
       - name: Check URLs
         run: Rscript -e 'urlchecker::url_check(".")'
