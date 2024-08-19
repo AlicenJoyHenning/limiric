@@ -9,11 +9,7 @@ vignette: >
 
 ## Description
 
-`limiric` is a quality control package for detecting damaged cells in single cell RNA sequencing data, featuring a single function, `limiric`. To learn more about the `limiric` function, you can refer to its help page:
-
-```r
-?limiric
-```
+`limiric` is a quality control package for detecting damaged cells in single cell RNA sequencing data, featuring a single function, `limiric`. 
 
 ## Quickstart
 
@@ -42,21 +38,19 @@ SRR1234567 <- limiric(
 
 In addition to predicting damaged cells, `limiric` can perform other pre-processing tasks. This includes removing red blood cells, performing ambient RNA correction with the `SoupX` package, and isolating immune cells. It can also be used in combination with the damaged cell detection functionality of the `DropletQC` package. 
 
-For more information and specific usage examples, please refer to the `limiric` GitHub repository https://github.com/AlicenJoyHenning/limiric/
+<!-- For more information and specific usage examples, please refer to the `limiric` GitHub repository https://github.com/AlicenJoyHenning/limiric/ -->
 
 
 ## Dependencies
 
 `limiric` makes use of the following packages that can be viewed in detail with the links below
 
-- **[cowplot](https://github.com/cran/cowplot)**: Wilke, C. (2024). GitHub repository. See also the vignette: [cowplot vignette](https://cran.r-project.org/web/packages/cowplot/vignettes/cowplot.html).
-- **[devtools](https://github.com/cran/devtools)**: Wickham, H., & Hester, J. (2022). GitHub repository. See also the vignette: [devtools vignette](https://cran.r-project.org/web/packages/devtools/vignettes/devtools.html).
+- **[cowplot](https://github.com/cran/cowplot)**: Wilke, C. (2024). See also the vignette: [cowplot vignette](https://CRAN.R-project.org/web/package=cowplot).
+- **[devtools](https://github.com/cran/devtools)**: Wickham, H., & Hester, J. (2022). See also the vignette: [devtools vignette](https://CRAN.R-project.org/web/package=devtools).
 - **[DropletQC](https://github.com/powellgenomicslab/DropletQC)**: Muskovic, W. (2024). GitHub repository.
-- **[dplyr](https://github.com/cran/dplyr)**: Wickham, H., et al. (2023). GitHub repository. See also the vignette: [dplyr vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html).
-- **[ggplot2](https://github.com/cran/ggplot2)**: Wickham, H. (2016). GitHub repository. See also the vignette: [ggplot2 vignette](https://cran.r-project.org/web/packages/ggplot2/vignettes/ggplot2.html).
-- **[Matrix](https://github.com/cran/Matrix)**: Bates, D., et al. (2024). GitHub repository. See also the vignette: [Matrix vignette](https://cran.r-project.org/web/packages/Matrix/vignettes/Matrix.html).
-- **[png](https://github.com/cran/png)**: Urbanek, S. (2022). GitHub repository.
-- **[Seurat](https://satijalab.org/seurat/)**: Satija, R., & Farrell, C., et al. (2015). Website and GitHub repository. See also the vignettes: [Seurat vignettes](https://satijalab.org/seurat/articles/).
-- **[SoupX](https://github.com/HaveFun/soupX)**: Young, M., & Behjati, S. (2020). GitHub repository.
-
-
+- **[dplyr](https://github.com/cran/dplyr)**: Wickham, H., et al. (2023). See also the vignette: [dplyr vignette](https://CRAN.R-project.org/web/package=dplyr).
+- **[ggplot2](https://github.com/cran/ggplot2)**: Wickham, H. (2016). See also the vignette: [ggplot2 vignette](https://CRAN.R-project.org/web/package=ggplot2).
+- **[Matrix](https://github.com/cran/Matrix)**: Bates, D., et al. (2024). See also the vignette: [Matrix vignette](https://CRAN.R-project.org/web/package=Matrix).
+- **[png](https://github.com/cran/png)**: Urbanek, S. (2022). 
+- **[Seurat](https://satijalab.org/seurat/)**: Satija, R., & Farrell, C., et al. (2015). See also the vignettes: [Seurat vignettes](https://satijalab.org/seurat/articles/).
+- **[SoupX](https://github.com/constantAmateur/SoupX)**: Young, M., & Behjati, S. (2020). 
