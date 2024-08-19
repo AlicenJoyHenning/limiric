@@ -214,9 +214,6 @@ test <- limiric(
 <br>
 
 If anything other than the output below is displayed, please check the installation of prerequisites or open an ```issue``` on this ```GitHub``` page.
-
-<br>
-
 ```R
 # Beginning limiric analysis for test_run ...
 # ✔ Seurat object created
