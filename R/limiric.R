@@ -2,7 +2,7 @@
 #'
 #' @name limiric
 #'
-#' @description Function that takes as input filtered scRNA-seq alignment output (or a **Seurat** object)
+#' @description Takes as input filtered scRNA-seq alignment output (or a **Seurat** object)
 #' and identifies damaged cells present within the sample according to
 #' low dimension mitochondrial and ribosomal clustering.
 #'
@@ -26,117 +26,29 @@
 #' @import cowplot
 #' @importFrom dplyr %>% mutate case_when
 #' @import ggplot2
+#' @importFrom methods is
 #' @importFrom png readPNG
 #' @import Seurat
 #' @importFrom utils globalVariables
 #'
 #' @examples
 #' \dontrun{
-#' ## 1. Basic usage
 #'
-#' # Detect damaged cells in a single sample using
-#' # the filtered alignment files
+#' if (interactive()) {
 #'
-#' SRR1234567 <- limiric(
-#'     project_name  = "SRR1234567",
-#'     filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-#'     output_path   = "/home/user/alignment/limiric/"
-#' )
+#'   # Load example Seurat object from the limiric package
+#'   data("test_data", package = "limiric")
 #'
 #'
-#' ## 2. Perform ambient RNA correction prior to damaged cell detection
+#'   # Run the limiric function with the example data
+#'   test <- limiric_core(
+#'     project_name = "test_run",
+#'     filter_rbc = FALSE,
+#'     seurat_input = test_data,
+#'     output_path = tempdir()
+#'   )
+#' }
 #'
-#' # Detect damaged cells after performing ambient RNA correction
-#'
-#' SRR1234567 <- limiric(
-#'     project_name  = "SRR1234567",
-#'     filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-#'     soupx        = TRUE,
-#'     raw_path      = "/home/user/alignment/SRR1234567/raw/",
-#'     output_path   = "/home/user/alignment/limiric/"
-#' )
-#'
-#'
-#' ## 3. First isolate the immune cells present in the sample
-#' # then identify damaged cells
-#'
-#' SRR1234567 <- limiric(
-#'     project_name  = "SRR1234567",
-#'     filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-#'     isolate_cd45  = TRUE,
-#'     output_path   = "/home/user/alignment/limiric/"
-#' )
-#'
-#'
-#' ## 4. Combine limiric damaged cell annotations with droplet_qc
-#'
-#' # Detect damaged cells and compare results with those from droplet_qc
-#'
-#' SRR1234567 <- limiric(
-#'     project_name  = "SRR1234567",
-#'     filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-#'     droplet_qc    = TRUE,
-#'     velocyto_path = "/home/user/alignment/velocyto/",
-#'     output_path   = "/home/user/alignment/limiric/"
-#' )
-#'
-#'
-#' ## 5. Combine the previous four conditions
-#'
-#' SRR1234567 <- limiric(
-#'     project_name  = "SRR1234567",
-#'     filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-#'     soupx        = TRUE,
-#'     raw_path      = "/home/user/alignment/SRR1234567/raw/",
-#'     droplet_qc    = TRUE,
-#'     isolate_cd45  = TRUE,
-#'     velocyto_path = "/home/user/alignment/velocyto/",
-#'     output_path   = "/home/user/alignment/limiric/"
-#' )
-#'
-#'
-#' ## 6. Conditions exactly as for 5
-#' # but multiple samples are being run instead of just one
-#'
-#' sample_list <- list(
-#'
-#'     list(project_name  = "SRR1234567",
-#'          filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-#'          soupx        = TRUE,
-#'          raw_path      = "/home/user/alignment/SRR1234567/raw/",
-#'          droplet_qc    = TRUE,
-#'          isolate_cd45  = TRUE,
-#'          velocyto_path = "/home/user/alignment/velocyto/",
-#'          output_path   = "/home/user/alignment/limiric/"),
-#'
-#'     list(project_name  = "SRR1234568",
-#'          filtered_path = "/home/user/alignment/SRR1234568/filtered/",
-#'          soupx        = TRUE,
-#'          raw_path      = "/home/user/alignment/SRR1234568/raw/",
-#'          droplet_qc    = TRUE,
-#'          isolate_cd45  = TRUE,
-#'          velocyto_path = "/home/user/alignment/velocyto/",
-#'          output_path   = "/home/user/alignment/limiric/"),
-#'
-#'     list(project_name  = "SRR1234569",
-#'          filtered_path = "/home/user/alignment/SRR1234569/filtered/",
-#'          soupx        = TRUE,
-#'          raw_path      = "/home/user/alignment/SRR1234569/raw/",
-#'          droplet_qc    = TRUE,
-#'          isolate_cd45  = TRUE,
-#'          velocyto_path = "/home/user/alignment/velocyto/",
-#'          output_path   = "/home/user/alignment/limiric/")
-#' )
-#'
-#' GSE1234567 <- limiric(sample_list = sample_list)
-#'
-#' ## 7. Alternatively, use a Seurat object as input
-#'
-#' SRR1234567 <- limiric(
-#'     project_name  = "SRR1234567",
-#'     seurat_input  = seurat_object,
-#'     output_path   = "/home/user/alignment/limiric/"
-#' )
 #' }
 #'
 #' @export

@@ -104,7 +104,7 @@ limiric_core <- function(
   }
 
   # EITHER create project Seurat object with filtered counts
-  if (is.null(seurat_input) || seurat_input == FALSE) {
+  if (is.null(seurat_input)) {
 
     # Create Seurat object using filtered counts (zipped)
     table_of_counts <- suppressWarnings(Read10X(filtered_path))
@@ -129,8 +129,14 @@ limiric_core <- function(
   # OR use input Seurat object if provided
 
   else {
+
    # If specified input is Seurat object, take it as such
    Seurat <- seurat_input
+
+   # Check if the input is a Seurat object
+   if (!methods::is(test_data, "Seurat")) {
+     stop("Error: Ensure seurat_input is either a Seurat object or NULL.")
+   }
 
    # Store unfiltered cell barcodes
    storage <- Seurat

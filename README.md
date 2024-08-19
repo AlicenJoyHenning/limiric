@@ -278,42 +278,28 @@ From literature we know that damaged cells have high mitochondrial expression an
 
 Now answering the question of which cluster is which is easy with the <code>limiric</code> tSNEs where the mitochondrial and ribosomal gene expression of each cell is made visible. 
 
-<br><br>
-
-<table>
-  <tr>
-    <td style="vertical-align: top;">
-      A <code>Mitochondrial gene expression</code> tSNE shows that cells in the smaller cluster express mitochondrial genes at a very high level, suggesting they are likely damaged.
-    </td>
-    <td style="vertical-align: top;">
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/mi.png" alt="Mitochondrial gene expression tSNE" width="1500">
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      The same conclusion can be reached looking at the <code>Ribosomal gene expression</code> tSNE where cells in the smaller cluster express ribosomal genes at a very low level.
-    </td>
-    <td style="vertical-align: top;">
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/ri.png" alt="Ribosomal gene expression tSNE" width="1500">
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align: top;">
-      The <code>Complexity score</code> measures the total number of mitochondrial and ribosomal genes expressed in a cell. Cells that express a large number of these genes are more likely to be metabolically active, undamaged cells while those that only express a few are likely not. In the <code>Complexity score</code> tSNE, the smaller cluster contains cells with very low complexities. This verifies by another metric that these cells are likely damaged.
-    </td>
-    <td style="vertical-align: top;">
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/com.png" alt="Complexity tSNE" width="1500">
-    </td>
-  </tr>
-</table>
-
-<br><br>
-Together, these metrics are used by the ```limiric``` algorithm to annotate the _damaged_ cells, as shown in the fourth and final tSNE. In summary, by looking at the ```limiric``` tSNE plots, we can immediately tell that we have a small cluster of cells that are likley damaged and should be removed from the sample. This makes sense as, unless something went drastically wrong during sample preparations, you expect there to be far more healthy than damaged cells in your scRNA-seq data.
 <br>
-<br>
+
 <p align="center">
   <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/CellQC.png" style="float: right; margin-left: 200px;" width="500">
 </p>
+
+<br>
+
+- A `Mitochondrial gene expression` tSNE shows that cells in the smaller cluster express mitochondrial genes at a very high level, suggesting they are likely damaged.
+
+<br>
+
+- The same conclusion can be reached looking at the `Ribosomal gene expression` tSNE where cells in the smaller cluster express ribosomal genes at a very low level.
+
+<br>
+
+- The `Complexity score` measures the total number of mitochondrial and ribosomal genes expressed in a cell. Cells that express a large number of these genes are more likely to be metabolically active, undamaged cells while those that only express a few are likely not. In the `Complexity score` tSNE, the smaller cluster contains cells with very low complexities. This verifies by another metric that these cells are likely damaged.
+
+<br><br>
+
+Together, these metrics are used by the ```limiric``` algorithm to annotate the _damaged_ cells, as shown in the fourth and final tSNE. In summary, by looking at the ```limiric``` tSNE plots, we can immediately tell that we have a small cluster of cells that are likley damaged and should be removed from the sample. This makes sense as, unless something went drastically wrong during sample preparations, you expect there to be far more healthy than damaged cells in your scRNA-seq data.
+
 <br><br>
 
 
