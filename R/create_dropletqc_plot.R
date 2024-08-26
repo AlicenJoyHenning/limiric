@@ -6,8 +6,8 @@
 #' for viewing labels in reduced space and scatter plot of nf vs UMI_count.
 #' The result is saved as a PNG.
 #'
-#' @param Seurat A Seurat object containing the single-cell RNA-seq data.
-#' @param limiric A Seurat object containing the limiric data.
+#' @param Seurat A 'Seurat' object containing the single-cell RNA-seq data.
+#' @param limiric A 'Seurat' object containing the 'limiric' data.
 #' @param output_path A string representing the path to save the plots.
 #' @param project_name A string representing the name of the project, used as the plot title.
 #' @param damaged_percent A numeric value representing the percentage of damaged cells.
