@@ -2,26 +2,26 @@
 #'
 #' @name limiric
 #'
-#' @description Takes as input filtered scRNA-seq alignment output (or a **Seurat** object)
+#' @description Takes as input filtered scRNA-seq alignment output (or 'Seurat' object)
 #' and identifies damaged cells present within the sample according to
 #' low dimension mitochondrial and ribosomal clustering.
 #'
 #' @param project_name String with project or sample name
 #' @param filtered_path Directory of filtered alignment output
-#' @param seurat_input Seurat object to be used as input over raw files. Default NULL
+#' @param seurat_input 'Seurat' object to be used as input over raw files. Default NULL
 #' @param min_cells In how many cells should a gene be expressed to be kept
 #' @param soupx Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE
 #' @param raw_path Directory of unfiltered alignment output
 #' @param droplet_qc Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE
-#' @param velocyto_path Directory of Veocyto filtered alignment output
+#' @param velocyto_path Directory of 'Velocyto' filtered alignment output
 #' @param filter_rbc Whether or not red blood cells should be removed. Default is TRUE
 #' @param isolate_cd45 Discard non-immune cells. Default is FALSE
 #' @param filter_output Should output contain no damaged cells. Default is TRUE
-#' @param output_path Directory where limiric output should be generated
+#' @param output_path Directory where 'limiric' output should be generated
 #' @param organism "Hsap" if human sample or "Mmus" if mouse sample
 #' @param sample_list Input multiple samples in list. Default is FALSE
 #'
-#' @return (list) Output storing the final **Seurat** object
+#' @return (list) Output storing the final 'Seurat' object
 #'
 #' @import cowplot
 #' @importFrom dplyr %>% mutate case_when
