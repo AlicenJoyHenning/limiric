@@ -1,4 +1,4 @@
-# This file includes code derived from the DropletQC package.
+# This file includes code derived from the 'DropletQC' package.
 #
 # Copyright (c) 2021 Walter Muskovic
 #
@@ -8,7 +8,7 @@
 #'
 #' @name identify_empty_droplets
 #'
-#' @description powellgenomicslab/DropletQC function is used to identify a suitable nuclear fraction
+#' @description Identify a suitable nuclear fraction
 #'   cut-off point to guide the identification of empty droplets. To do this it
 #'   calculates the kernel density estimate of the input nuclear fraction scores
 #'   and identifies the trough after the first peak, which is assumed to
