@@ -1,4 +1,4 @@
-# This file includes code derived from the DropletQC package.
+# This file includes code derived from the 'DropletQC' package.
 #
 # Copyright (c) 2021 Walter Muskovic
 #
