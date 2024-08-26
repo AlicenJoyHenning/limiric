@@ -2,18 +2,18 @@
 #'
 #' @name limiric_calculation
 #'
-#' @description This helper function calculates the LIMIRIC metrics for a given Seurat object and organism.
-#' It identifies mitochondrial and ribosomal genes, reduces the Seurat object based on these genes,
-#' and calculates various metrics including mitochondrial and ribosomal expression, and complexity.
+#' @description This helper function calculates the 'limiric' metrics for a given 'Seurat' object and organism.
+#' It identifies mitochondrial and ribosomal genes, reduces the 'Seurat' object based on these genes,
+#' and calculates various metrics including mitochondrial and ribosomal expression complexity.
 #'
 #' @param organism A string representing the organism ("Hsap", "Mmus").
-#' @param Seurat A Seurat object containing the single-cell RNA-seq data.
+#' @param Seurat A 'Seurat' object containing the single-cell RNA-seq data.
 #' @param annotations A data frame containing gene annotations.
 #' @param initial_cells An integer representing the initial number of cells.
 #' @param project_name A string representing the name of the project, used for plot titles.
 #' @param output_path A string representing the path to save the output plots.
 #'
-#' @return A list containing the updated Seurat object and the reduced Seurat object (limiric).
+#' @return A list containing the updated 'Seurat' object and the reduced 'Seurat' object.
 #'
 #' @import cowplot
 #' @importFrom dplyr %>% pull group_by summarise mutate arrange slice
