@@ -10,8 +10,8 @@
 #'
 #' @name assess_EM
 #'
-#' @description powellgenomicslab/DropletQC helper function called by
-#'  `identify_damaged_cells` not intended for more general use.
+#' @description Helper function called by
+#'  identify_damage_cells() not intended for more general use.
 #'  The function is designed to detect and label damaged cells based on
 #'  their UMI counts and nuclear fraction, relying on the EM model
 #'  to differentiate between potential cell populations. The thresholds
