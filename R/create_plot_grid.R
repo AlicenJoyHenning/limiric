@@ -4,7 +4,7 @@
 #'
 #' @description Helper function to save a grid of plots with a specified number of columns and rows.
 #'
-#' @param plots A list of ggplot objects to be arranged in a grid.
+#' @param plots A list of 'ggplot2' objects to be arranged in a grid.
 #' @param file_path A string representing the file path where the plot grid will be saved.
 #' @param ncol An integer representing the number of columns in the plot grid. Default is 5.
 #' @param nrow An integer representing the number of rows in the plot grid. Default is 3.
