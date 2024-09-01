@@ -8,9 +8,11 @@
 
 \item{filtered_path}{Directory of filtered alignment output}
 
-\item{seurat_input}{Seurat object to be used as input over raw files. Default NULL}
+\item{seurat_input}{'Seurat' object to be used as input over raw files. Default NULL}
 
 \item{min_cells}{In how many cells should a gene be expressed to be kept}
+
+\item{resolution}{Numeric between 0 and 1.6 describing cluster division. Default 1}
 
 \item{soupx}{Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE}
 
@@ -18,7 +20,7 @@
 
 \item{droplet_qc}{Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE}
 
-\item{velocyto_path}{Directory of Veocyto filtered alignment output}
+\item{velocyto_path}{Directory of 'Velocyto' filtered alignment output}
 
 \item{filter_rbc}{Whether or not red blood cells should be removed. Default is TRUE}
 
@@ -26,17 +28,17 @@
 
 \item{filter_output}{Should output contain no damaged cells. Default is TRUE}
 
-\item{output_path}{Directory where limiric output should be generated}
+\item{output_path}{Directory where 'limiric' output should be generated}
 
 \item{organism}{"Hsap" if human sample or "Mmus" if mouse sample}
 
 \item{sample_list}{Input multiple samples in list. Default is FALSE}
 }
 \value{
-(list) Output storing the final \strong{Seurat} object
+(list) Output storing the final 'Seurat' object
 }
 \description{
-Takes as input filtered scRNA-seq alignment output (or a \strong{Seurat} object)
+Takes as input filtered scRNA-seq alignment output (or 'Seurat' object)
 and identifies damaged cells present within the sample according to
 low dimension mitochondrial and ribosomal clustering.
 }
@@ -49,11 +51,11 @@ if (interactive()) {
 
 
   # Run the limiric function with the example data
-  test <- limiric_core(
+  test <- limiric(
     project_name = "test_run",
-    filter_rbc = FALSE,
+    filter_rbc   = FALSE,
     seurat_input = test_data,
-    output_path = tempdir()
+    output_path  = tempdir()
   )
 }
 

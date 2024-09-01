@@ -10,6 +10,7 @@
 #' @param filtered_path Directory of filtered alignment output
 #' @param seurat_input 'Seurat' object to be used as input over raw files. Default NULL
 #' @param min_cells In how many cells should a gene be expressed to be kept
+#' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
 #' @param soupx Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE
 #' @param raw_path Directory of unfiltered alignment output
 #' @param droplet_qc Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE
@@ -32,7 +33,7 @@
 #' @importFrom utils globalVariables
 #'
 #' @examples
-#' 
+#'
 #' if (interactive()) {
 #'
 #'   # Load example Seurat object from the limiric package
@@ -65,6 +66,7 @@ limiric <- function(
   filtered_path = NULL,
   seurat_input  = NULL,
   min_cells     = NULL,
+  resolution    = NULL,
   soupx         = NULL,
   raw_path      = NULL,
   droplet_qc    = NULL,
@@ -87,6 +89,7 @@ limiric <- function(
     # Account for defaults
     if (is.null(seurat_input))  {seurat_input = NULL}
     if (is.null(min_cells))     {min_cells = 0}
+    if (is.null(resolution))    {resolution = 1}
     if (is.null(soupx))         {soupx = FALSE}
     if (is.null(droplet_qc))    {droplet_qc = FALSE}
     if (is.null(filter_rbc))    {filter_rbc = TRUE}
@@ -101,6 +104,7 @@ limiric <- function(
       filtered_path = filtered_path,
       seurat_input  = seurat_input,
       min_cells     = min_cells,
+      resolution    = resolution,
       soupx         = soupx,
       raw_path      = raw_path,
       droplet_qc    = droplet_qc,
@@ -158,6 +162,7 @@ limiric <- function(
       filtered_path <- sample$filtered_path
       seurat_input  <- sample$seurat_input
       min_cells     <- sample$min_cells
+      resolution    <- sample$resolution
       soupx         <- sample$soupx
       raw_path      <- sample$raw_path
       droplet_qc    <- sample$droplet_qc
@@ -171,9 +176,10 @@ limiric <- function(
       # Account for defaults
       if (is.null(seurat_input))  {seurat_input = NULL}
       if (is.null(min_cells))     {min_cells = 0}
+      if (is.null(resolution))    {resolution = 1}
       if (is.null(soupx))         {soupx = FALSE}
       if (is.null(droplet_qc))    {droplet_qc = FALSE}
-    if (is.null(filter_rbc))      {filter_rbc = TRUE}
+      if (is.null(filter_rbc))    {filter_rbc = TRUE}
       if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
       if (is.null(filter_output)) {filter_output = TRUE}
       if (is.null(organism))      {organism = "Hsap"}
@@ -189,6 +195,7 @@ limiric <- function(
           filtered_path = filtered_path,
           seurat_input  = seurat_input,
           min_cells     = min_cells,
+          resolution    = resolution,
           soupx         = soupx,
           raw_path      = raw_path,
           droplet_qc    = droplet_qc,
@@ -197,7 +204,7 @@ limiric <- function(
           isolate_cd45  = isolate_cd45,
           filter_output = filter_output,
           output_path   = output_path,
-          organism     = organism
+          organism      = organism
 
         )
 

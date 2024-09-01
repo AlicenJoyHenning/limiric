@@ -7,7 +7,7 @@
 create_plot_grid(plots, file_path, nrow, ncol = 5)
 }
 \arguments{
-\item{plots}{A list of ggplot objects to be arranged in a grid.}
+\item{plots}{A list of 'ggplot2' objects to be arranged in a grid.}
 
 \item{file_path}{A string representing the file path where the plot grid will be saved.}
 

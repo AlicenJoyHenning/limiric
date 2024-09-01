@@ -6,7 +6,9 @@
 \arguments{
 \item{organism}{A string representing the organism ("Hsap", "Mmus").}
 
-\item{Seurat}{A Seurat object containing the single-cell RNA-seq data.}
+\item{Seurat}{A 'Seurat' object containing the single-cell RNA-seq data.}
+
+\item{resolution}{Numeric between 0 and 1.6 describing cluster division. Default is 1.}
 
 \item{annotations}{A data frame containing gene annotations.}
 
@@ -17,12 +19,12 @@
 \item{output_path}{A string representing the path to save the output plots.}
 }
 \value{
-A list containing the updated Seurat object and the reduced Seurat object (limiric).
+A list containing the updated 'Seurat' object and the reduced 'Seurat' object.
 }
 \description{
-This helper function calculates the LIMIRIC metrics for a given Seurat object and organism.
-It identifies mitochondrial and ribosomal genes, reduces the Seurat object based on these genes,
-and calculates various metrics including mitochondrial and ribosomal expression, and complexity.
+This helper function calculates the 'limiric' metrics for a given 'Seurat' object and organism.
+It identifies mitochondrial and ribosomal genes, reduces the 'Seurat' object based on these genes,
+and calculates various metrics including mitochondrial and ribosomal expression complexity.
 }
 \examples{
 \dontrun{

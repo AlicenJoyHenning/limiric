@@ -8,6 +8,7 @@
 #'
 #' @param organism A string representing the organism ("Hsap", "Mmus").
 #' @param Seurat A 'Seurat' object containing the single-cell RNA-seq data.
+#' @param resolution Numeric between 0 and 1.6 describing cluster division. Default is 1.
 #' @param annotations A data frame containing gene annotations.
 #' @param initial_cells An integer representing the initial number of cells.
 #' @param project_name A string representing the name of the project, used for plot titles.
@@ -52,6 +53,7 @@ utils::globalVariables(c("mt_plot", "complexity_plot", "rb_plot",
 
 limiric_calculation <- function(organism,
                                 Seurat,
+                                resolution,
                                 annotations,
                                 initial_cells,
                                 project_name,
@@ -111,7 +113,7 @@ limiric_calculation <- function(organism,
     ScaleData(verbose = FALSE) %>%
     RunPCA(verbose = FALSE) %>%
     FindNeighbors(dims = 1:10, verbose = FALSE) %>%
-    FindClusters(resolution = 1, verbose = FALSE) %>%
+    FindClusters(resolution = resolution, verbose = FALSE) %>%
     RunTSNE(dims = 1:10, verbose = FALSE, check_duplicates = FALSE)
 
   # Calculate mitochondrial & ribosomal QC metrics ------------------------------------

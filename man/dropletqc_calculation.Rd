@@ -4,16 +4,16 @@
 \alias{dropletqc_calculation}
 \title{Identify Empty Droplets and Damaged Cells}
 \arguments{
-\item{Seurat}{A Seurat object containing the single-cell RNA-seq data.}
+\item{Seurat}{A 'Seurat' object containing the single-cell RNA-seq data.}
 }
 \value{
-The updated Seurat object with droplet QC results added to its meta data.
+The updated 'Seurat' object with 'DropletQC' results added to its meta data.
 }
 \description{
-This helper function extracts nf meta data and associated cell barcodes from a Seurat object,
-identifies empty droplets using the \code{identify_empty_droplets} function, and identifies
-damaged cells using the \code{identify_damage_cells} function. The results are added to the
-Seurat object's meta data.
+This helper function extracts nf meta data and associated cell barcodes from a 'Seurat' object,
+identifies empty droplets using identify_empty_droplets() and identifies
+damaged cells using the identify_damage_cells() function. The results are added to the
+'Seurat' object's meta data.
 }
 \examples{
 \dontrun{

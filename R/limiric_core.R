@@ -8,6 +8,7 @@
 #' @param filtered_path Directory of filtered alignment output
 #' @param seurat_input Seurat object to be used as input over raw files. Default NULL
 #' @param min_cells In how many cells should a gene be expressed to be kept
+#' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
 #' @param soupx Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE
 #' @param raw_path Directory of unfiltered alignment output
 #' @param droplet_qc Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE
@@ -62,6 +63,7 @@ limiric_core <- function(
     filtered_path,
     seurat_input  = NULL,
     min_cells     = 0,
+    resolution    = 1,
     soupx         = FALSE,
     raw_path      = NULL,
     droplet_qc    = FALSE,

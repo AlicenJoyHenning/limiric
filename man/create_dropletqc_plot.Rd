@@ -4,9 +4,9 @@
 \alias{create_dropletqc_plot}
 \title{Create DropletQC plot output}
 \arguments{
-\item{Seurat}{A Seurat object containing the single-cell RNA-seq data.}
+\item{Seurat}{A 'Seurat' object containing the single-cell RNA-seq data.}
 
-\item{limiric}{A Seurat object containing the limiric data.}
+\item{limiric}{A 'Seurat' object containing the 'limiric' data.}
 
 \item{output_path}{A string representing the path to save the plots.}
 

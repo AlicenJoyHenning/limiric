@@ -12,6 +12,8 @@
 
 \item{min_cells}{In how many cells should a gene be expressed to be kept}
 
+\item{resolution}{Numeric between 0 and 1.6 describing cluster division. Default 1}
+
 \item{soupx}{Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE}
 
 \item{raw_path}{Directory of unfiltered alignment output}
