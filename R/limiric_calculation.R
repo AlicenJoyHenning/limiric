@@ -9,6 +9,7 @@
 #' @param organism A string representing the organism ("Hsap", "Mmus").
 #' @param Seurat A 'Seurat' object containing the single-cell RNA-seq data.
 #' @param resolution Numeric between 0 and 1.6 describing cluster division. Default is 1.
+#' @param cluster_ranks Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.
 #' @param annotations A data frame containing gene annotations.
 #' @param initial_cells An integer representing the initial number of cells.
 #' @param project_name A string representing the name of the project, used for plot titles.
@@ -54,6 +55,7 @@ utils::globalVariables(c("mt_plot", "complexity_plot", "rb_plot",
 limiric_calculation <- function(organism,
                                 Seurat,
                                 resolution,
+                                cluster_ranks,
                                 annotations,
                                 initial_cells,
                                 project_name,
@@ -168,12 +170,12 @@ limiric_calculation <- function(organism,
       combined_rank = rank_mt + rank_rb
     ) %>%
     arrange(combined_rank) %>%
-    slice(1) %>%
+    slice(1:cluster_ranks) %>%
     pull(seurat_clusters) %>%
     as.character()
 
   # Label all cells belonging to this cluster as "damaged"
-  limiric$seurat_clusters <- ifelse(limiric$seurat_clusters == best_cluster, 'damaged', limiric$seurat_clusters)
+  limiric$seurat_clusters <- ifelse(limiric$seurat_clusters %in% best_cluster, 'damaged', limiric$seurat_clusters)
 
   # Add Cell QC meta data to object
   limiric$MtRb <- ifelse(limiric$seurat_clusters == "damaged", "damaged", "cell")
@@ -189,14 +191,14 @@ limiric_calculation <- function(organism,
 
   # Visualise  clusters coloured by QC metrics ------------------------------------
 
-  mt_plot <- FeaturePlot(limiric, features = c("mt.percent"), cols = c("#E1E1E1", "#5372B4"), pt.size = 1) +
+  mt_plot <- FeaturePlot(limiric, features = c("mt.percent"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
     NoAxes() + labs(caption = "Mitochondrial gene expression") +
     theme(
       plot.title   = element_blank(),
       panel.border = element_rect(colour = "black", fill=NA, linewidth =1),
       plot.caption = element_text(hjust = 0.5, size = 16))
 
-  rb_plot <- FeaturePlot(limiric, features = c("rb.percent"), cols = c("#E1E1E1", "#5372B4"), pt.size = 1) +
+  rb_plot <- FeaturePlot(limiric, features = c("rb.percent"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
     NoAxes() + labs(caption = "Ribosomal gene expression") +
     theme(
       plot.title = element_blank(),
@@ -204,7 +206,7 @@ limiric_calculation <- function(organism,
       plot.caption = element_text(hjust = 0.5, size = 16))
 
   cluster_plot <- DimPlot(
-    limiric, pt.size = 1, group.by = "MtRb", cols = c("cell" = "grey", "damaged" = "#5372B4")) +
+    limiric, pt.size = 1, group.by = "MtRb", cols = c("cell" = "grey", "damaged" = "#6765ED")) +
     labs(caption = expression("Damaged cells identified by " * italic("limiric"))) + NoAxes() +
     theme(
       plot.title = element_blank(),
@@ -212,7 +214,7 @@ limiric_calculation <- function(organism,
       panel.border = element_rect(colour = "black", fill=NA, linewidth =1)
     )
 
-  complexity_plot <- FeaturePlot(limiric, features = c("complexity"), cols = c("#E1E1E1", "#5372B4"), pt.size = 1) +
+  complexity_plot <- FeaturePlot(limiric, features = c("complexity"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
     NoAxes() + labs(caption = "Complexity score") +
     theme(
       plot.title = element_blank(),

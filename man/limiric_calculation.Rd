@@ -10,6 +10,8 @@
 
 \item{resolution}{Numeric between 0 and 1.6 describing cluster division. Default is 1.}
 
+\item{cluster_ranks}{Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.}
+
 \item{annotations}{A data frame containing gene annotations.}
 
 \item{initial_cells}{An integer representing the initial number of cells.}

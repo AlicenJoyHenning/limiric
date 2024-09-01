@@ -10,7 +10,6 @@
 #' @param filtered_path Directory of filtered alignment output
 #' @param seurat_input 'Seurat' object to be used as input over raw files. Default NULL
 #' @param min_cells In how many cells should a gene be expressed to be kept
-#' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
 #' @param soupx Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE
 #' @param raw_path Directory of unfiltered alignment output
 #' @param droplet_qc Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE
@@ -20,6 +19,8 @@
 #' @param filter_output Should output contain no damaged cells. Default is TRUE
 #' @param output_path Directory where 'limiric' output should be generated
 #' @param organism "Hsap" if human sample or "Mmus" if mouse sample
+#' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
+#' @param cluster_ranks Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.
 #' @param sample_list Input multiple samples in list. Default is FALSE
 #'
 #' @return (list) Output storing the final 'Seurat' object
@@ -66,7 +67,6 @@ limiric <- function(
   filtered_path = NULL,
   seurat_input  = NULL,
   min_cells     = NULL,
-  resolution    = NULL,
   soupx         = NULL,
   raw_path      = NULL,
   droplet_qc    = NULL,
@@ -76,6 +76,8 @@ limiric <- function(
   filter_output = NULL,
   output_path   = NULL,
   organism      = NULL,
+  resolution    = NULL,
+  cluster_ranks = NULL,
   sample_list   = NULL
 
 ){
@@ -90,6 +92,7 @@ limiric <- function(
     if (is.null(seurat_input))  {seurat_input = NULL}
     if (is.null(min_cells))     {min_cells = 0}
     if (is.null(resolution))    {resolution = 1}
+    if (is.null(cluster_ranks)) {cluster_ranks = 1}
     if (is.null(soupx))         {soupx = FALSE}
     if (is.null(droplet_qc))    {droplet_qc = FALSE}
     if (is.null(filter_rbc))    {filter_rbc = TRUE}
@@ -105,6 +108,7 @@ limiric <- function(
       seurat_input  = seurat_input,
       min_cells     = min_cells,
       resolution    = resolution,
+      cluster_ranks = cluster_ranks,
       soupx         = soupx,
       raw_path      = raw_path,
       droplet_qc    = droplet_qc,
@@ -163,6 +167,7 @@ limiric <- function(
       seurat_input  <- sample$seurat_input
       min_cells     <- sample$min_cells
       resolution    <- sample$resolution
+      cluster_ranks <- sample$cluster_ranks
       soupx         <- sample$soupx
       raw_path      <- sample$raw_path
       droplet_qc    <- sample$droplet_qc
@@ -177,6 +182,7 @@ limiric <- function(
       if (is.null(seurat_input))  {seurat_input = NULL}
       if (is.null(min_cells))     {min_cells = 0}
       if (is.null(resolution))    {resolution = 1}
+      if (is.null(cluster_ranks)) {cluster_ranks = 1}
       if (is.null(soupx))         {soupx = FALSE}
       if (is.null(droplet_qc))    {droplet_qc = FALSE}
       if (is.null(filter_rbc))    {filter_rbc = TRUE}
@@ -196,6 +202,7 @@ limiric <- function(
           seurat_input  = seurat_input,
           min_cells     = min_cells,
           resolution    = resolution,
+          cluster_ranks = cluster_ranks,
           soupx         = soupx,
           raw_path      = raw_path,
           droplet_qc    = droplet_qc,

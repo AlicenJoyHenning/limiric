@@ -12,8 +12,6 @@
 
 \item{min_cells}{In how many cells should a gene be expressed to be kept}
 
-\item{resolution}{Numeric between 0 and 1.6 describing cluster division. Default 1}
-
 \item{soupx}{Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE}
 
 \item{raw_path}{Directory of unfiltered alignment output}
@@ -29,6 +27,10 @@
 \item{filter_output}{Should output contain no damaged cells. Default is TRUE}
 
 \item{output_path}{Directory where limiric output cen be generated}
+
+\item{resolution}{Numeric between 0 and 1.6 describing cluster division. Default 1}
+
+\item{cluster_ranks}{Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.}
 
 \item{organism}{"Hsap" if human sample or "Mmus" if mouse sample}
 }
