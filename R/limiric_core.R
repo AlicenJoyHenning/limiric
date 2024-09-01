@@ -338,6 +338,7 @@ limiric_core <- function(
 
   limiric_output <- limiric_calculation(organism = organism,
                                   Seurat = Seurat,
+                                  resolution = resolution,
                                   annotations = annotations,
                                   initial_cells = initial_cells,
                                   project_name = project_name,
