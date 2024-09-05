@@ -24,7 +24,7 @@
 
 <br>
 
-In addition to predicting damaged cells, ```limiric``` can perform other pre-processing tasks including removing red blood cells, correcting for ambient RNA (```SoupX```), and isolating immune cells. There is also the option to combine results with ```DropletQC```, a community-accepted package that identifies empty and damaged droplets by nuclear fraction scores. Combining the diagnostic power of these nonredundant quality control metrics increases confidence in true damaged cell detection. This being said, ```limiric``` performs effectively without ```DropletQC```, so this feature- while advised- is not essential.
+In addition to predicting damaged cells, ```limiric``` can remove red blood cells, correct for ambient RNA (```SoupX```), and isolate immune cells. There is also the option to combine results with ```DropletQC```, a community-accepted package that identifies empty and damaged droplets by nuclear fraction scores. Combining the diagnostic power of these nonredundant quality control metrics increases confidence in true damaged cell detection. This being said, ```limiric``` performs effectively without ```DropletQC```, so this feature- while advised- is not essential.
 
 <br>
 
