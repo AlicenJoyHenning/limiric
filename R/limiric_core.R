@@ -10,13 +10,11 @@
 #' @param min_cells In how many cells should a gene be expressed to be kept
 #' @param soupx Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE
 #' @param raw_path Directory of unfiltered alignment output
-#' @param droplet_qc Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE
-#' @param velocyto_path Directory of Veocyto filtered alignment output
 #' @param filter_rbc Whether or not red blood cells should be removed. Default is TRUE
 #' @param hemo_threshold Percent hemoglobin expression above which cells are filtered. Default is 50
 #' @param isolate_cd45 Discard non-immune cells. Default is FALSE
 #' @param filter_output Should output contain no damaged cells. Default is TRUE
-#' @param output_path Directory where limiric output cen be generated
+#' @param output_path Directory where limiric output can be generated
 #' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
 #' @param cluster_ranks Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.
 #' @param organism "Hsap" if human sample or "Mmus" if mouse sample
@@ -34,19 +32,15 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' # Load test data
+#' data("test_data", package = "limiric")
 #'
-#' # Detect damaged cells
-#'
-#' SRR1234567 <- limiric_core(
-#'   project_name  = "SRR1234567",
-#'   filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-#'   soupx         = TRUE,
-#'   raw_path      = "/home/user/alignment/SRR1234567/raw/",
-#'   droplet_qc    = TRUE,
-#'   isolate_cd45  = TRUE,
-#'   velocyto_path = "/home/user/alignment/velocyto/",
-#'   output_path   = "/home/user/alignment/limiric/"
+#' test <- limiric_core(
+#'   project_name  = "test",
+#'   seurat_input  = test_data,
+#'   filter_rbc    = FALSE,
+#'   output_path   = tempdir()
 #' )
 #'
 #' }
@@ -68,8 +62,6 @@ limiric_core <- function(
     min_cells      = 0,
     soupx          = FALSE,
     raw_path       = NULL,
-    droplet_qc     = FALSE,
-    velocyto_path  = NULL,
     filter_rbc     = TRUE,
     hemo_threshold = 50,
     isolate_cd45   = FALSE,
@@ -82,10 +74,7 @@ limiric_core <- function(
 ){
   # Receive & prepare input ------------------------------------
 
-  message("\nBeginning limiric analysis for ", project_name, "...\n")
-
-  # Ensure calculations are reproducible
-  set.seed(7777)
+  message("\nBeginning limiric analysis for ", project_name, "...")
 
   # Create output directory structure
   sub_dirs <- c("RBCQC", "CellQC", "Filtered")
@@ -131,7 +120,7 @@ limiric_core <- function(
     # Give the unfiltered cell number
     initial_cells <- length(Cells(Seurat))
 
-    message("\u2714 Seurat object created\n")
+    message("\u2714 Seurat object created")
 
   }
 
@@ -153,7 +142,7 @@ limiric_core <- function(
    # Calculate the unfiltered cell number
    initial_cells <- length(Cells(Seurat))
 
-   message("\u2714 Seurat object loaded\n")
+   message("\u2714 Seurat object loaded")
 
   }
 
@@ -163,63 +152,19 @@ limiric_core <- function(
 
   if (soupx) {
 
-    message("\u2714 Beginning SoupX correction...\n")
+    message("\u2714 Beginning SoupX correction...")
+
+    table_of_droplets <- suppressWarnings(Read10X(raw_path))
 
     # Use the soupx_calculation() function to run SoupX ambient RNA correction
-    Seurat <- soupx_calculation(raw_path = raw_path,
+    Seurat <- soupx_calculation(table_of_droplets = table_of_droplets,
                                 table_of_counts = table_of_counts,
                                 min_cells = min_cells,
                                 project_name = project_name)
 
-    message("\u2714 SoupX correction complete\n")
+    message("\u2714 SoupX correction complete")
 
   }
-
-
-
-  # Optional add nuclear fraction data for downstream DropletQC ------------------------------------
-
-  if (droplet_qc) {
-
-    # Define parameters for file paths and gene names
-    spliced_file   <- file.path(velocyto_path, "spliced.mtx.gz")
-    barcodes_file  <- file.path(velocyto_path, "barcodes.tsv.gz")
-    features_file  <- file.path(velocyto_path, "features.tsv.gz")
-    unspliced_file <- file.path(velocyto_path, "unspliced.mtx.gz")
-
-    # Add data from spliced and unspliced counts to make Seurat objects
-    spliced <- ReadMtx(mtx      = spliced_file,
-                       cells    = barcodes_file,
-                       features = features_file)
-
-    spliced <- suppressWarnings(CreateSeuratObject(
-      counts    = spliced,
-      project   = "spliced",
-      min.cells = min_cells))
-
-    unspliced <- ReadMtx(mtx      = unspliced_file,
-                         cells    = barcodes_file,
-                         features = features_file)
-
-    unspliced <- suppressWarnings(CreateSeuratObject(
-      counts    = unspliced,
-      project   = "unspliced",
-      min.cells = min_cells))
-
-    # Calculate nuclear fraction
-    ExonSum   <- Matrix::colSums(spliced[['RNA']]$counts)   # summing over all the genes for each cell (1 reading per cell)
-    IntronSum <- Matrix::colSums(unspliced[['RNA']]$counts)
-    NuclearFraction <- IntronSum / (ExonSum + IntronSum)
-    nf <- data.frame(barcode = rownames(unspliced@meta.data), nf = NuclearFraction)
-
-    # Add nf to Seurat object (ensure row order (barcode) correct)
-    Seurat@meta.data[['nf']] <- nf$nf[match(rownames(Seurat@meta.data), nf$barcode)]
-
-    message("\u2714 Velocyto nuclear fraction output added\n")
-
-  }
-
-
 
   # Default red blood cell QC ------------------------------------
 
@@ -261,7 +206,7 @@ limiric_core <- function(
 
       # Say there were no RBCs
       RBC_number = 0
-      message("\u2714 No red blood cells found\n")
+      message("\u2714 No red blood cells found")
 
     } else {
 
@@ -269,7 +214,7 @@ limiric_core <- function(
       RBC <- subset(Seurat, RBC == "RBC")
       RBC_number <- length(Cells(RBC))
 
-      message("\u2714 Red blood cells removed\n")
+      message("\u2714 Red blood cells removed")
 
     }
 
@@ -356,128 +301,15 @@ limiric_core <- function(
   limiric <- limiric_output$limiric
 
 
-  message("\u2714 limiric damaged cell predictions\n")
-
-
-
-  # Combine with damaged cells identified with DropletQC ------------------------------------
-
-  # Perform DropletQC calculations if specified
-  if (droplet_qc == TRUE) {
-
-    # Create Droplet QC subdirectories if needed
-    full_path <- file.path(output_path, "DropletQC")
-
-    # If subdirectory does not exist it will be created
-    if (!dir.exists(full_path)) {
-      dir.create(full_path, recursive = FALSE)
-    }
-
-    # Identify droplets to be removed with DropletQC
-    Seurat <- dropletqc_calculation(Seurat)
-
-    # Combine limiric and DropletQC output
-    Seurat$QC <- "cell" # all barcodes marked as cell by default at the start
-
-    Seurat$QC <- Seurat@meta.data %>%
-      dplyr::mutate(QC = case_when(
-        droplet_qc == "cell" & limiric == "cell" ~ "cell",
-        droplet_qc == "damaged_cell" & limiric == "damaged" ~ "agreed",
-        droplet_qc == "damaged_cell" & limiric == "cell" ~ "droplet_qc",
-        droplet_qc == "cell" & limiric == "damaged" ~ "limiric",
-        droplet_qc == "empty_droplet" ~ "cell" # For our case, only interested in damaged cells not empty droplets
-      ))
-
-    # Transfer labels to reduced object to visualise
-    limiric$QC <- Seurat$QC
-    Seurat$quality <- ifelse(Seurat$QC == "agreed", "discard", "retain") # only discarding those marked as damaged by both metrics
-
-    # Quantify damaged cells
-    length_total <- length(Cells(Seurat))
-    length_disagree <- subset(Seurat, quality == "retain")
-    length_disagree <- length(Cells(length_disagree))
-
-    # Accounting for no overlap
-    if (length_total == length_disagree) {
-
-      length_droplet_qc <- subset(Seurat, droplet_qc == "cell" | droplet_qc == "empty_droplet")
-      length_droplet_qc <- length(Cells(length_droplet_qc))
-      length_damaged_droplet_qc <- (length_total - length_droplet_qc)
-
-      length_limiric <- subset(Seurat, limiric == "cell")
-      length_limiric <- length(Cells(length_limiric))
-      length_damaged_limiric <- (length_total - length_limiric)
-
-      damaged_percent <- 0
-
-      message(paste0("\u2714 No agreement detected between ", length_damaged_droplet_qc, "  droplet_qc and ", length_damaged_limiric, "  limiric  damaged cells\n"))
-
-    }
-
-    else {
-
-      seurat_damaged <- subset(Seurat, quality == "discard")
-      damaged <- length(Cells(seurat_damaged))
-      damaged_percent <- ( damaged / initial_cells ) * 100
-
-      message("\u2714  DropletQC agreement calculated\n")
-
-    }
-
-    # Visualise agreement output
-    create_dropletqc_plot(Seurat = Seurat,
-                          limiric = limiric,
-                          output_path = output_path,
-                          project_name = project_name,
-                          damaged_percent = damaged_percent,
-                          initial_cells = initial_cells)
-
-
-    # Save a list of barcodes with QC annnotations (cell, agreed, droplet_qc, limiric)
-    storage_cells <- data.frame(barcode = rownames(storage@meta.data))
-    clean_cells <- data.frame(barcode = rownames(limiric@meta.data), QC_annotation = limiric@meta.data$QC)
-
-    # Account for cells that may have been filtered
-    annotated_cells <- merge(storage_cells, clean_cells, by = "barcode", all.x = TRUE)
-    annotated_cells$QC_annotation[is.na(annotated_cells$QC_annotation)] <- "removed"
-
-    write.csv(annotated_cells, file = file.path(output_path, "DropletQC", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
-
-    # Rename column
-    Seurat$limiric.droplet_qc <- Seurat$QC
-
-  }
-
+  message("\u2714 limiric damaged cell predictions")
 
 
   # Clean & save output ------------------------------------
 
   # Filter cells for saving the Seurat object itself (but only if specified)
 
-  # If DropletQC agreement specified, filter accordingly
-  if (filter_output == TRUE & droplet_qc == TRUE) {
-
-    # Save a list of barcodes with limiric annotations (cell, damaged)
-    clean_cells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
-    write.csv(clean_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
-
-    Seurat <- subset(Seurat, QC != "agreed")
-
-    # Filter unnecessary columns
-    columns <- c("nf", "ptprc.percent", "RBC", "IMC", "quality", "nf", "hemo.percent",  "QC", "droplet_qc", "limiric.mi", "limiric.ri", "limiric.complexity", "limiric", "limiric.droplet_qc")
-
-    for (column in columns){
-      if (column %in% colnames(Seurat@meta.data)) {
-        Seurat[[column]] <- NULL }
-    }
-
-    # Save the filtered Seurat object
-    saveRDS(Seurat, file.path(output_path, "Filtered", paste0(project_name, "_agreement_filtered.rds")))
-
-  }
-
-  # If just limiric, filter only on limiric annotations
-  if (filter_output == TRUE & droplet_qc != TRUE) {
+  # Filter based on limiric annotations
+  if (filter_output) {
 
     # Save a list of barcodes with limiric annotations (cell, damaged)
     storage_cells <- data.frame(barcode = rownames(storage@meta.data))
@@ -495,7 +327,7 @@ limiric_core <- function(
     Seurat <- subset(Seurat, limiric == "cell")
 
     # Filter unnecessary columns
-    columns <- c("nf", "ptprc.percent", "RBC", "IMC", "quality", "nf", "hemo.percent",  "QC", "droplet_qc", "limiric.mi", "limiric.ri", "limiric.complexity", "limiric", "limiric.droplet_qc")
+    columns <- c("ptprc.percent", "RBC", "IMC", "quality", "hemo.percent",  "QC", "limiric.mi", "limiric.ri", "limiric.complexity", "limiric", "limiric.droplet_qc")
 
     for (column in columns){
       if (column %in% colnames(Seurat@meta.data)) {
@@ -526,7 +358,7 @@ limiric_core <- function(
 
   }
 
-  message("\u2714 limiric analysis complete\n\n")
+  message("\u2714 limiric analysis complete\n")
 
   return(Seurat)
 

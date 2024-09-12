@@ -5,8 +5,8 @@
 #' @description This helper function performs SoupX correction with the raw output (must be zipped), estimates the contamination,
 #' and outputs the results in a Seurat object for continued workflow.
 #'
-#' @param raw_path A string representing the path to the raw data.
-#' @param table_of_counts A matrix of counts.
+#' @param table_of_droplets A matrix of counts from the unfiltered alignment output.
+#' @param table_of_counts A matrix of counts from the filtered alignment output.
 #' @param min_cells An integer representing the minimum number of cells.
 #' @param project_name A string representing the name of the project.
 #'
@@ -23,28 +23,29 @@
 #' @export
 #'
 #' @keywords internal
-#' 
+#'
 #' @examples
-#' \dontrun{
-#' # Assuming `raw_path` is the path to the raw data and `table_of_counts` is a matrix of counts.
-#' raw_path <- "path/to/raw/data"
-#' table_of_counts <- matrix(sample(0:100, 100, replace = TRUE), nrow = 10)
-#' min_cells <- 3
-#' project_name <- "SoupX_Project"
-#' 
-#' result <- soupx_calculation(raw_path, table_of_counts, min_cells, project_name)
-#' print(result)
+#' \donttest{
+#' # Load test data from Seurat
+#' tod = Seurat::Read10X(system.file('extdata','toyData','raw_gene_bc_matrices',
+#' 'GRCh38', package='SoupX'))
+#' toc = Seurat::Read10X(system.file('extdata','toyData','filtered_gene_bc_matrices',
+#' 'GRCh38', package='SoupX'))
+#'
+#' result <- soupx_calculation(table_of_droplets = tod,
+#'                             table_of_counts = toc,
+#'                             min_cells = 0,
+#'                             project_name = "test")
 #' }
 
-utils::globalVariables(c("SeuratSoup", "meta_data", "umap_embedding", "adj_matrix", "Seurat"))
+utils::globalVariables(c("SeuratSoup", "meta_data", "umap_embedding", "adj_matrix", "Seurat", "setNames"))
 
-soupx_calculation <- function(raw_path,
+soupx_calculation <- function(table_of_droplets,
                               table_of_counts,
                               min_cells,
                               project_name
 ) {
-  # Perform soupx correction with the raw output (must be zipped)
-  table_of_droplets <- suppressWarnings(Read10X(raw_path))
+  # Perform soupx correction with the raw output
 
   # Run Soup X
   sc <- SoupChannel(table_of_droplets,

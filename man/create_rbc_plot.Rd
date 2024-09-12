@@ -13,26 +13,27 @@
 \item{initial_cells}{An integer representing the initial number of cells.}
 }
 \value{
-A ggplot object representing the RBC plot.
+A 'ggplot2' object representing the RBC plot.
 }
 \description{
-This helper function generates a scatter plot showing the relationship between haemoglobin expression and CD45 expression,
-with points colored based on whether they are RBCs or non-RBCs.
+This helper function generates a scatter plot showing the relationship
+between haemoglobin expression and CD45 expression, with points colored based
+on whether they are RBCs or non-RBCs.
 }
 \examples{
 \dontrun{
-# Assuming `rbc_data` is a data frame containing the RBC data.
+# Create test dataset
 rbc_data <- data.frame(
   hemo.percent = runif(100, min = 0, max = 100),
   ptprc.percent = runif(100, min = 0, max = 100),
   RBC = sample(c("RBC", "non-RBC"), 100, replace = TRUE)
 )
-project_name <- "RBC Contamination Analysis"
-RBC_percent <- 15.0
-initial_cells <- 1000
 
-plot <- create_rbc_plot(rbc_data, project_name, RBC_percent, initial_cells)
-print(plot)
+create_rbc_plot(rbc_df = rbc_data,
+                project_name = "test",
+                RBC_percent = 15,
+                initial_cells = 1000)
+
 }
 }
 \keyword{internal}

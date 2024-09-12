@@ -2,10 +2,7 @@ Package: limiric
 Title: Detect Damaged Cells in Single-Cell RNA Sequencing Data
 Version: 2.0.0
 Authors@R: 
-    c(
-        person("Alicen", "Henning", email = "alicen.jhb@gmail.com", role = c("aut", "cre", "cph")),
-        person("Walter", "Muskovic", role = "cph", comment = "Copyright holder for code derived from DropletQC package")
-    )
+    person("Alicen", "Henning", email = "alicen.jhb@gmail.com", role = c("aut", "cre", "cph"))
 Description: 
     A quality control tool for high-precision, sample-specific detection of
     damaged cells in single-cell RNA sequencing (scRNA-seq) data. 
@@ -23,10 +20,6 @@ Imports:
     cowplot,
     dplyr,
     ggplot2,
-    ks,
-    magrittr,
-    Matrix,
-    mclust,
     methods,
     png,
     Seurat,

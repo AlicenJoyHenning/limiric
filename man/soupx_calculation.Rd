@@ -4,9 +4,9 @@
 \alias{soupx_calculation}
 \title{Perform SoupX Correction}
 \arguments{
-\item{raw_path}{A string representing the path to the raw data.}
+\item{table_of_droplets}{A matrix of counts from the unfiltered alignment output.}
 
-\item{table_of_counts}{A matrix of counts.}
+\item{table_of_counts}{A matrix of counts from the filtered alignment output.}
 
 \item{min_cells}{An integer representing the minimum number of cells.}
 
@@ -20,15 +20,17 @@ This helper function performs SoupX correction with the raw output (must be zipp
 and outputs the results in a Seurat object for continued workflow.
 }
 \examples{
-\dontrun{
-# Assuming `raw_path` is the path to the raw data and `table_of_counts` is a matrix of counts.
-raw_path <- "path/to/raw/data"
-table_of_counts <- matrix(sample(0:100, 100, replace = TRUE), nrow = 10)
-min_cells <- 3
-project_name <- "SoupX_Project"
+\donttest{
+# Load test data from Seurat
+tod = Seurat::Read10X(system.file('extdata','toyData','raw_gene_bc_matrices',
+'GRCh38', package='SoupX'))
+toc = Seurat::Read10X(system.file('extdata','toyData','filtered_gene_bc_matrices',
+'GRCh38', package='SoupX'))
 
-result <- soupx_calculation(raw_path, table_of_counts, min_cells, project_name)
-print(result)
+result <- soupx_calculation(table_of_droplets = tod,
+                            table_of_counts = toc,
+                            min_cells = 0,
+                            project_name = "test")
 }
 }
 \keyword{internal}

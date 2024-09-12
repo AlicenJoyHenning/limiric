@@ -19,18 +19,19 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontrun{
-#' # Example usage:
-#' # Assuming `imc_data` is a data frame containing the immune cell data.
+#' \donttest{
+#' # Create test dataset
 #' imc_data <- data.frame(
-#'   nCount_RNA = runif(100, min = 500, max = 10000),
+#'   nCount_RNA   = runif(100, min = 500, max = 10000),
 #'   nFeature_RNA = runif(100, min = 200, max = 3000),
 #'   IMC = sample(c("IMC", "non-IMC"), 100, replace = TRUE)
 #' )
-#' project_name <- "ImmuneFeatureQC"
-#' IMC_percent <- 25.0
-#' plot <- create_imc_plot(imc_data, project_name, IMC_percent)
-#' print(plot)
+#'
+#' create_imc_plot(imc_df = imc_data,
+#'                 project_name = "test",
+#'                 IMC_percent = 25)
+#'
+#'
 #' }
 
 utils::globalVariables(c("IMC", "nCount_RNA", "nFeature_RNA"))

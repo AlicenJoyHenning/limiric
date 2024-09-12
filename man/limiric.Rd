@@ -16,10 +16,6 @@
 
 \item{raw_path}{Directory of unfiltered alignment output}
 
-\item{droplet_qc}{Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE}
-
-\item{velocyto_path}{Directory of 'Velocyto' filtered alignment output}
-
 \item{filter_rbc}{Whether or not red blood cells should be removed. Default is TRUE}
 
 \item{hemo_threshold}{Percent hemoglobin expression above which cells are filtered. Default is 50}
@@ -49,15 +45,13 @@ and identifies damaged cells present within the sample according to
 low dimension mitochondrial and ribosomal clustering.
 }
 \examples{
-
-if (interactive()) {
-
-  # Load example Seurat object from the limiric package
-  data("test_data", package = "limiric")
+\donttest{
+# Load example Seurat object from the limiric package
+ data("test_data", package = "limiric")
 
 
-  # Run the limiric function with the example data
-  test <- limiric(
+ # Run the limiric function with the example data
+ test <- limiric(
     project_name = "test_run",
     filter_rbc   = FALSE,
     seurat_input = test_data,

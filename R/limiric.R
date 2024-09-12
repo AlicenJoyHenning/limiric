@@ -12,8 +12,6 @@
 #' @param min_cells In how many cells should a gene be expressed to be kept
 #' @param soupx Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE
 #' @param raw_path Directory of unfiltered alignment output
-#' @param droplet_qc Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE
-#' @param velocyto_path Directory of 'Velocyto' filtered alignment output
 #' @param filter_rbc Whether or not red blood cells should be removed. Default is TRUE
 #' @param hemo_threshold Percent hemoglobin expression above which cells are filtered. Default is 50
 #' @param isolate_cd45 Discard non-immune cells. Default is FALSE
@@ -36,15 +34,13 @@
 #' @importFrom utils globalVariables
 #'
 #' @examples
-#'
-#' if (interactive()) {
-#'
-#'   # Load example Seurat object from the limiric package
-#'   data("test_data", package = "limiric")
+#' \donttest{
+#' # Load example Seurat object from the limiric package
+#'  data("test_data", package = "limiric")
 #'
 #'
-#'   # Run the limiric function with the example data
-#'   test <- limiric(
+#'  # Run the limiric function with the example data
+#'  test <- limiric(
 #'     project_name = "test_run",
 #'     filter_rbc   = FALSE,
 #'     seurat_input = test_data,
@@ -55,12 +51,11 @@
 #' @export
 
 utils::globalVariables(c(
-  "current_plots", "droplet_qc", "end_index", "filtered_path", "filter_output",
+  "current_plots", "end_index", "filtered_path", "filter_output",
   "filter_rbc", "i", "isolate_cd45", "min_cells", "nrow", "num_current_plots",
   "num_plots", "organism", "output_path", "page_num", "plots", "plots_per_page",
   "png_path", "project_name", "raw_path", "rds_dir", "rds_files", "results",
-  "sample", "sample_list", "seurat_input", "soupx", "temp_result", "test_data",
-  "velocyto_path"
+  "sample", "sample_list", "seurat_input", "soupx", "temp_result", "test_data"
 ))
 
 limiric <- function(
@@ -71,8 +66,6 @@ limiric <- function(
   min_cells      = NULL,
   soupx          = NULL,
   raw_path       = NULL,
-  droplet_qc     = NULL,
-  velocyto_path  = NULL,
   filter_rbc     = NULL,
   hemo_threshold = NULL,
   isolate_cd45   = NULL,
@@ -98,7 +91,6 @@ limiric <- function(
     if (is.null(resolution))    {resolution = 1}
     if (is.null(cluster_ranks)) {cluster_ranks = 1}
     if (is.null(soupx))         {soupx = FALSE}
-    if (is.null(droplet_qc))    {droplet_qc = FALSE}
     if (is.null(filter_rbc))    {filter_rbc = TRUE}
     if (is.null(hemo_threshold)){hemo_threshold = 50}
     if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
@@ -117,8 +109,6 @@ limiric <- function(
       cluster_ranks  = cluster_ranks,
       soupx          = soupx,
       raw_path       = raw_path,
-      droplet_qc     = droplet_qc,
-      velocyto_path  = velocyto_path,
       filter_rbc     = filter_rbc,
       hemo_threshold = hemo_threshold,
       isolate_cd45   = isolate_cd45,
@@ -178,8 +168,6 @@ limiric <- function(
       cluster_ranks  <- sample$cluster_ranks
       soupx          <- sample$soupx
       raw_path       <- sample$raw_path
-      droplet_qc     <- sample$droplet_qc
-      velocyto_path  <- sample$velocyto_path
       filter_rbc     <- sample$filter_rbc
       hemo_threshold <- sample$hemo_threshold
       isolate_cd45   <- sample$isolate_cd45
@@ -194,7 +182,6 @@ limiric <- function(
       if (is.null(resolution))    {resolution = 1}
       if (is.null(cluster_ranks)) {cluster_ranks = 1}
       if (is.null(soupx))         {soupx = FALSE}
-      if (is.null(droplet_qc))    {droplet_qc = FALSE}
       if (is.null(filter_rbc))    {filter_rbc = TRUE}
       if (is.null(hemo_threshold)){hemo_threshold = 50}
       if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
@@ -217,8 +204,6 @@ limiric <- function(
           cluster_ranks  = cluster_ranks,
           soupx          = soupx,
           raw_path       = raw_path,
-          droplet_qc     = droplet_qc,
-          velocyto_path  = velocyto_path,
           filter_rbc     = filter_rbc,
           hemo_threshold = hemo_threshold,
           isolate_cd45   = isolate_cd45,
@@ -265,11 +250,14 @@ limiric <- function(
         nrow <- ceiling(num_current_plots / 5)
 
         # Combine the plots into a single PNG
-        png_path <- file.path(output_path, "RBCQC", paste0(project_name, "_RBCQC_", page_num, ".png"))
+        png_path <- file.path(output_path, "RBCQC")
+        png_name <- paste0(project_name, "_RBCQC_", page_num, ".png")
 
         create_plot_grid(plots = current_plots,
                          file_path = png_path,
+                         file_name = png_name,
                          nrow = nrow)
+
 
         page_num <- page_num + 1
 
@@ -303,9 +291,12 @@ limiric <- function(
           nrow <- ceiling(num_current_plots / 5)
 
           # Save the current set of plots as a PNG
-          png_path <- file.path(output_path, "IMCQC", paste0(project_name, "_IMCQC_", page_num, ".png"))
+          png_path <- file.path(output_path, "IMCQC")
+          png_name <- paste0(project_name, "_IMCQC_", page_num, ".png")
+
           create_plot_grid(plots = current_plots,
                            file_path = png_path,
+                           file_name = png_name,
                            nrow = nrow)
 
           page_num <- page_num + 1

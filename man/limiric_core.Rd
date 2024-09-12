@@ -16,10 +16,6 @@
 
 \item{raw_path}{Directory of unfiltered alignment output}
 
-\item{droplet_qc}{Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE}
-
-\item{velocyto_path}{Directory of Veocyto filtered alignment output}
-
 \item{filter_rbc}{Whether or not red blood cells should be removed. Default is TRUE}
 
 \item{hemo_threshold}{Percent hemoglobin expression above which cells are filtered. Default is 50}
@@ -28,7 +24,7 @@
 
 \item{filter_output}{Should output contain no damaged cells. Default is TRUE}
 
-\item{output_path}{Directory where limiric output cen be generated}
+\item{output_path}{Directory where limiric output can be generated}
 
 \item{resolution}{Numeric between 0 and 1.6 describing cluster division. Default 1}
 
@@ -45,19 +41,15 @@
 Core helper function enabling the limiric modules to run
 }
 \examples{
-\dontrun{
+\donttest{
+# Load test data
+data("test_data", package = "limiric")
 
-# Detect damaged cells
-
-SRR1234567 <- limiric_core(
-  project_name  = "SRR1234567",
-  filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-  soupx         = TRUE,
-  raw_path      = "/home/user/alignment/SRR1234567/raw/",
-  droplet_qc    = TRUE,
-  isolate_cd45  = TRUE,
-  velocyto_path = "/home/user/alignment/velocyto/",
-  output_path   = "/home/user/alignment/limiric/"
+test <- limiric_core(
+  project_name  = "test",
+  seurat_input  = test_data,
+  filter_rbc    = FALSE,
+  output_path   = tempdir()
 )
 
 }

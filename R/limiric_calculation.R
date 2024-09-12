@@ -29,23 +29,19 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontrun{
-#' # Assuming `seurat_obj` is a Seurat object
-#' seurat_obj <- CreateSeuratObject(counts = your_counts)
-#' annotations <- data.frame(
-#'   gene_name = c("MT-CO1", "RPS3", "RPL5"),
-#'   gene_biotype = c("protein_coding", "protein_coding", "protein_coding"))
-#' organism <- "Hsap"
-#' initial_cells <- 1000
-#' project_name <- "MyProject"
-#' output_path <- "path/to/save/plots"
+#' \donttest{
+#' # Load test data
+#' data("test_data", package = "limiric")
+#' data("human_annotations", package = "limiric")
 #'
-#' result <- limiric_calculation(organism,
-#'                               seurat_obj,
-#'                               annotations,
-#'                               initial_cells,
-#'                               project_name,
-#'                               output_path)
+#' result <- limiric_calculation(organism = "Hsap",
+#'                               Seurat = test_data,
+#'                               annotations = human_annotations,
+#'                               resolution = 0.6,
+#'                               cluster_ranks = 1,
+#'                               initial_cells = 1000,
+#'                               project_name = "Test",
+#'                               output_path = tempdir())
 #' print(result)
 #' }
 
