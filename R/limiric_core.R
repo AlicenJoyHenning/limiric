@@ -274,7 +274,7 @@ limiric_core <- function(
     # Filtering step after visualization, keep those that are immune cells
     Seurat <- subset(Seurat, IMC == "IMC")
 
-    message("\u2714 Immune cells isolated\n")
+    message("\u2714 Immune cells isolated")
 
   }
 
