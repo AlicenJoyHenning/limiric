@@ -39,7 +39,7 @@ create_imc_plot <- function(imc_df, project_name, IMC_percent) {
 
   plot <- ggplot(imc_df, aes(x = nCount_RNA, y = nFeature_RNA, color = IMC)) +
     geom_point(size = 0.6) +
-    scale_color_manual(values = c("IMC" = "grey", "non-IMC" = "#5372B4")) +
+    scale_color_manual(values = c("IMC" = "grey", "non-IMC" = "#6765ED")) +
     labs(title = project_name) +
     annotate(
       "text", x = Inf, y = Inf,

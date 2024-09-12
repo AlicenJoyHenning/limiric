@@ -41,7 +41,7 @@ create_rbc_plot <- function(rbc_df, project_name, RBC_percent, initial_cells) {
 
   plot <- ggplot(rbc_df, aes(x = hemo.percent, y = ptprc.percent, color = RBC)) +
     geom_point(size = 0.6) +
-    scale_color_manual(values = c("non-RBC" = "grey", "RBC" = "#5372B4")) +
+    scale_color_manual(values = c("non-RBC" = "grey", "RBC" = "#6765ED")) +
     xlab("Haemoglobin expression") +
     ylab("CD45 expression") +
     labs(title = project_name) +
