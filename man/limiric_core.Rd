@@ -20,7 +20,9 @@
 
 \item{velocyto_path}{Directory of Veocyto filtered alignment output}
 
-\item{filter_rbc}{Whether or not red blood cells should be removed, Default is TRUE}
+\item{filter_rbc}{Whether or not red blood cells should be removed. Default is TRUE}
+
+\item{hemo_threshold}{Percent hemoglobin expression above which cells are filtered. Default is 50}
 
 \item{isolate_cd45}{Discard non-immune cells. Default is FALSE}
 

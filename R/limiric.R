@@ -15,6 +15,7 @@
 #' @param droplet_qc Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE
 #' @param velocyto_path Directory of 'Velocyto' filtered alignment output
 #' @param filter_rbc Whether or not red blood cells should be removed. Default is TRUE
+#' @param hemo_threshold Percent hemoglobin expression above which cells are filtered. Default is 50
 #' @param isolate_cd45 Discard non-immune cells. Default is FALSE
 #' @param filter_output Should output contain no damaged cells. Default is TRUE
 #' @param output_path Directory where 'limiric' output should be generated
@@ -63,22 +64,23 @@ utils::globalVariables(c(
 
 limiric <- function(
 
-  project_name  = NULL,
-  filtered_path = NULL,
-  seurat_input  = NULL,
-  min_cells     = NULL,
-  soupx         = NULL,
-  raw_path      = NULL,
-  droplet_qc    = NULL,
-  velocyto_path = NULL,
-  filter_rbc    = NULL,
-  isolate_cd45  = NULL,
-  filter_output = NULL,
-  output_path   = NULL,
-  organism      = NULL,
-  resolution    = NULL,
-  cluster_ranks = NULL,
-  sample_list   = NULL
+  project_name   = NULL,
+  filtered_path  = NULL,
+  seurat_input   = NULL,
+  min_cells      = NULL,
+  soupx          = NULL,
+  raw_path       = NULL,
+  droplet_qc     = NULL,
+  velocyto_path  = NULL,
+  filter_rbc     = NULL,
+  hemo_threshold = NULL,
+  isolate_cd45   = NULL,
+  filter_output  = NULL,
+  output_path    = NULL,
+  organism       = NULL,
+  resolution     = NULL,
+  cluster_ranks  = NULL,
+  sample_list    = NULL
 
 ){
 
@@ -96,6 +98,7 @@ limiric <- function(
     if (is.null(soupx))         {soupx = FALSE}
     if (is.null(droplet_qc))    {droplet_qc = FALSE}
     if (is.null(filter_rbc))    {filter_rbc = TRUE}
+    if (is.null(hemo_threshold)){hemo_threshold = 50}
     if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
     if (is.null(filter_output)) {filter_output = TRUE}
     if (is.null(organism))      {organism = "Hsap"}
@@ -103,21 +106,22 @@ limiric <- function(
     # Run single sample using the limiric_core function
     result <- limiric_core(
 
-      project_name  = project_name,
-      filtered_path = filtered_path,
-      seurat_input  = seurat_input,
-      min_cells     = min_cells,
-      resolution    = resolution,
-      cluster_ranks = cluster_ranks,
-      soupx         = soupx,
-      raw_path      = raw_path,
-      droplet_qc    = droplet_qc,
-      velocyto_path = velocyto_path,
-      filter_rbc    = filter_rbc,
-      isolate_cd45  = isolate_cd45,
-      filter_output = filter_output,
-      output_path   = output_path,
-      organism      = organism
+      project_name   = project_name,
+      filtered_path  = filtered_path,
+      seurat_input   = seurat_input,
+      min_cells      = min_cells,
+      resolution     = resolution,
+      cluster_ranks  = cluster_ranks,
+      soupx          = soupx,
+      raw_path       = raw_path,
+      droplet_qc     = droplet_qc,
+      velocyto_path  = velocyto_path,
+      filter_rbc     = filter_rbc,
+      hemo_threshold = hemo_threshold,
+      isolate_cd45   = isolate_cd45,
+      filter_output  = filter_output,
+      output_path    = output_path,
+      organism       = organism
 
     )
 
@@ -162,21 +166,22 @@ limiric <- function(
       sample <- sample_list[[i]]
 
       # Define the inputs from the list
-      project_name  <- sample$project_name
-      filtered_path <- sample$filtered_path
-      seurat_input  <- sample$seurat_input
-      min_cells     <- sample$min_cells
-      resolution    <- sample$resolution
-      cluster_ranks <- sample$cluster_ranks
-      soupx         <- sample$soupx
-      raw_path      <- sample$raw_path
-      droplet_qc    <- sample$droplet_qc
-      velocyto_path <- sample$velocyto_path
-      filter_rbc    <- sample$filter_rbc
-      isolate_cd45  <- sample$isolate_cd45
-      filter_output <- sample$filter_output
-      output_path   <- sample$output_path
-      organism      <- sample$organism
+      project_name   <- sample$project_name
+      filtered_path  <- sample$filtered_path
+      seurat_input   <- sample$seurat_input
+      min_cells      <- sample$min_cells
+      resolution     <- sample$resolution
+      cluster_ranks  <- sample$cluster_ranks
+      soupx          <- sample$soupx
+      raw_path       <- sample$raw_path
+      droplet_qc     <- sample$droplet_qc
+      velocyto_path  <- sample$velocyto_path
+      filter_rbc     <- sample$filter_rbc
+      hemo_threshold <- sample$hemo_threshold
+      isolate_cd45   <- sample$isolate_cd45
+      filter_output  <- sample$filter_output
+      output_path    <- sample$output_path
+      organism       <- sample$organism
 
       # Account for defaults
       if (is.null(seurat_input))  {seurat_input = NULL}
@@ -186,6 +191,7 @@ limiric <- function(
       if (is.null(soupx))         {soupx = FALSE}
       if (is.null(droplet_qc))    {droplet_qc = FALSE}
       if (is.null(filter_rbc))    {filter_rbc = TRUE}
+      if (is.null(hemo_threshold)){hemo_threshold = 50}
       if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
       if (is.null(filter_output)) {filter_output = TRUE}
       if (is.null(organism))      {organism = "Hsap"}
@@ -197,21 +203,22 @@ limiric <- function(
 
         temp_result <- limiric_core(
 
-          project_name  = project_name,
-          filtered_path = filtered_path,
-          seurat_input  = seurat_input,
-          min_cells     = min_cells,
-          resolution    = resolution,
-          cluster_ranks = cluster_ranks,
-          soupx         = soupx,
-          raw_path      = raw_path,
-          droplet_qc    = droplet_qc,
-          velocyto_path = velocyto_path,
-          filter_rbc    = filter_rbc,
-          isolate_cd45  = isolate_cd45,
-          filter_output = filter_output,
-          output_path   = output_path,
-          organism      = organism
+          project_name   = project_name,
+          filtered_path  = filtered_path,
+          seurat_input   = seurat_input,
+          min_cells      = min_cells,
+          resolution     = resolution,
+          cluster_ranks  = cluster_ranks,
+          soupx          = soupx,
+          raw_path       = raw_path,
+          droplet_qc     = droplet_qc,
+          velocyto_path  = velocyto_path,
+          filter_rbc     = filter_rbc,
+          hemo_threshold = hemo_threshold,
+          isolate_cd45   = isolate_cd45,
+          filter_output  = filter_output,
+          output_path    = output_path,
+          organism       = organism
 
         )
 

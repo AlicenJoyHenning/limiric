@@ -12,7 +12,8 @@
 #' @param raw_path Directory of unfiltered alignment output
 #' @param droplet_qc Verify output with droplet_qc, if TRUE velocyto_path must be given. Default is FALSE
 #' @param velocyto_path Directory of Veocyto filtered alignment output
-#' @param filter_rbc Whether or not red blood cells should be removed, Default is TRUE
+#' @param filter_rbc Whether or not red blood cells should be removed. Default is TRUE
+#' @param hemo_threshold Percent hemoglobin expression above which cells are filtered. Default is 50
 #' @param isolate_cd45 Discard non-immune cells. Default is FALSE
 #' @param filter_output Should output contain no damaged cells. Default is TRUE
 #' @param output_path Directory where limiric output cen be generated
@@ -62,19 +63,20 @@ utils::globalVariables(c(
 limiric_core <- function(
     project_name,
     filtered_path,
-    seurat_input  = NULL,
-    min_cells     = 0,
-    soupx         = FALSE,
-    raw_path      = NULL,
-    droplet_qc    = FALSE,
-    velocyto_path = NULL,
-    filter_rbc    = TRUE,
-    isolate_cd45  = FALSE,
-    filter_output = TRUE,
-    output_path   = "./",
-    resolution    = 1,
-    cluster_ranks = 1,
-    organism      = "Hsap"
+    seurat_input   = NULL,
+    min_cells      = 0,
+    soupx          = FALSE,
+    raw_path       = NULL,
+    droplet_qc     = FALSE,
+    velocyto_path  = NULL,
+    filter_rbc     = TRUE,
+    hemo_threshold = 50,
+    isolate_cd45   = FALSE,
+    filter_output  = TRUE,
+    output_path    = "./",
+    resolution     = 1,
+    cluster_ranks  = 1,
+    organism       = "Hsap"
 ){
   # Receive & prepare input ------------------------------------
 
@@ -248,8 +250,7 @@ limiric_core <- function(
     )
 
     # Label barcodes if they are likely RBCs or have hemoglobin contamination
-    # WANT TO EDIT TO INTRODUCE A RANGE 
-    Seurat[['RBC']] <- ifelse(Seurat$hemo.percent !=  0, "RBC", "non-RBC")
+    Seurat[['RBC']] <- ifelse(Seurat$hemo.percent >=  hemo_threshold, "RBC", "non-RBC")
 
     # Calculate the number of RBCs (account for none)
     RBC_number <- NULL
