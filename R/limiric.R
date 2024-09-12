@@ -23,6 +23,7 @@
 #' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
 #' @param cluster_ranks Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.
 #' @param sample_list Input multiple samples in list. Default is FALSE
+#' @param verbose Print messages to the console. Default is TRUE
 #'
 #' @return (list) Output storing the final 'Seurat' object
 #'
@@ -80,6 +81,7 @@ limiric <- function(
   organism       = NULL,
   resolution     = NULL,
   cluster_ranks  = NULL,
+  verbose        = NULL,
   sample_list    = NULL
 
 ){
@@ -102,6 +104,7 @@ limiric <- function(
     if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
     if (is.null(filter_output)) {filter_output = TRUE}
     if (is.null(organism))      {organism = "Hsap"}
+    if (is.null(verbose))       {verbose = TRUE}
 
     # Run single sample using the limiric_core function
     result <- limiric_core(
@@ -121,7 +124,8 @@ limiric <- function(
       isolate_cd45   = isolate_cd45,
       filter_output  = filter_output,
       output_path    = output_path,
-      organism       = organism
+      organism       = organism,
+      verbose        = verbose
 
     )
 
@@ -182,6 +186,7 @@ limiric <- function(
       filter_output  <- sample$filter_output
       output_path    <- sample$output_path
       organism       <- sample$organism
+      verbose        <- sample$verbose
 
       # Account for defaults
       if (is.null(seurat_input))  {seurat_input = NULL}
@@ -195,6 +200,7 @@ limiric <- function(
       if (is.null(isolate_cd45))  {isolate_cd45 = FALSE}
       if (is.null(filter_output)) {filter_output = TRUE}
       if (is.null(organism))      {organism = "Hsap"}
+      if (is.null(verbose))       {verbose = TRUE}
 
 
       # Call the function with error handling
@@ -218,7 +224,8 @@ limiric <- function(
           isolate_cd45   = isolate_cd45,
           filter_output  = filter_output,
           output_path    = output_path,
-          organism       = organism
+          organism       = organism,
+          verbose        = verbose
 
         )
 

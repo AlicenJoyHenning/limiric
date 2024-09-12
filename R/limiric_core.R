@@ -20,6 +20,7 @@
 #' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
 #' @param cluster_ranks Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.
 #' @param organism "Hsap" if human sample or "Mmus" if mouse sample
+#' @param verbose Print messages to the console. Default is TRUE
 #'
 #' @return (list) Output list storing the final Seurat object
 #'
@@ -76,11 +77,12 @@ limiric_core <- function(
     output_path    = "./",
     resolution     = 1,
     cluster_ranks  = 1,
-    organism       = "Hsap"
+    organism       = "Hsap",
+    verbose        = TRUE
 ){
   # Receive & prepare input ------------------------------------
 
-  cat("\nBeginning  limiric  analysis for", project_name, "...\n")
+  message("\nBeginning  limiric  analysis for", project_name, "...\n")
 
   # Ensure calculations are reproducible
   set.seed(7777)
@@ -129,7 +131,7 @@ limiric_core <- function(
     # Give the unfiltered cell number
     initial_cells <- length(Cells(Seurat))
 
-    cat("\u2714 Seurat object created\n")
+    message("\u2714 Seurat object created\n")
 
   }
 
@@ -151,7 +153,7 @@ limiric_core <- function(
    # Calculate the unfiltered cell number
    initial_cells <- length(Cells(Seurat))
 
-   cat("\u2714 Seurat object loaded\n")
+   message("\u2714 Seurat object loaded\n")
 
   }
 
@@ -161,7 +163,7 @@ limiric_core <- function(
 
   if (soupx) {
 
-    cat("\u2714 Beginning SoupX correction...\n")
+    message("\u2714 Beginning SoupX correction...\n")
 
     # Use the soupx_calculation() function to run SoupX ambient RNA correction
     Seurat <- soupx_calculation(raw_path = raw_path,
@@ -169,7 +171,7 @@ limiric_core <- function(
                                 min_cells = min_cells,
                                 project_name = project_name)
 
-    cat("\u2714 SoupX correction complete\n")
+    message("\u2714 SoupX correction complete\n")
 
   }
 
@@ -213,7 +215,7 @@ limiric_core <- function(
     # Add nf to Seurat object (ensure row order (barcode) correct)
     Seurat@meta.data[['nf']] <- nf$nf[match(rownames(Seurat@meta.data), nf$barcode)]
 
-    cat("\u2714 Velocyto nuclear fraction output added\n")
+    message("\u2714 Velocyto nuclear fraction output added\n")
 
   }
 
@@ -259,13 +261,15 @@ limiric_core <- function(
 
       # Say there were no RBCs
       RBC_number = 0
-      cat("\u2714 No red blood cells found\n")
+      message("\u2714 No red blood cells found\n")
 
     } else {
 
       # Count RBCs if they are present
       RBC <- subset(Seurat, RBC == "RBC")
       RBC_number <- length(Cells(RBC))
+
+      message("\u2714 Red blood cells removed\n")
 
     }
 
@@ -284,8 +288,6 @@ limiric_core <- function(
 
     # Filtering step after visualization, keep those NOT marked as RBC
     Seurat <- subset(Seurat, RBC == "non-RBC")
-
-    cat("\u2714 Red blood cells removed\n")
 
   }
 
@@ -327,7 +329,7 @@ limiric_core <- function(
     # Filtering step after visualization, keep those that are immune cells
     Seurat <- subset(Seurat, IMC == "IMC")
 
-    cat("\u2714 Immune cells isolated\n")
+    message("\u2714 Immune cells isolated\n")
 
   }
 
@@ -354,7 +356,7 @@ limiric_core <- function(
   limiric <- limiric_output$limiric
 
 
-  cat("\u2714 limiric  damaged cell predictions\n")
+  message("\u2714 limiric  damaged cell predictions\n")
 
 
 
@@ -408,7 +410,7 @@ limiric_core <- function(
 
       damaged_percent <- 0
 
-      cat(paste0("\u2714 No agreement detected between ", length_damaged_droplet_qc, "  droplet_qc and ", length_damaged_limiric, "  limiric  damaged cells\n"))
+      message(paste0("\u2714 No agreement detected between ", length_damaged_droplet_qc, "  droplet_qc and ", length_damaged_limiric, "  limiric  damaged cells\n"))
 
     }
 
@@ -418,7 +420,7 @@ limiric_core <- function(
       damaged <- length(Cells(seurat_damaged))
       damaged_percent <- ( damaged / initial_cells ) * 100
 
-      cat("\u2714  DropletQC agreement calculated\n")
+      message("\u2714  DropletQC agreement calculated\n")
 
     }
 
@@ -524,7 +526,7 @@ limiric_core <- function(
 
   }
 
-  cat("\u2714 limiric  analysis complete.\n\n")
+  message("\u2714 limiric  analysis complete.\n\n")
 
   return(Seurat)
 

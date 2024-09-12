@@ -35,6 +35,8 @@
 \item{cluster_ranks}{Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.}
 
 \item{organism}{"Hsap" if human sample or "Mmus" if mouse sample}
+
+\item{verbose}{Print messages to the console. Default is TRUE}
 }
 \value{
 (list) Output list storing the final Seurat object

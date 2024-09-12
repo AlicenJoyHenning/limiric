@@ -37,6 +37,8 @@
 \item{cluster_ranks}{Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.}
 
 \item{sample_list}{Input multiple samples in list. Default is FALSE}
+
+\item{verbose}{Print messages to the console. Default is TRUE}
 }
 \value{
 (list) Output storing the final 'Seurat' object
