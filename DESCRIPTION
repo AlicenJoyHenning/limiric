@@ -8,7 +8,7 @@ Description:
     damaged cells in single-cell RNA sequencing (scRNA-seq) data. 
     The core limiric function processes raw scRNA-seq alignment files to predict 
     which barcodes correspond to damaged cells and outputs these 
-    predictions in a csv file alongside a filtered Seurat object.
+    predictions in a csv file alongside a filtered 'Seurat' object.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

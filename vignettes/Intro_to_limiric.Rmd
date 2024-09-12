@@ -33,7 +33,6 @@ SRR1234567 <- limiric(
 
 # Beginning  limiric  analysis for SRR1234567 ...
 # ✔ Seurat object created
-# ✔ Red blood cells removed
 # ✔ limiric  damaged cell predictions
 # ✔ limiric  analysis complete.
 ```
