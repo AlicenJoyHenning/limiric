@@ -248,6 +248,7 @@ limiric_core <- function(
     )
 
     # Label barcodes if they are likely RBCs or have hemoglobin contamination
+    # WANT TO EDIT TO INTRODUCE A RANGE 
     Seurat[['RBC']] <- ifelse(Seurat$hemo.percent !=  0, "RBC", "non-RBC")
 
     # Calculate the number of RBCs (account for none)
