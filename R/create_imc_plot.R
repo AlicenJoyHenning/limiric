@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @keywords internal
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # Example usage:
@@ -48,8 +48,8 @@ create_imc_plot <- function(imc_df, project_name, IMC_percent) {
     ) +
     theme_classic() +
     theme(
-      plot.margin = unit(c(0.2, 0.2, 0.2, 0.4), 'cm'),
       plot.title = element_text(hjust = 0.5, face = "bold", size = 12),
+      plot.margin = unit(c(1, 1, 1, 1), 'cm'),
       axis.title.x = element_text(hjust = 0.5, vjust = -1, face = "bold", size = 12),
       axis.title.y = element_text(hjust = 0.5, vjust = 3, face = "bold", size = 12),
       axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = -1.2, size = 12),

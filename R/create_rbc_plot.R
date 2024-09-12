@@ -18,7 +18,7 @@
 #' @export
 #'
 #' @keywords internal
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # Assuming `rbc_data` is a data frame containing the RBC data.
@@ -30,7 +30,7 @@
 #' project_name <- "RBC Contamination Analysis"
 #' RBC_percent <- 15.0
 #' initial_cells <- 1000
-#' 
+#'
 #' plot <- create_rbc_plot(rbc_data, project_name, RBC_percent, initial_cells)
 #' print(plot)
 #' }
@@ -61,8 +61,8 @@ create_rbc_plot <- function(rbc_df, project_name, RBC_percent, initial_cells) {
       legend.position = "below",
       legend.box.background = element_rect(colour = "black"),
       strip.background = element_blank(),
-      plot.margin = unit(c(0.2, 0.2, 0.2, 0.4), 'cm'),
       plot.title = element_text(hjust = 0.5, face = "bold", size = 12),
+      plot.margin = unit(c(1, 1, 1, 1), 'cm'),
       panel.background = element_blank(),
       panel.grid = element_blank(),
       panel.border = element_rect(colour = "black", fill = NA, linewidth = 1)

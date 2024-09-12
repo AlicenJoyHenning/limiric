@@ -82,7 +82,7 @@ limiric_core <- function(
 ){
   # Receive & prepare input ------------------------------------
 
-  message("\nBeginning  limiric  analysis for", project_name, "...\n")
+  message("\nBeginning limiric analysis for ", project_name, "...\n")
 
   # Ensure calculations are reproducible
   set.seed(7777)
@@ -356,7 +356,7 @@ limiric_core <- function(
   limiric <- limiric_output$limiric
 
 
-  message("\u2714 limiric  damaged cell predictions\n")
+  message("\u2714 limiric damaged cell predictions\n")
 
 
 
@@ -441,7 +441,7 @@ limiric_core <- function(
     annotated_cells <- merge(storage_cells, clean_cells, by = "barcode", all.x = TRUE)
     annotated_cells$QC_annotation[is.na(annotated_cells$QC_annotation)] <- "removed"
 
-    write.csv(annotated_cells, file = file.path(output_path, "DropletQC", paste0(project_name, "_barcodes.csv")), row.names = FALSE)
+    write.csv(annotated_cells, file = file.path(output_path, "DropletQC", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
 
     # Rename column
     Seurat$limiric.droplet_qc <- Seurat$QC
@@ -459,7 +459,7 @@ limiric_core <- function(
 
     # Save a list of barcodes with limiric annotations (cell, damaged)
     clean_cells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
-    write.csv(clean_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE)
+    write.csv(clean_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
 
     Seurat <- subset(Seurat, QC != "agreed")
 
@@ -482,13 +482,13 @@ limiric_core <- function(
     # Save a list of barcodes with limiric annotations (cell, damaged)
     storage_cells <- data.frame(barcode = rownames(storage@meta.data))
     clean_cells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
-    write.csv(clean_cells, file = file.path(output_path, "/Filtered/", paste0(project_name, "_barcodes.csv")), row.names = FALSE)
+    write.csv(clean_cells, file = file.path(output_path, "/Filtered/", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
 
     # Account for cells that may have been filtered
     annotated_cells <- merge(storage_cells, clean_cells, by = "barcode", all.x = TRUE)
     annotated_cells$limiric[is.na(annotated_cells$limiric)] <- "removed"
 
-    write.csv(annotated_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE)
+    write.csv(annotated_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
 
 
     # Filter damaged cells only according to limiric estimations
@@ -515,18 +515,18 @@ limiric_core <- function(
     # Save a list of barcodes with limiric annotations (cell, damaged)
     storage_cells <- data.frame(barcode = rownames(storage@meta.data))
     clean_cells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
-    write.csv(clean_cells, file = file.path(output_path, "/Filtered/", paste0(project_name, "_barcodes.csv")), row.names = FALSE)
+    write.csv(clean_cells, file = file.path(output_path, "/Filtered/", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
 
     # Account for cells that may have been filtered
     annotated_cells <- merge(storage_cells, clean_cells, by = "barcode", all.x = TRUE)
     annotated_cells$limiric[is.na(annotated_cells$limiric)] <- "removed"
 
-    write.csv(annotated_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE)
+    write.csv(annotated_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
     saveRDS(Seurat, file.path(output_path, "Filtered", paste0(project_name, "_unfiltered.rds")))
 
   }
 
-  message("\u2714 limiric  analysis complete.\n\n")
+  message("\u2714 limiric analysis complete\n\n")
 
   return(Seurat)
 
