@@ -20,11 +20,16 @@ Additionally, a `Seurat` object containing only the filtered cells will be avail
 ```{r setup, eval = FALSE}
 library(limiric)
 
+# Load example Seurat object from the limiric package
+data("test_data", package = "limiric")
+
+# Run the limiric function with the example data
 SRR1234567 <- limiric(
-     ProjectName  = "SRR1234567",
-     FilteredPath = "/home/user/alignment/SRR1234567/filtered/",
-     OutputPath   = "/home/user/alignment/limiric/"
-)
+     project_name = "test_run",
+     filter_rbc   = FALSE,
+     seurat_input = test_data,
+     output_path  = tempdir()
+   )
 
 # Beginning  limiric  analysis for SRR1234567 ...
 # ✔ Seurat object created
