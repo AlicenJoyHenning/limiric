@@ -255,7 +255,7 @@ limiric_core <- function(
     # Calculate the number of RBCs (account for none)
     RBC_number <- NULL
 
-    if (all(Seurat$hemo.percent == 0)) {
+    if (all(Seurat$hemo.percent <= hemo_threshold)) {
 
       # Say there were no RBCs
       RBC_number = 0
