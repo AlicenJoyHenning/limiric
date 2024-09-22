@@ -1,4 +1,3 @@
-[![R-CMD-check](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AlicenJoyHenning/limiric/actions/workflows/R-CMD-check.yaml)
 
 <br>
 
@@ -15,20 +14,19 @@
 ## Description
 
 <br>
+Single-cell RNA sequencing (scRNA-seq) is a well-established technique in the era of next-generation sequencing. From identifying novel cell types, characterising responses to treatment, or mapping cell type-specific eQTLs, its applications are of undeniable value to the field of molecular and cell biology. All these and more rely entirely on the thorough preprocessing of raw scRNA-seq data, for which cell-level quality control is an essential component. 
 
-```limiric``` is a quality control package for identifying damaged cells in scRNA-seq data. Many scRNA-seq quality control tools are designed to identify droplets that contain more than one cell (doublets) or no cells (empty droplets), but few are specialised in identifing those that contain damaged cells. Damaged cell detection is more often achieved by setting thresholds for metrics such as average mitochondrial gene expression and UMI counts per barcode. These thresholds, even when dynamically calculated, vary across samples, cell types, tissues, treatment conditions, and species, resulting in many true cells being excluded from downstream analysis. But searching for true damaged droplets in a sample-specific manner is tedious and not always intuitive, leading to user-defined filtering that lacks reproducibility. 
+<br><br>
 
-<br>
-
-```limiric``` automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the basic principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, and that this complexity can be greatly simplified by clustering in lower dimensional space. To do so, the Louvain algorithm is applied to a shared nearest neighbor graph constructed for each droplet using the expression of the ```Ensembl```-defined subset of mitochondrial and ribosomal genes. 
-
-<br>
-
-In addition to predicting damaged cells, ```limiric``` can remove red blood cells, correct for ambient RNA (```SoupX```), and isolate immune cells. There is also the option to combine results with ```DropletQC```, a community-accepted package that identifies empty and damaged droplets by nuclear fraction scores. Combining the diagnostic power of these nonredundant quality control metrics increases confidence in true damaged cell detection. This being said, ```limiric``` performs effectively without ```DropletQC```, so this feature- while advised- is not essential.
+For droplet-based scRNA-seq protocols, ‘low quality’ cells are those that originate from droplets that contain either more than one cell (doublet), no cells (empty), or a damaged cell. While many quality control tools available are designed to identify doublets and empty droplets, few are specialised in identifing damaged cells. Damaged cell detection is more often achieved by setting thresholds for metrics such as average mitochondrial gene expression or UMI and features counts per barcode. These thresholds, even when dynamically calculated, vary across samples, cell types, tissues, treatment conditions, and species. This could result in overly stringent filtering, where many true cells are excluded from downstream but also in overly conservative filtering where many contaminating damaged cells remain. But searching for true damaged droplets in a sample-specific manner is tedious and not always intuitive, leading to user-defined filtering that lacks reproducibility. 
 
 <br>
 
-The package was developed around the community standard ```Seurat``` suite can be incorporated seemlessly into a user's pre-existing ```Seurat``` workflow. However, the main output of ```limiric``` is a standard, two-column ```csv``` that can be used in any platform alongside any exisiting or future scRNA-seq analysis tool. 
+```limiric``` is a quality control package that automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the established biological principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, and that this complexity can be greatly simplified by clustering in lower dimensional space. In addition to predicting damaged cells, there is an option for limiric to estimate and correct for red blood contamination- a rare but significant artefact of certain single cell isolation protocols for which no automatic tool exists. 
+
+<br>
+
+Built around the community standard ```Seurat``` suite, ```limiric``` was created with the intention of being incorporated seamlessly into a user's pre-existing scRNA-seq analysis workflow. However, the main output of ```limiric``` is a standard, two-column csv that can be used in any platform.
 
 <br>
 
