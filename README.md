@@ -14,19 +14,18 @@
 ## Description
 
 <br>
-Single-cell RNA sequencing (scRNA-seq) is a well-established technique in the era of next-generation sequencing. From identifying novel cell types, characterising responses to treatment, or mapping cell type-specific eQTLs, its applications are of undeniable value to the field of molecular and cell biology. All these and more rely entirely on the thorough preprocessing of raw scRNA-seq data, for which cell-level quality control is an essential component. 
-
+Single-cell RNA sequencing (scRNA-seq) is a well-established technique in the era of next-generation sequencing. From identifying novel cell types, characterizing responses to treatment, or mapping cell type-specific eQTLs, its widespread applications are undeniably valuable to the field of molecular and cell biology. However, the reliability of all downstream scRNA-seq applications is entirely dependent on upstream pre-processing, with cell-level quality control being an important component.
 <br><br>
 
-For droplet-based protocols, ‘low quality’ cells are those that originate from droplets that contain more than one cell (doublet), no cells (empty), or a damaged cell. While quality control tools are available to identify doublets and empty droplets, few are specialised in identifing damaged cells. Damaged cell detection is more often achieved by setting thresholds for metrics such as average mitochondrial gene expression or UMI and features counts per barcode. These thresholds, even when dynamically calculated, vary across samples, cell types, tissues, treatment conditions, and species. This could result in overly stringent filtering, where many true cells are excluded from downstream analysis, or, in overly conservative filtering, where many contaminating damaged cells remain. But searching for true damaged droplets in a sample-specific manner is tedious and not always intuitive, leading to user-defined filtering that lacks reproducibility. 
+For droplet-based protocols, ‘low quality’ cells are those that originate from droplets that contain more than one cell (doublet), no cells (empty), or a damaged cell. While scRNA-seq quality control tools are available to identify doublets and empty droplets, few are specialised in identifing damaged cells. Damaged cell detection is more often achieved by setting thresholds for metrics such as average mitochondrial gene expression or UMI and features counts per barcode. These thresholds, even when dynamically calculated, vary across samples, cell types, tissues, treatment conditions, and species. This could result in overly stringent filtering, where many true cells are excluded from downstream analysis, or, in overly conservative filtering, where many contaminating damaged cells remain. But searching for true damaged droplets in a sample-specific manner is tedious and not always intuitive, leading to user-defined filtering that lacks reproducibility. 
 
 <br>
 
-```limiric``` is a quality control package that automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the established biological principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, and that this complexity can be greatly simplified by clustering in lower dimensional space. In addition to predicting damaged cells, there is an option for limiric to estimate and correct for red blood contamination- a rare but significant artefact of certain single cell isolation protocols for which no automatic tool exists. 
+```limiric``` is a quality control package that automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the biological principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, a complexity that can be effectively resolved through clustering in lower-dimensional space.  Beyond predicting damaged cells, ```limiric``` offers functionality to estimate and correct for red blood cell contamination— an uncommon but significant artifact of single-cell isolation protocols for which no automated tool currently exists. If relevant to a user's investigation, ```limiric``` can also be used isolate immune (CD45^+) cell populations, a step performed prior to the detection and removal of damaged cells.
 
 <br>
 
-Built around the community standard ```Seurat``` suite, ```limiric``` was created with the intention of being incorporated seamlessly into a user's pre-existing scRNA-seq analysis workflow. However, the main output of ```limiric``` is a standard, two-column csv that can be used in any platform.
+Built around the community standard ```Seurat``` suite, ```limiric``` is designed to integrate seamlessly into a user's pre-existing scRNA-seq analysis workflow. Although the main output of ```limiric``` is a standard, two-column comma separated value file (cell_identifier, limiric_annotation) that can be used in any platform. To facilitate this integration, ```limiric``` can be used to perform ambient RNA correction (```SoupX```), a highly recommended first step of scRNA-seq pre-processing post alignment. 
 
 <br>
 
@@ -37,7 +36,6 @@ Built around the community standard ```Seurat``` suite, ```limiric``` was create
 ```limiric``` makes use of the following packages
 * ```cowplot``` Wilke, 2024. [GitHub repo](https://github.com/wilkelab/cowplot)
 * ```devtools``` Wickham and Hester, 2022. [GitHub repo](https://github.com/r-lib/devtools)
-* ```DropletQC``` Muskovic, 2024. [GitHub repo](https://github.com/powellgenomicslab/DropletQC)
 * ```dplyr``` Wickham _et al_, 2023. [GitHub repo](https://github.com/tidyverse/dplyr)
 * ```ggplot2``` Wickham, 2016. [GitHub repo](https://github.com/tidyverse/ggplot2)
 * ```Matrix``` Bates _et al_, 2024. [Github repo](https://github.com/cran/Matrix)
