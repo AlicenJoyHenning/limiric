@@ -417,7 +417,7 @@ SRR1234567 <- limiric(
 <br>
 
 
-##### 5. Process multiple samples with the same conditions as in **Example 4**
+##### 4. Process multiple samples with the same conditions as above
 
 ```R
 sample_list <- list(
@@ -425,27 +425,21 @@ sample_list <- list(
          filtered_path = "/home/user/alignment/SRR1234567/filtered/",
          soupx         = TRUE,
          raw_path      = "/home/user/alignment/SRR1234567/raw/",
-         droplet_qc    = TRUE,
          isolate_cd45  = TRUE,
-         velocyto_path = "/home/user/alignment/velocyto/",
          output_path   = "/home/user/alignment/limiric/"),
     
     list(project_name  = "SRR1234568",
          filtered_path = "/home/user/alignment/SRR1234568/filtered/",
          soupx         = TRUE,
          raw_path      = "/home/user/alignment/SRR1234568/raw/",
-         droplet_qc    = TRUE,
          isolate_cd45  = TRUE,
-         velocyto_path = "/home/user/alignment/velocyto/",
          output_path   = "/home/user/alignment/limiric/"),
     
     list(project_name  = "SRR1234569",
          filtered_path = "/home/user/alignment/SRR1234569/filtered/",
          soupx         = TRUE,
          raw_path      = "/home/user/alignment/SRR1234569/raw/",
-         droplet_qc    = TRUE,
          isolate_cd45  = TRUE,
-         velocyto_path = "/home/user/alignment/velocyto/",
          output_path   = "/home/user/alignment/limiric/")
 )
 
