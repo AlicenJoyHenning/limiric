@@ -14,18 +14,18 @@
 ## Description
 
 <br>
-Single-cell RNA sequencing (scRNA-seq) is a well-established technique in the era of next-generation sequencing. From identifying novel cell types, characterizing responses to treatment, or mapping cell type-specific eQTLs, its widespread applications are undeniably valuable to the field of molecular and cell biology. The reliability of its application , however, depend entirely on the quality of upstream pre-processing, with cell-level filtering being an important component.
+Single-cell RNA sequencing (scRNA-seq) is a well-established technique in the era of next-generation sequencing. From identifying novel cell types and characterizing responses to treatment to mapping celltype-specific eQTLs, its widespread applications are undeniably valuable to the field of molecular and cell biology. The reliability of its application, however, depend entirely on the quality of upstream pre-processing, with cell-level filtering being an important component.
 <br><br>
 
-For droplet-based protocols, _low quality_ cells are those that originate from droplets that contain more than one cell (doublet), no cells (empty), or a damaged cell. While there are many scRNA-seq quality control tools available to identify doublets and empty droplets, few are specialised in identifing damaged cells. Damaged cell detection is more often achieved by setting thresholds for metrics such as average mitochondrial gene expression or feature counts per droplets. These thresholds, even when dynamically calculated, vary across cell types, tissues, treatment conditions, and species, with no established ground truth to define them accurately in any context. As a result, applying them in isolation can easily disrupt the delicate balance to become too stringent, excluding many true cells from downstream analysis, or too lenient, letting many contaminating damaged cells remain. But searching for true damaged droplets in a sample-specific manner is tedious and not always intuitive, leading to user-defined filtering that lacks reproducibility. 
+For droplet-based protocols, _low quality_ cells are those that originate from droplets that contain more than one cell (doublet), no cells (empty), or a damaged cell. While there are many scRNA-seq quality control tools available to identify doublets and empty droplets, few are specialised in identifing damaged cells. Damaged cell detection is more often achieved by setting thresholds for metrics such as average mitochondrial gene expression or feature counts per droplets. These thresholds, even when dynamically calculated, vary across cell types, tissues, treatment conditions, and species, with no established ground truth to define them precisely in any context. As a result, applying them in isolation can easily disrupt the delicate balance to become too stringent, excluding many true cells from downstream analysis, or too lenient, letting many contaminating damaged cells remain. But searching for true damaged droplets in a sample-specific manner is tedious and not always intuitive, leading to user-defined filtering that lacks reproducibility. 
 
 <br>
 
-```limiric``` is a quality control package that automates the sample-specific detection of damaged cells in one fast acting and highly reproducible function. It operates on the biological principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, a complexity that can be effectively resolved through clustering in lower-dimensional space.  Beyond predicting damaged cells, ```limiric``` offers functionality to estimate and correct for red blood cell contamination— an uncommon but significant artifact of single-cell isolation protocols for which no automated tool currently exists. If relevant to a user's investigation, ```limiric``` can also be used isolate immune (CD45⁺) populations, a step performed prior to the detection and removal of damaged cells.
+```limiric``` is an R package for scRNA-seq cell-level quality control that automates the sample-specific detection of damaged cells in one function. It operates on the biological principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, and that this complexity can be effectively resolved through clustering in lower-dimensional space.  Beyond predicting damaged cells, ```limiric``` offers functionality to estimate and correct for red blood cell contamination— an uncommon but significant artifact of single-cell isolation protocols for which no automated tool currently exists. If relevant to a user's investigation, ```limiric``` can also be used isolate immune (CD45⁺) populations, a step performed prior to the detection and removal of damaged cells.
 
 <br>
 
-Built around the community standard ```Seurat``` suite, ```limiric``` is designed to integrate seamlessly into a user's pre-existing scRNA-seq analysis workflow. Although the main output of ```limiric``` is a standard, two-column comma separated value file (cell_identifier, limiric_annotation) that can be used in any platform. To facilitate this integration, ```limiric``` can be used to perform ambient RNA correction (```SoupX```), a highly recommended first step of scRNA-seq pre-processing post alignment. 
+Built around the community standard ```Seurat``` suite, ```limiric``` is designed to integrate seamlessly into a user's pre-existing scRNA-seq analysis workflow in R. To facilitate this integration, ```limiric``` can be used to perform ambient RNA correction (```SoupX```), a recommended first step of pre-processing post alignment. However, the main output of ```limiric``` is a standard, two-column comma separated value file (cell_identifier, limiric_annotation) that can be used in any platform. 
 
 <br>
 
@@ -79,14 +79,7 @@ for (pkg in packages) {
 <br><br>
 
 ### Package installation
-After all the prerequisites are installed, you can install the latest development version of ```limiric``` from CRAN using 
-
-```R
-install.packages("limiric")
-```
-<br>
-
-Alternatively, the package can be installed from ```GitHub``` using the ```devtools``` package:
+After all the prerequisites are installed, you can install the latest development version of ```limiric``` from ```GitHub``` using the ```devtools``` package:
 
 ```R
 devtools::install_github("AlicenJoyHenning/limiric", build_vignettes = TRUE)
