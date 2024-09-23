@@ -385,51 +385,8 @@ SRR1234567 <- limiric(
 <br>
 <br>
 
-##### 3. Combine ```limiric``` annotations with ```DropletQC```
-Detect damaged cells and compare results with those from ```DropletQC```.
-
-```R
-SRR1234567 <- limiric(
-    project_name  = "SRR1234567",
-    filtered_path = "/home/user/alignment/SRR1234567/filtered/",
-    droplet_qc    = TRUE,
-    velocyto_path = "/home/user/alignment/velocyto/",
-    output_path   = "/home/user/alignment/limiric/"
-)
-```
-> **NB** This will change your output directory structure by adding a new ```DropletQC``` layer
->
-> ```
-> output_path/
-> ├── CellQC
-> |
-> ├── DropletQC
-> |
-> ├── RBCQC
-> |
-> └── Filtered
-> ```
->
-
-<br>
-
-<table>
-  <tr>
-    <td>
-      This will output a scatter plot and tSNE showing the cells annotated as damaged by both <code>limiric</code> and <code>DropletQC</code>. 
-    </td>
-    <td>
-      <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/DropletQC.png" alt="Scatter plot" style="float: right; margin-left: 500px;" width="1000">
-    </td>
-  </tr>
-</table>
-
-
-
-<br>
-
-##### 4. Combine previous condition
-Perform ambient RNA correction with ```SoupX```, filter red blood cells, isolate immune cells, detect damaged cells, and compare against ```DropletQC```.
+##### 3. Combine previous condition
+Perform ambient RNA correction with ```SoupX```, filter red blood cells, isolate immune cells and detect damaged cells.
 
 ```R
 SRR1234567 <- limiric(
@@ -437,7 +394,6 @@ SRR1234567 <- limiric(
     filtered_path = "/home/user/alignment/SRR1234567/filtered/",
     soupx         = TRUE,
     raw_path      = "/home/user/alignment/SRR1234567/raw/",
-    droplet_qc    = TRUE,
     isolate_cd45  = TRUE,
     velocyto_path = "/home/user/alignment/velocyto/",
     output_path   = "/home/user/alignment/limiric/"
@@ -449,8 +405,6 @@ SRR1234567 <- limiric(
 > output_path/
 >
 > ├── CellQC
-> |
-> ├── DropletQC
 > |
 > ├── IMCQC
 > | 
