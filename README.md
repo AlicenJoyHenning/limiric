@@ -2,7 +2,7 @@
 <br>
 
 <p align="center">
-  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/limiric_light.png" alt="limiric_logo" height="140" width="380">
+  <img src="https://github.com/AlicenJoyHenning/limiric/blob/master/inst/extdata/limiric_light.png" alt="limiric_logo" height="140" width="370">
 </p>
 
 
