@@ -106,6 +106,37 @@ Additionally, you can perform a test run using a small example dataset stored in
 
 ## _Quickstart_
 
+### Test run 
+
+To ensure the package is running smoothly on your device, access the available test data (```test_data```) and 
+run the ```limiric``` function with the following parameters (ensures test_run is as quick as possible). 
+
+```R
+
+# Load example Seurat object from the limiric package
+data("test_data", package = "limiric")
+
+test <- limiric(
+     project_name = "test_run",
+     filter_rbc   = FALSE,
+     seurat_input = test_data,
+     output_path  = tempdir()
+   )
+```
+
+<br>
+
+If anything other than the output below is displayed, please check the installation of prerequisites or open an ```issue``` on this ```GitHub``` page.
+```R
+# Beginning limiric analysis for test_run ...
+# ✔ Seurat object created
+# ✔ limiric damaged cell predictions
+# ✔ limiric analysis complete.
+
+```
+> **Note:** This shouldn't take more than 10 seconds to run but it will vary depending on your machine.
+
+
 #### Basic Usage
 
 
@@ -182,35 +213,6 @@ GSE1234567 <- limiric(sample_list = sample_list)
 > 
 <br>
 
-### Test run 
-
-To ensure the package is running smoothly on your device, access the available test data (```test_data```) and 
-run the ```limiric``` function with the following parameters (ensures test_run is as quick as possible). 
-
-```R
-
-# Load example Seurat object from the limiric package
-data("test_data", package = "limiric")
-
-test <- limiric(
-     project_name = "test_run",
-     filter_rbc   = FALSE,
-     seurat_input = test_data,
-     output_path  = tempdir()
-   )
-```
-
-<br>
-
-If anything other than the output below is displayed, please check the installation of prerequisites or open an ```issue``` on this ```GitHub``` page.
-```R
-# Beginning limiric analysis for test_run ...
-# ✔ Seurat object created
-# ✔ limiric damaged cell predictions
-# ✔ limiric analysis complete.
-
-```
-> **Note:** This shouldn't take more than 10 seconds to run but it will vary depending on your machine.
 
 <br><br>
 
