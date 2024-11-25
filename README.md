@@ -137,6 +137,8 @@ If anything other than the output below is displayed, please check the installat
 > **Note:** This shouldn't take more than 10 seconds to run but it will vary depending on your machine.
 
 
+<br> 
+
 #### Basic Usage
 
 
