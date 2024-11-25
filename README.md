@@ -108,7 +108,7 @@ Additionally, you can perform a test run using a small example dataset stored in
 
 ### Test run 
 
-To ensure the package is running smoothly on your device, access the available test data (```test_data```) and 
+Access the available test data (```test_data```) and 
 run the ```limiric``` function with the following parameters (ensures test_run is as quick as possible). 
 
 ```R
