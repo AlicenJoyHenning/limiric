@@ -29,6 +29,10 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
+      - name: Install qpdf (macOS only)
+        if: runner.os == 'macOS'
+        run: brew install qpdf || brew upgrade qpdf
+      
       - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
@@ -38,6 +42,9 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
+
+
+      
 
       # Cache R package library
       - name: Cache R packages
