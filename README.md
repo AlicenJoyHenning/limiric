@@ -59,20 +59,6 @@ for (pkg in packages) {
 
 ```
 
-<br>
-
-Be sure to load these into your environment before continuing with ```limiric``` installation 
-```R
-
-packages <- c("cowplot", "devtools", "dplyr", "ggplot2", "Matrix", "png", "Seurat", "SoupX")
-
-for (pkg in packages) {
-  if (!require(pkg, character.only = TRUE)) {
-    library(pkg)
-  }
-}
-
-```
 > Please check the associated documentation if problems occur in the installation of any of the prerequisite packages
 
 
