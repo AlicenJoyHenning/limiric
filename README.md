@@ -21,7 +21,7 @@ For droplet-based protocols, _low quality_ cells are those that originate from d
 
 <br>
 
-```limiric``` is an R package for scRNA-seq cell-level quality control that automates the sample-specific detection of damaged cells in one function. It operates on the biological principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, and that this complexity can be effectively resolved through clustering in lower-dimensional space.  Beyond predicting damaged cells, ```limiric``` offers functionality to estimate and correct for red blood cell contamination— an uncommon but significant artifact of single-cell isolation protocols for which no automated tool currently exists. If relevant to a user's investigation, ```limiric``` can also be used isolate immune (CD45⁺) populations, a step performed prior to the detection and removal of damaged cells.
+```limiric``` is an R package for scRNA-seq cell-level quality control that automates the sample-specific detection of damaged cells in one function. It operates on the biological principle that damaged and healthy cells can be differentiated by the complexity of their mitochondrial and ribosomal gene expression, and that this complexity can be effectively resolved through clustering in lower-dimensional space.  Beyond predicting damaged cells, ```limiric``` estimates and correct for red blood cell contamination— an uncommon but significant artifact of single-cell isolation protocols for which no automated tool currently exists. If relevant to a user's investigation, ```limiric``` can also be used isolate immune (CD45⁺) populations, a step performed prior to the detection and removal of damaged cells.
 
 <br>
 
