@@ -451,7 +451,7 @@ SRR1234567 <- DamageDetective(
 <br>
 
 > **NB** This will change your output directory structure by adding a
-> new `IMCQC` layer
+> new `IMCQC` layer. This output, like RBCQC, contains a scatter plot showing the removed cell in blue and the retained cells in grey.   
 >
 > ```         
 > output_path/
@@ -463,14 +463,6 @@ SRR1234567 <- DamageDetective(
 > |
 > └── Filtered
 > ```
-
-+---------------------------------+---------------------------------+
-| This output, like RBCQC,        | ![Scatter                       |
-| contains a scatter plot showing | p                               |
-| the removed cell in blue and    | lot](htt%20ps://github.com/Alic |
-| the retained cells in grey.     | enJoyHenning%20/DamageDetective/blob/ma |
-|                                 | ster/inst/extdat%20a/IMCQC.png) |
-+---------------------------------+---------------------------------+
 
 <br> <br>
 
