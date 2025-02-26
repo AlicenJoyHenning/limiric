@@ -11,7 +11,7 @@
 #' @param soupx Perform ambient RNA correction, if TRUE raw_path must be given. Default is FALSE
 #' @param raw_path Directory of unfiltered alignment output
 #' @param filter_rbc Whether or not red blood cells should be removed. Default is TRUE
-#' @param hemo_threshold Percent hemoglobin expression above which cells are filtered. Default is 50
+#' @param hemo_threshold Percent hemoglobin expression above which cells are filtered. Default is 20
 #' @param isolate_cd45 Discard non-immune cells. Default is FALSE
 #' @param filter_output Should output contain no damaged cells. Default is TRUE
 #' @param output_path Directory where output can be generated
@@ -63,11 +63,11 @@ DamageDetective_core <- function(
     soupx          = FALSE,
     raw_path       = NULL,
     filter_rbc     = TRUE,
-    hemo_threshold = 50,
+    hemo_threshold = 20,
     isolate_cd45   = FALSE,
     filter_output  = TRUE,
     output_path    = "./",
-    resolution     = 1,
+    resolution     = 0.1,
     cluster_ranks  = 1,
     organism       = "Hsap",
     verbose        = TRUE
