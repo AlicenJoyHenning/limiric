@@ -140,17 +140,6 @@ DamageDetective_calculation <- function(organism,
   # Transfer to actual Seurat object
   Seurat$DamageDetective.ri <- DamageDetective$rb.percent
 
-  # Find library size
-  # seurat_matrix <- Seurat::GetAssayData(DamageDetective, layer = "data")
-  # seurat_matrix <- as.matrix(seurat_matrix)
-  # complexity_metric <- colSums(seurat_matrix > 0)
-  #
-  #
-  # DamageDetective$complexity <- complexity_metric
-  #
-  # # Transfer to actual Seurat object
-  # Seurat$DamageDetective.complexity <- DamageDetective$complexity
-
   # Identify damaged cell cluster using QC metric averages for each cluster ------------------------------------
 
   # Automatically find the damaged cell population
@@ -189,9 +178,15 @@ DamageDetective_calculation <- function(organism,
 
 
   # Find the median complexity score for all undamaged cells
+  clusters <- table(DamageDetective$seurat_clusters)
+
+  if (length(clusters) >= 2){
   undamaged_cells <- subset(DamageDetective, seurat_clusters != "damaged")
   complexity_threshold <- quantile(undamaged_cells$complexity, probs = 0.001, na.rm = TRUE)
 
+  } else {
+  complexity_threshold <- quantile(DamageDetective$complexity, probs = 0.001, na.rm = TRUE)
+  }
 
   # Use this value as minimum threshold for retaining damaged label
   DamageDetective$seurat_clusters <- ifelse(
