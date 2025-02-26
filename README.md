@@ -62,20 +62,27 @@ DamageDetective_annotation) that can easily be used in any analysis workflow.
 
 <br>
 
-## Installation {#installation}
+## Installation 
 
 ### Prerequisites
 
-`DamageDetective` makes use of the following packages \* `cowplot` Wilke, 2024.
-[GitHub repo](https://github.com/wilkelab/cowplot) \* `devtools` Wickham
+`DamageDetective` makes use of the following packages 
+* `cowplot` Wilke, 2024.
+[GitHub repo](https://github.com/wilkelab/cowplot)
+* `devtools` Wickham
 and Hester, 2022. [GitHub repo](https://github.com/r-lib/devtools) \*
 `dplyr` Wickham *et al*, 2023. [GitHub
-repo](https://github.com/tidyverse/dplyr) \* `ggplot2` Wickham, 2016.
-[GitHub repo](https://github.com/tidyverse/ggplot2) \* `Matrix` Bates
-*et al*, 2024. [Github repo](https://github.com/cran/Matrix) \* `png`
-Urbanek, 2022. [GitHub](https://github.com/cran/png) \* `Seurat` Satija
+repo](https://github.com/tidyverse/dplyr)
+* `ggplot2` Wickham, 2016.
+[GitHub repo](https://github.com/tidyverse/ggplot2)
+* `Matrix` Bates
+*et al*, 2024. [Github repo](https://github.com/cran/Matrix)
+* `png`
+Urbanek, 2022. [GitHub](https://github.com/cran/png)
+* `Seurat` Satija
 and Farrell *et al*, 2015. [Website](https://satijalab.org/seurat/),
-[GitHub repo](https://github.com/satijalab/seurat) \* `SoupX` Young and
+[GitHub repo](https://github.com/satijalab/seurat)
+* `SoupX` Young and
 Behjati, 2020. [GitHub repo](https://github.com/constantAmateur/SoupX)
 <br>
 
@@ -130,9 +137,9 @@ this up, please see [Test run](#test-run) for more details.
 
 <br> <br> <br>
 
-## *Quickstart* {#quickstart}
+## *Quickstart* 
 
-### Test run {#test-run}
+### Test run 
 
 Access the available test data (`test_data`) and run the `DamageDetective`
 function with the following parameters (ensures test_run is as quick as
@@ -253,7 +260,7 @@ GSE1234567 <- DamageDetective(sample_list = sample_list)
 
 <br><br>
 
-## Output explained {#output-explained}
+## Output explained 
 
 Before interpretting `DamageDetective`'s outputs, it may be helpful to
 understand a bit of what's going on in the background. <br><br> As you
@@ -406,7 +413,7 @@ ready-filtered barcodes for seamless integration at the start of a
 
 <br> <br>
 
-## Extended usage {#extended-usage}
+## Extended usage 
 
 #### *Slightly-less* Basic Usage
 
@@ -534,7 +541,7 @@ GSE1234567 <- DamageDetective(sample_list = sample_list)
 
 <br> <br>
 
-## Input file format {#input-file-format}
+## Input file format 
 
 If your alignment output files are not zipped (end with a `.gz`
 extension), you will need to find a way to do this before using
@@ -580,7 +587,7 @@ gzip *
 
 <br> <br>
 
-## Downstream {#downstream}
+## Downstream 
 
 ### Adding barcode annotations to pre-existing Seurat object
 
