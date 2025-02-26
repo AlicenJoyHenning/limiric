@@ -23,6 +23,7 @@
 #' @importFrom png readPNG
 #' @import Seurat
 #' @importFrom utils globalVariables
+#' @importFrom stats quantile
 #'
 #' @export
 #'
@@ -37,7 +38,7 @@
 #' result <- DamageDetective_calculation(organism = "Hsap",
 #'                               Seurat = test_data,
 #'                               annotations = human_annotations,
-#'                               resolution = 0.6,
+#'                               resolution = 0.1,
 #'                               cluster_ranks = 1,
 #'                               initial_cells = 1000,
 #'                               project_name = "Test",
@@ -62,7 +63,7 @@ DamageDetective_calculation <- function(organism,
   if (organism == "Hsap") {
 
     # Get gene annotations for mitochondrial (MT) & ribosomal (RB) genes
-    mt_gene_annotations <- annotations[grep("MT-", annotations$gene_name, perl=TRUE),]
+    mt_gene_annotations <- annotations[grep("^MT-", annotations$gene_name, perl=TRUE),]
     mt_gene_annotations <- mt_gene_annotations[grepl("protein_coding", mt_gene_annotations$gene_biotype, perl=TRUE),]
     mt_genes <- mt_gene_annotations %>% pull(gene_name)
 
@@ -98,7 +99,6 @@ DamageDetective_calculation <- function(organism,
     mt_rb_genes <- unique(mt_rb_genes)
 
   }
-
 
 
   # Dimensionality reduction step ------------------------------------
@@ -140,18 +140,18 @@ DamageDetective_calculation <- function(organism,
   # Transfer to actual Seurat object
   Seurat$DamageDetective.ri <- DamageDetective$rb.percent
 
-  # Calculate complexity
-  seurat_matrix <- Seurat::GetAssayData(DamageDetective, layer = "data")
-  seurat_matrix <- as.matrix(seurat_matrix)
-  complexity_metric <- colSums(seurat_matrix > 0)
-  DamageDetective$complexity <- complexity_metric
+  # Find library size
+  # seurat_matrix <- Seurat::GetAssayData(DamageDetective, layer = "data")
+  # seurat_matrix <- as.matrix(seurat_matrix)
+  # complexity_metric <- colSums(seurat_matrix > 0)
+  #
+  #
+  # DamageDetective$complexity <- complexity_metric
+  #
+  # # Transfer to actual Seurat object
+  # Seurat$DamageDetective.complexity <- DamageDetective$complexity
 
-  # Transfer to actual Seurat object
-  Seurat$DamageDetective.complexity <- DamageDetective$complexity
-
-
-
-  # Identify damaged cells using QC metric averages for each cluster ------------------------------------
+  # Identify damaged cell cluster using QC metric averages for each cluster ------------------------------------
 
   # Automatically find the damaged cell population
   best_cluster <- DamageDetective@meta.data %>%
@@ -173,6 +173,38 @@ DamageDetective_calculation <- function(organism,
   # Label all cells belonging to this cluster as "damaged"
   DamageDetective$seurat_clusters <- ifelse(DamageDetective$seurat_clusters %in% best_cluster, 'damaged', DamageDetective$seurat_clusters)
 
+
+  # Calculate complexity score for each cell ----
+
+  # Min-max scaling function
+  min_max_scale <- function(x) {
+    return((x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)))
+  }
+
+  # Apply min-max scaling for mt & rb percent expression and library size
+  # Value is out of 3 where closer to 0 is less complex, more likely to be damaged
+  DamageDetective$complexity <- ((DamageDetective$rb.percent / 100 ) +
+                                (1 - (DamageDetective$mt.percent / 100 )) + # Inverse for mt.percent, highe it is the less complex cells are
+                                 min_max_scale(DamageDetective$nFeature_RNA)) / 3
+
+
+  # Find the median complexity score for all undamaged cells
+  undamaged_cells <- subset(DamageDetective, seurat_clusters != "damaged")
+  complexity_threshold <- quantile(undamaged_cells$complexity, probs = 0.05, na.rm = TRUE)
+
+
+  # Use this value as minimum threshold for retaining damaged label
+  DamageDetective$seurat_clusters <- ifelse(
+
+     # First, looking at cells in damage cluster
+     DamageDetective$seurat_clusters == "damaged" &
+
+     # Next, retain if they have sufficiently low complexity
+     DamageDetective$complexity <= complexity_threshold,
+
+     "damaged", 0)
+
+
   # Add Cell QC meta data to object
   DamageDetective$MtRb <- ifelse(DamageDetective$seurat_clusters == "damaged", "damaged", "cell")
 
@@ -187,14 +219,14 @@ DamageDetective_calculation <- function(organism,
 
   # Visualise  clusters coloured by QC metrics ------------------------------------
 
-  mt_plot <- FeaturePlot(DamageDetective, features = c("mt.percent"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
+  mt_plot <- FeaturePlot(DamageDetective, features = c("mt.percent"), cols = c("#E1E1E1", "#0073CF"), pt.size = 1) +
     NoAxes() + labs(caption = "Mitochondrial gene expression") +
     theme(
       plot.title   = element_blank(),
       panel.border = element_rect(colour = "black", fill=NA, linewidth =1),
       plot.caption = element_text(hjust = 0.5, size = 16))
 
-  rb_plot <- FeaturePlot(DamageDetective, features = c("rb.percent"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
+  rb_plot <- FeaturePlot(DamageDetective, features = c("rb.percent"), cols = c("#E1E1E1", "#0073CF"), pt.size = 1) +
     NoAxes() + labs(caption = "Ribosomal gene expression") +
     theme(
       plot.title = element_blank(),
@@ -202,7 +234,7 @@ DamageDetective_calculation <- function(organism,
       plot.caption = element_text(hjust = 0.5, size = 16))
 
   cluster_plot <- DimPlot(
-    DamageDetective, pt.size = 1, group.by = "MtRb", cols = c("cell" = "grey", "damaged" = "#6765ED")) +
+    DamageDetective, pt.size = 1, group.by = "MtRb", cols = c("cell" = "grey", "damaged" = "maroon")) +
     labs(caption = expression("Damaged cells identified by " * italic("DamageDetective"))) + NoAxes() +
     theme(
       plot.title = element_blank(),
@@ -210,8 +242,8 @@ DamageDetective_calculation <- function(organism,
       panel.border = element_rect(colour = "black", fill=NA, linewidth =1)
     )
 
-  complexity_plot <- FeaturePlot(DamageDetective, features = c("complexity"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
-    NoAxes() + labs(caption = "Complexity score") +
+  complexity_plot <- FeaturePlot(DamageDetective, features = c("nFeature_RNA"), cols = c("#E1E1E1", "#0073CF"), pt.size = 1) +
+    NoAxes() + labs(caption = "Library size") +
     theme(
       plot.title = element_blank(),
       panel.border = element_rect(colour = "black", fill=NA, linewidth =1),
@@ -221,7 +253,7 @@ DamageDetective_calculation <- function(organism,
   label <- paste("Estimated damaged cells: ", round(damaged_percent, 2), "%, ", initial_cells, " cells")
   dim <- readPNG(system.file("extdata", "tSNE.png", package = "DamageDetective"))
 
-  DamageDetective_plot <- plot_grid(mt_plot, complexity_plot, rb_plot, cluster_plot, ncol = 2)
+
   DamageDetective_plot <- (mt_plot | complexity_plot) / (rb_plot | cluster_plot)
 
   title <- ggdraw() + draw_label(project_name, fontface = 'bold', x = 0.45, y = 0.1, hjust = 0.5, size = 20)
