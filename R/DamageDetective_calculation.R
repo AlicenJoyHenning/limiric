@@ -190,7 +190,7 @@ DamageDetective_calculation <- function(organism,
 
   # Find the median complexity score for all undamaged cells
   undamaged_cells <- subset(DamageDetective, seurat_clusters != "damaged")
-  complexity_threshold <- quantile(undamaged_cells$complexity, probs = 0.05, na.rm = TRUE)
+  complexity_threshold <- quantile(undamaged_cells$complexity, probs = 0.001, na.rm = TRUE)
 
 
   # Use this value as minimum threshold for retaining damaged label
