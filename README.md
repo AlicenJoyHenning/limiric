@@ -7,7 +7,7 @@ usage](#quickstart) \| [Extended usage](#extended-usage) \| [Output
 explained](#output-explained) \| [Input file format](#input-file-format)
 \| [Downstream](#downstream)
 
-## Description {#description}
+## Description 
 
 <br> Single-cell RNA sequencing (scRNA-seq) is a well-established
 technique in the era of next-generation sequencing. From identifying
