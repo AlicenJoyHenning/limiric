@@ -1,4 +1,4 @@
-Package: limiric
+Package: DamageDetective
 Title: Detect Damaged Cells in Single-Cell RNA Sequencing Data
 Version: 2.0.0
 Authors@R: 
@@ -28,5 +28,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-URL: https://github.com/AlicenJoyHenning/limiric
-BugReports: https://github.com/AlicenJoyHenning/limiric/issues
+URL: https://github.com/AlicenJoyHenning/DamageDetective
+BugReports: https://github.com/AlicenJoyHenning/DamageDetective/issues

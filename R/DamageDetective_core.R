@@ -1,8 +1,8 @@
-#' limiric_core
+#' DamageDetective_core
 #'
-#' @name limiric_core
+#' @name DamageDetective_core
 #'
-#' @description Core helper function enabling the limiric modules to run
+#' @description Core helper function enabling the DamageDetective modules to run
 #'
 #' @param project_name String with project or sample name
 #' @param filtered_path Directory of filtered alignment output
@@ -14,7 +14,7 @@
 #' @param hemo_threshold Percent hemoglobin expression above which cells are filtered. Default is 50
 #' @param isolate_cd45 Discard non-immune cells. Default is FALSE
 #' @param filter_output Should output contain no damaged cells. Default is TRUE
-#' @param output_path Directory where limiric output can be generated
+#' @param output_path Directory where output can be generated
 #' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
 #' @param cluster_ranks Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.
 #' @param organism "Hsap" if human sample or "Mmus" if mouse sample
@@ -34,9 +34,9 @@
 #' @examples
 #' \donttest{
 #' # Load test data
-#' data("test_data", package = "limiric")
+#' data("test_data", package = "DamageDetective")
 #'
-#' test <- limiric_core(
+#' test <- DamageDetective(
 #'   project_name  = "test",
 #'   seurat_input  = test_data,
 #'   filter_rbc    = FALSE,
@@ -55,7 +55,7 @@ utils::globalVariables(c(
   "test_data"
 ))
 
-limiric_core <- function(
+DamageDetective_core <- function(
     project_name,
     filtered_path,
     seurat_input   = NULL,
@@ -74,7 +74,7 @@ limiric_core <- function(
 ){
   # Receive & prepare input ------------------------------------
 
-  message("\nBeginning limiric analysis for ", project_name, "...")
+  message("\nBeginning DamageDetective analysis for ", project_name, "...")
 
   # Create output directory structure
   sub_dirs <- c("RBCQC", "CellQC", "Filtered")
@@ -96,9 +96,9 @@ limiric_core <- function(
 
   # Read in required organism annotation file
   if (organism == "Hsap") {
-    annotations <- get("human_annotations", envir = asNamespace("limiric"))
+    annotations <- get("human_annotations", envir = asNamespace("DamageDetective"))
   } else if (organism == "Mmus") {
-    annotations <- get("mouse_annotations", envir = asNamespace("limiric"))
+    annotations <- get("mouse_annotations", envir = asNamespace("DamageDetective"))
   }
 
   # EITHER create project Seurat object with filtered counts
@@ -280,14 +280,14 @@ limiric_core <- function(
 
 
 
-  # Identify damaged cells with limiric ------------------------------------
+  # Identify damaged cells with DamageDetective------------------------------------
 
   # Redefine starting cells to account for possible RBC & IMC filtering
   initial_cells <- length(Cells(Seurat))
 
-  # Use the limiric_calculation() function to identify damaged cells
+  # Use the DamageDetective_calculation() function to identify damaged cells
 
-  limiric_output <- limiric_calculation(organism = organism,
+  DamageDetective_output <- DamageDetective_calculation(organism = organism,
                                   Seurat = Seurat,
                                   resolution = resolution,
                                   cluster_ranks = cluster_ranks,
@@ -297,37 +297,37 @@ limiric_core <- function(
                                   output_path = output_path)
 
   # Add output to function environment
-  Seurat  <- limiric_output$Seurat
-  limiric <- limiric_output$limiric
+  Seurat  <- DamageDetective_output$Seurat
+  DamageDetective <- DamageDetective_output$DamageDetective
 
 
-  message("\u2714 limiric damaged cell predictions")
+  message("\u2714 DamageDetective damaged cell predictions")
 
 
   # Clean & save output ------------------------------------
 
   # Filter cells for saving the Seurat object itself (but only if specified)
 
-  # Filter based on limiric annotations
+  # Filter based on DamageDetective annotations
   if (filter_output) {
 
-    # Save a list of barcodes with limiric annotations (cell, damaged)
+    # Save a list of barcodes with DamageDetective annotations (cell, damaged)
     storage_cells <- data.frame(barcode = rownames(storage@meta.data))
-    clean_cells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
+    clean_cells <- data.frame(barcode = rownames(Seurat@meta.data), DamageDetective = Seurat@meta.data$DamageDetective)
     write.csv(clean_cells, file = file.path(output_path, "/Filtered/", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
 
     # Account for cells that may have been filtered
     annotated_cells <- merge(storage_cells, clean_cells, by = "barcode", all.x = TRUE)
-    annotated_cells$limiric[is.na(annotated_cells$limiric)] <- "removed"
+    annotated_cells$DamageDetective[is.na(annotated_cells$DamageDetective)] <- "removed"
 
     write.csv(annotated_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
 
 
-    # Filter damaged cells only according to limiric estimations
-    Seurat <- subset(Seurat, limiric == "cell")
+    # Filter damaged cells only according to DamageDetective estimations
+    Seurat <- subset(Seurat, DamageDetective == "cell")
 
     # Filter unnecessary columns
-    columns <- c("ptprc.percent", "RBC", "IMC", "quality", "hemo.percent",  "QC", "limiric.mi", "limiric.ri", "limiric.complexity", "limiric", "limiric.droplet_qc")
+    columns <- c("ptprc.percent", "RBC", "IMC", "quality", "hemo.percent",  "QC", "DamageDetective.mi", "DamageDetective.ri", "DamageDetective.complexity", "DamageDetective", "DamageDetective.droplet_qc")
 
     for (column in columns){
       if (column %in% colnames(Seurat@meta.data)) {
@@ -344,21 +344,21 @@ limiric_core <- function(
 
     # Save object without removing meta data columns (user can visualise for themsleves)
 
-    # Save a list of barcodes with limiric annotations (cell, damaged)
+    # Save a list of barcodes with DamageDetective annotations (cell, damaged)
     storage_cells <- data.frame(barcode = rownames(storage@meta.data))
-    clean_cells <- data.frame(barcode = rownames(Seurat@meta.data), limiric = Seurat@meta.data$limiric)
+    clean_cells <- data.frame(barcode = rownames(Seurat@meta.data), DamageDetective = Seurat@meta.data$DamageDetective)
     write.csv(clean_cells, file = file.path(output_path, "/Filtered/", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
 
     # Account for cells that may have been filtered
     annotated_cells <- merge(storage_cells, clean_cells, by = "barcode", all.x = TRUE)
-    annotated_cells$limiric[is.na(annotated_cells$limiric)] <- "removed"
+    annotated_cells$DamageDetective[is.na(annotated_cells$DamageDetective)] <- "removed"
 
     write.csv(annotated_cells, file = file.path(output_path, "Filtered", paste0(project_name, "_barcodes.csv")), row.names = FALSE, quote = FALSE)
     saveRDS(Seurat, file.path(output_path, "Filtered", paste0(project_name, "_unfiltered.rds")))
 
   }
 
-  message("\u2714 limiric analysis complete\n")
+  message("\u2714 DamageDetective analysis complete\n")
 
   return(Seurat)
 

@@ -1,6 +1,6 @@
-#' limiric
+#' DamageDetective
 #'
-#' @name limiric
+#' @name DamageDetective
 #'
 #' @description Takes as input filtered scRNA-seq alignment output (or 'Seurat' object)
 #' and identifies damaged cells present within the sample according to
@@ -16,7 +16,7 @@
 #' @param hemo_threshold Percent hemoglobin expression above which cells are filtered. Default is 50
 #' @param isolate_cd45 Discard non-immune cells. Default is FALSE
 #' @param filter_output Should output contain no damaged cells. Default is TRUE
-#' @param output_path Directory where 'limiric' output should be generated
+#' @param output_path Directory where 'DamageDetective' output should be generated
 #' @param organism "Hsap" if human sample or "Mmus" if mouse sample
 #' @param resolution Numeric between 0 and 1.6 describing cluster division. Default 1
 #' @param cluster_ranks Numeric describing the number of top ranking clusters to be included as damaged cells. Default 1.
@@ -35,12 +35,12 @@
 #'
 #' @examples
 #' \donttest{
-#' # Load example Seurat object from the limiric package
-#'  data("test_data", package = "limiric")
+#' # Load example Seurat object from the DamageDetective package
+#'  data("test_data", package = "DamageDetective")
 #'
 #'
-#'  # Run the limiric function with the example data
-#'  test <- limiric(
+#'  # Run the DamageDetective function with the example data
+#'  test <- DamageDetective(
 #'     project_name = "test_run",
 #'     filter_rbc   = FALSE,
 #'     seurat_input = test_data,
@@ -58,7 +58,7 @@ utils::globalVariables(c(
   "sample", "sample_list", "seurat_input", "soupx", "temp_result", "test_data"
 ))
 
-limiric <- function(
+DamageDetective <- function(
 
   project_name   = NULL,
   filtered_path  = NULL,
@@ -98,8 +98,8 @@ limiric <- function(
     if (is.null(organism))      {organism = "Hsap"}
     if (is.null(verbose))       {verbose = TRUE}
 
-    # Run single sample using the limiric_core function
-    result <- limiric_core(
+    # Run single sample using the DamageDetective_core function
+    result <- DamageDetective_core(
 
       project_name   = project_name,
       filtered_path  = filtered_path,
@@ -153,7 +153,7 @@ limiric <- function(
     # Initialize the output list where resulting Seurat objects will be stored
     results <- list()
 
-    # Run limiric_core function for each sample
+    # Run DamageDetective_core function for each sample
     for (i in seq_along(sample_list)) {
 
       # Define sample
@@ -194,7 +194,7 @@ limiric <- function(
       # AKA will continue running if any single samples are problematic
       tryCatch({
 
-        temp_result <- limiric_core(
+        temp_result <- DamageDetective_core(
 
           project_name   = project_name,
           filtered_path  = filtered_path,

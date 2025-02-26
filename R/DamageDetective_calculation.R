@@ -1,8 +1,8 @@
-#' Identify damaged cells with limiric
+#' Identify damaged cells with DamageDetective
 #'
-#' @name limiric_calculation
+#' @name DamageDetective_calculation
 #'
-#' @description This helper function calculates the 'limiric' metrics for a given 'Seurat' object and organism.
+#' @description This helper function calculates the 'DamageDetective' metrics for a given 'Seurat' object and organism.
 #' It identifies mitochondrial and ribosomal genes, reduces the 'Seurat' object based on these genes,
 #' and calculates various metrics including mitochondrial and ribosomal expression complexity.
 #'
@@ -31,10 +31,10 @@
 #' @examples
 #' \donttest{
 #' # Load test data
-#' data("test_data", package = "limiric")
-#' data("human_annotations", package = "limiric")
+#' data("test_data", package = "DamageDetective")
+#' data("human_annotations", package = "DamageDetective")
 #'
-#' result <- limiric_calculation(organism = "Hsap",
+#' result <- DamageDetective_calculation(organism = "Hsap",
 #'                               Seurat = test_data,
 #'                               annotations = human_annotations,
 #'                               resolution = 0.6,
@@ -46,9 +46,9 @@
 #' }
 
 utils::globalVariables(c("mt_plot", "complexity_plot", "rb_plot",
-                         "cluster_plot", "logo", "limiric", "Cells"))
+                         "cluster_plot", "logo", "DamageDetective", "Cells"))
 
-limiric_calculation <- function(organism,
+DamageDetective_calculation <- function(organism,
                                 Seurat,
                                 resolution,
                                 cluster_ranks,
@@ -103,10 +103,10 @@ limiric_calculation <- function(organism,
 
   # Dimensionality reduction step ------------------------------------
 
-  # Reduce based on mt & rb genes only (this occurs in a separate Seurat object (limiric))
-  limiric <- subset(Seurat, features = intersect(mt_rb_genes, rownames(Seurat@assays$RNA)))
+  # Reduce based on mt & rb genes only (this occurs in a separate Seurat object (DamageDetective))
+  DamageDetective <- subset(Seurat, features = intersect(mt_rb_genes, rownames(Seurat@assays$RNA)))
 
-  limiric <- NormalizeData(limiric, verbose = FALSE) %>%
+  DamageDetective <- NormalizeData(DamageDetective, verbose = FALSE) %>%
     FindVariableFeatures(verbose = FALSE) %>%
     ScaleData(verbose = FALSE) %>%
     RunPCA(verbose = FALSE) %>%
@@ -117,44 +117,44 @@ limiric_calculation <- function(organism,
   # Calculate mitochondrial & ribosomal QC metrics ------------------------------------
 
   # Annotations to the reduced object based on the unreduced seurat object (all genes)
-  DefaultAssay(limiric) <- "RNA"
+  DefaultAssay(DamageDetective) <- "RNA"
   DefaultAssay(Seurat)  <- "RNA"
 
   # Define mitochondrial expression
-  limiric$mt.percent <- PercentageFeatureSet(
+  DamageDetective$mt.percent <- PercentageFeatureSet(
     object   = Seurat,
     features = intersect(mt_genes, rownames(Seurat@assays$RNA)),
     assay    = "RNA"
   )
 
   # Transfer to actual Seurat object
-  Seurat$limiric.mi <- limiric$mt.percent
+  Seurat$DamageDetective.mi <- DamageDetective$mt.percent
 
   # Define ribosomal expression
-  limiric$rb.percent <- PercentageFeatureSet(
+  DamageDetective$rb.percent <- PercentageFeatureSet(
     object   = Seurat,
     features = intersect(rb_genes, rownames(Seurat@assays$RNA)),
     assay    = "RNA"
   )
 
   # Transfer to actual Seurat object
-  Seurat$limiric.ri <- limiric$rb.percent
+  Seurat$DamageDetective.ri <- DamageDetective$rb.percent
 
   # Calculate complexity
-  seurat_matrix <- Seurat::GetAssayData(limiric, layer = "data")
+  seurat_matrix <- Seurat::GetAssayData(DamageDetective, layer = "data")
   seurat_matrix <- as.matrix(seurat_matrix)
   complexity_metric <- colSums(seurat_matrix > 0)
-  limiric$complexity <- complexity_metric
+  DamageDetective$complexity <- complexity_metric
 
   # Transfer to actual Seurat object
-  Seurat$limiric.complexity <- limiric$complexity
+  Seurat$DamageDetective.complexity <- DamageDetective$complexity
 
 
 
   # Identify damaged cells using QC metric averages for each cluster ------------------------------------
 
   # Automatically find the damaged cell population
-  best_cluster <- limiric@meta.data %>%
+  best_cluster <- DamageDetective@meta.data %>%
     group_by(seurat_clusters) %>%
     summarise(
       avg_mt_percent = mean(mt.percent, na.rm = TRUE),
@@ -171,30 +171,30 @@ limiric_calculation <- function(organism,
     as.character()
 
   # Label all cells belonging to this cluster as "damaged"
-  limiric$seurat_clusters <- ifelse(limiric$seurat_clusters %in% best_cluster, 'damaged', limiric$seurat_clusters)
+  DamageDetective$seurat_clusters <- ifelse(DamageDetective$seurat_clusters %in% best_cluster, 'damaged', DamageDetective$seurat_clusters)
 
   # Add Cell QC meta data to object
-  limiric$MtRb <- ifelse(limiric$seurat_clusters == "damaged", "damaged", "cell")
+  DamageDetective$MtRb <- ifelse(DamageDetective$seurat_clusters == "damaged", "damaged", "cell")
 
   # Calculated percentage of damaged cells
-  damaged <- subset(limiric, MtRb == "damaged")
+  damaged <- subset(DamageDetective, MtRb == "damaged")
   damagedCells <- length(Cells(damaged))
   damaged_percent <- (damagedCells / initial_cells) * 100
 
   # Add cluster #s to actual seurat object
-  Seurat$limiric <- limiric$MtRb
+  Seurat$DamageDetective <- DamageDetective$MtRb
 
 
   # Visualise  clusters coloured by QC metrics ------------------------------------
 
-  mt_plot <- FeaturePlot(limiric, features = c("mt.percent"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
+  mt_plot <- FeaturePlot(DamageDetective, features = c("mt.percent"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
     NoAxes() + labs(caption = "Mitochondrial gene expression") +
     theme(
       plot.title   = element_blank(),
       panel.border = element_rect(colour = "black", fill=NA, linewidth =1),
       plot.caption = element_text(hjust = 0.5, size = 16))
 
-  rb_plot <- FeaturePlot(limiric, features = c("rb.percent"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
+  rb_plot <- FeaturePlot(DamageDetective, features = c("rb.percent"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
     NoAxes() + labs(caption = "Ribosomal gene expression") +
     theme(
       plot.title = element_blank(),
@@ -202,15 +202,15 @@ limiric_calculation <- function(organism,
       plot.caption = element_text(hjust = 0.5, size = 16))
 
   cluster_plot <- DimPlot(
-    limiric, pt.size = 1, group.by = "MtRb", cols = c("cell" = "grey", "damaged" = "#6765ED")) +
-    labs(caption = expression("Damaged cells identified by " * italic("limiric"))) + NoAxes() +
+    DamageDetective, pt.size = 1, group.by = "MtRb", cols = c("cell" = "grey", "damaged" = "#6765ED")) +
+    labs(caption = expression("Damaged cells identified by " * italic("DamageDetective"))) + NoAxes() +
     theme(
       plot.title = element_blank(),
       plot.caption = element_text(hjust = 0.5, size = 16),
       panel.border = element_rect(colour = "black", fill=NA, linewidth =1)
     )
 
-  complexity_plot <- FeaturePlot(limiric, features = c("complexity"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
+  complexity_plot <- FeaturePlot(DamageDetective, features = c("complexity"), cols = c("#E1E1E1", "#6765ED"), pt.size = 1) +
     NoAxes() + labs(caption = "Complexity score") +
     theme(
       plot.title = element_blank(),
@@ -219,10 +219,10 @@ limiric_calculation <- function(organism,
 
   title <- project_name
   label <- paste("Estimated damaged cells: ", round(damaged_percent, 2), "%, ", initial_cells, " cells")
-  dim <- readPNG(system.file("extdata", "tSNE.png", package = "limiric"))
+  dim <- readPNG(system.file("extdata", "tSNE.png", package = "DamageDetective"))
 
-  limiric_plot <- plot_grid(mt_plot, complexity_plot, rb_plot, cluster_plot, ncol = 2)
-  limiric_plot <- (mt_plot | complexity_plot) / (rb_plot | cluster_plot)
+  DamageDetective_plot <- plot_grid(mt_plot, complexity_plot, rb_plot, cluster_plot, ncol = 2)
+  DamageDetective_plot <- (mt_plot | complexity_plot) / (rb_plot | cluster_plot)
 
   title <- ggdraw() + draw_label(project_name, fontface = 'bold', x = 0.45, y = 0.1, hjust = 0.5, size = 20)
   subtitle <- ggdraw() + draw_label(paste("Estimated", round(damaged_percent, 2), "% damaged of ", initial_cells, " cells"), x = 0.45, hjust = 0.5, size = 16)
@@ -230,7 +230,7 @@ limiric_calculation <- function(organism,
   dim_plot <- ggdraw() + draw_image(dim, x = 0.54, y = 0.5, width = 0.8, height = 0.8)
 
   final_plot <- plot_grid(
-    title, subtitle, limiric_plot, dim_plot,
+    title, subtitle, DamageDetective_plot, dim_plot,
     ncol = 1,
     rel_heights = c(0.1, 0.1, 1, 0.2)
   )
@@ -242,6 +242,6 @@ limiric_calculation <- function(organism,
   ggsave(file.path(output_path, "/CellQC/", paste0(project_name, ".png")), plot = final_plot, width = 12, height = 10, dpi = 300)
 
 
-  return(list(Seurat = Seurat, limiric = limiric))
+  return(list(Seurat = Seurat, DamageDetective = DamageDetective))
 
 }

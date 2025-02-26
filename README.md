@@ -1,4 +1,4 @@
-![DamageDetective](docs/damagedetective.svg)
+![DamageDetective](vignettes/docs/damagedetective.svg)
 
 ## Contents
 

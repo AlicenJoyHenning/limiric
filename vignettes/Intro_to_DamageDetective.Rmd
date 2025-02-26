@@ -1,0 +1,60 @@
+---
+title: "Introduction to rmarkdown"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to rmarkdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Description
+
+`DamageDetective` is a quality control package for detecting damaged cells in single cell RNA sequencing data, featuring a single function, `DamageDetective`. 
+
+## Quickstart
+
+The fundamental use case of `DamageDetective` is to take raw scRNA-seq alignment files and predict which barcodes are most likely damaged cells. Output comes in the form of a `csv` that will be generated in the `OutputPath`. This will contain all cell barcodes present in the input data alongside a label of _damaged_ or _cell_ given to the barcode by `DamageDetective`. 
+
+Additionally, a `Seurat` object containing only the filtered cells will be available in your local environment whose name is that which is assigned to the function output, for example here it will be `SRR1234567`.
+
+```{r setup, eval = FALSE}
+library(DamageDetective)
+
+# Load example Seurat object from the DamageDetective package
+data("test_data", package = "DamageDetective")
+
+# Run the DamageDetective function with the example data
+SRR1234567 <- DamageDetective(
+     project_name = "test_run",
+     filter_rbc   = FALSE,
+     seurat_input = test_data,
+     output_path  = tempdir()
+   )
+
+# Beginning  DamageDetective  analysis for SRR1234567 ...
+# ✔ Seurat object created
+# ✔ DamageDetective  damaged cell predictions
+# ✔ DamageDetective  analysis complete.
+```
+
+
+## Details 
+
+In addition to predicting damaged cells, `DamageDetective` can perform other pre-processing tasks. This includes removing red blood cells, performing ambient RNA correction with the `SoupX` package, and isolating immune cells. It can also be used in combination with the damaged cell detection functionality of the `DropletQC` package. 
+
+<!-- For more information and specific usage examples, please refer to the `DamageDetective` GitHub repository https://github.com/AlicenJoyHenning/DamageDetective/ -->
+
+
+## Dependencies
+
+`DamageDetective` makes use of the following packages that can be viewed in detail with the links below
+
+- **[cowplot](https://github.com/cran/cowplot)**: Wilke, C. (2024). 
+- **[devtools](https://github.com/cran/devtools)**: Wickham, H., & Hester, J. (2022).
+- **[DropletQC](https://github.com/powellgenomicslab/DropletQC)**: Muskovic, W. (2024).
+- **[dplyr](https://github.com/cran/dplyr)**: Wickham, H., et al. (2023).
+- **[ggplot2](https://github.com/cran/ggplot2)**: Wickham, H. (2016).
+- **[Matrix](https://github.com/cran/Matrix)**: Bates, D., et al. (2024).
+- **[png](https://github.com/cran/png)**: Urbanek, S. (2022). 
+- **[Seurat](https://satijalab.org/seurat/)**: Satija, R., & Farrell, C., et al. (2015).
+- **[SoupX](https://github.com/constantAmateur/SoupX)**: Young, M., & Behjati, S. (2020). 
